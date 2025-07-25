@@ -3,13 +3,27 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { protect } = require('../middleware/authMiddleware');
+const multer = require('multer');
+const path = require('path');
+
+// Multer setup for profile picture uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../uploads')); // Destination folder for uploads
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname); // Get the original extension
+    cb(null, Date.now() + '-profile' + ext); // Use timestamp + '-profile' + original extension
+  },
+});
+const upload = multer({ storage: storage });
 
 // Placeholder for JWT Secret - MUST be loaded from environment variables in production
 const JWT_SECRET = process.env.JWT_SECRET; 
 
 // Generate JWT Token
 const generateToken = (id) => {
-  return jwt.sign({ id }, JWT_SECRET, { expiresIn: '1h' }); // Token expires in 1 hour
+  return jwt.sign({ id }, JWT_SECRET, { expiresIn: '30d' }); // Token expires in 30 days
 };
 
 // Register a new user
@@ -124,6 +138,32 @@ router.patch('/:id', protect, async (req, res) => {
     const updatedUser = await user.save();
     res.json(updatedUser);
   } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// Update user profile picture (protected)
+router.patch('/:id/profile-picture', protect, upload.single('profilePicture'), async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    if (userId !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized to update this user' });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (req.file) {
+      user.profilePicture = req.file.filename;
+    }
+
+    const updatedUser = await user.save();
+    res.json({ profilePicture: updatedUser.profilePicture });
+  } catch (err) {
+    console.error("Error updating profile picture:", err);
     res.status(400).json({ message: err.message });
   }
 });

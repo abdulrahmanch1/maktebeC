@@ -55,6 +55,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("user", JSON.stringify(userData));
       localStorage.setItem("token", userToken);
       localStorage.setItem("favorites", JSON.stringify(userData.favorites || []));
+      localStorage.setItem("profilePicture", userData.profilePicture || ''); // Store profile picture
       // Set default Authorization header for axios
       axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`;
 

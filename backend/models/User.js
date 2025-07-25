@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
       read: { type: Boolean, default: false },
     },
   ],
+  profilePicture: { type: String, default: 'user_avatar.png' }, // Add this line for profile picture
 });
 
 // Hash password before saving the user

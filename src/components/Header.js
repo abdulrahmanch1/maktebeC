@@ -32,7 +32,7 @@ const Header = () => {
           <>
             <Link to="/settings" style={{ color: theme.background }}>{user ? user.username : "اسم المستخدم"}</Link>
             <img
-              src="/imgs/user_avatar.png"
+              src={user && user.profilePicture ? `${process.env.REACT_APP_API_URL}/uploads/${user.profilePicture}` : "/imgs/user_avatar.png"}
               alt="user"
               style={{ borderRadius: "50%", width: "40px", height: "40px" }}
             />
