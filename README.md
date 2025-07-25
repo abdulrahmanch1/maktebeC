@@ -16,7 +16,7 @@
 cd backend
 npm install
 npm run dev
-````
+```
 
  ملف `.env` في مجلد backend:
 
@@ -30,7 +30,6 @@ MONGO_URI=mongodb://localhost:27017/maktebe
 ### ✅ Frontend
 
 ```bash
-cd frontend
 npm install
 npm start
 ```

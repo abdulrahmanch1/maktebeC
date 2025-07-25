@@ -1,4 +1,3 @@
-
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { AuthContext } from "../contexts/AuthContext";
@@ -15,6 +14,88 @@ const SettingsPage = () => {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
+  // Common styles for consistency and new design
+  const containerStyle = {
+    backgroundColor: theme.background,
+    color: theme.primary,
+    padding: "40px 20px",
+    minHeight: "calc(100vh - 100px)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  };
+
+  const headerStyle = {
+    color: theme.primary,
+    textAlign: "center",
+    marginBottom: "40px",
+    fontSize: "3em",
+    textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+  };
+
+  const settingsGridStyle = {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+    gap: "30px",
+    maxWidth: "1200px",
+    width: "100%",
+  };
+
+  const sectionCardStyle = {
+    backgroundColor: theme.secondary,
+    padding: "30px",
+    borderRadius: "15px",
+    boxShadow: "0 8px 25px rgba(0, 0, 0, 0.15)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+    
+  };
+
+  const sectionTitleStyle = {
+    color: theme.background,
+    textAlign: "center",
+    marginBottom: "25px",
+    fontSize: "2.2em",
+    borderBottom: `3px solid ${theme.accent}`,
+    paddingBottom: "10px",
+    width: "100%",
+  };
+
+  const itemGroupStyle = {
+    display: "flex",
+    flexDirection: "column",
+    gap: "15px",
+    width: "100%",
+    maxWidth: "400px",
+    marginTop: "20px",
+  };
+
+  const itemStyle = {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "12px 0",
+    borderBottom: `1px solid ${theme.accent}40`,
+    flexWrap: "wrap",
+  };
+
+  const labelStyle = {
+    color: theme.primary,
+    fontSize: "1.1em",
+    fontWeight: "bold",
+    flexBasis: "40%",
+  };
+
+  const valueStyle = {
+    color: theme.primary,
+    fontSize: "1.1em",
+    flexBasis: "55%",
+    textAlign: "right",
+  };
+
   const inputStyle = {
     width: "100%",
     padding: "10px",
@@ -30,40 +111,18 @@ const SettingsPage = () => {
     backgroundColor: theme.accent,
     color: theme.primary,
     padding: "10px 20px",
-    borderRadius: "5px",
+    borderRadius: "8px",
     border: "none",
     cursor: "pointer",
     fontSize: "1em",
     fontWeight: "bold",
-    transition: "background-color 0.3s ease",
-    marginRight: "10px",
+    transition: "background-color 0.3s ease, transform 0.2s ease",
+    margin: "5px",
   };
 
-  const sectionStyle = {
-    padding: "20px",
-    borderRadius: "10px",
-    boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-    marginBottom: "20px",
-    width: "100%",
-  };
-
-  const itemStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "10px 0",
-    borderBottom: `1px solid ${theme.accent}50`,
-  };
-
-  const labelStyle = {
-    color: theme.primary,
-    fontSize: "1.1em",
-    fontWeight: "bold",
-  };
-
-  const valueStyle = {
-    color: theme.primary,
-    fontSize: "1.1em",
+  const dangerButtonStyle = {
+    ...buttonStyle,
+    backgroundColor: "#dc3545",
   };
 
   useEffect(() => {
@@ -100,12 +159,11 @@ const SettingsPage = () => {
           },
         }
       );
-      // Update user context with new profile picture
       setUser({ ...user, profilePicture: response.data.profilePicture });
       alert("تم تحديث الصورة الشخصية بنجاح!");
-      setProfileImage(null); // Clear selected file
+      setProfileImage(null);
       if (fileInputRef.current) {
-        fileInputRef.current.value = ""; // Clear file input
+        fileInputRef.current.value = "";
       }
     } catch (error) {
       console.error("فشل تحميل الصورة الشخصية:", error);
@@ -148,43 +206,14 @@ const SettingsPage = () => {
   };
 
   return (
-    <div style={{ backgroundColor: theme.background, color: theme.primary, padding: "50px 20px", minHeight: "calc(100vh - 100px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-      <h1 style={{ color: theme.primary, textAlign: "center", marginBottom: "50px", fontSize: "3em", textShadow: "2px 2px 4px rgba(0,0,0,0.1)" }}>إعدادات التطبيق</h1>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "40px", maxWidth: "900px", width: "100%" }}>
-        {/* Theme Settings Section */}
-        <div style={{ backgroundColor: theme.secondary, padding: "40px", borderRadius: "15px", boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)", display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <h2 style={{ color: theme.background, textAlign: "center", marginBottom: "30px", fontSize: "2em", borderBottom: `2px solid ${theme.accent}`, paddingBottom: "10px" }}>إعدادات المظهر</h2>
-          <div style={{ display: "flex", justifyContent: "center", gap: "20px", marginTop: "20px", flexWrap: "wrap" }}>
-            {Object.keys(themes).map((themeName) => (
-              <button
-                key={themeName}
-                onClick={() => toggleTheme(themeName)}
-                style={{
-                  backgroundColor: themes[themeName].accent,
-                  color: themes[themeName].primary,
-                  padding: "15px 30px",
-                  borderRadius: "10px",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "1.2em",
-                  fontWeight: "bold",
-                  transition: "background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease",
-                  boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
-                }}
-                onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.05)"}
-                onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
-              >
-                {themeName.replace("theme", "Theme ")}
-              </button>
-            ))}
-            
-          </div>
-        </div>
+    <div style={containerStyle}>
+      <h1 style={headerStyle}>إعدادات التطبيق</h1>
+      <div style={settingsGridStyle}>
 
         {/* Account Settings Section */}
-        <div style={{ ...sectionStyle, backgroundColor: theme.secondary, color: theme.primary }}>
-          <h2 style={{ color: theme.background, textAlign: "center", marginBottom: "30px", fontSize: "2em", borderBottom: `2px solid ${theme.accent}`, paddingBottom: "10px" }}>إعدادات الحساب</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+        <div style={sectionCardStyle}>
+          <h2 style={sectionTitleStyle}>إعدادات الحساب</h2>
+          <div style={itemGroupStyle}>
             <div style={itemStyle}>
               <span style={labelStyle}>اسم المستخدم:</span>
               {isEditingUsername ? (
@@ -215,22 +244,22 @@ const SettingsPage = () => {
               <span style={labelStyle}>البريد الإلكتروني:</span>
               <span style={valueStyle}>{user ? `${user.email.substring(0, 2)}***` : "غير متاح"}</span>
             </div>
-            <div style={{ ...itemStyle, justifyContent: "center" }}>
-              <label style={labelStyle}>الصورة الشخصية:</label>
+            <div style={{ ...itemStyle, flexDirection: "column", alignItems: "center" }}>
+              <label style={{ ...labelStyle, flexBasis: "100%", marginBottom: "10px" }}>الصورة الشخصية:</label>
               <img
                 src={user && user.profilePicture ? `${process.env.REACT_APP_API_URL}/uploads/${user.profilePicture}` : "/imgs/user_avatar.png"}
                 alt="الصورة الشخصية"
-                style={{ width: "80px", height: "80px", borderRadius: "50%", objectFit: "cover", margin: "0 10px", border: `2px solid ${theme.accent}` }}
+                style={{ width: "100px", height: "100px", borderRadius: "50%", objectFit: "cover", marginBottom: "15px", border: `3px solid ${theme.accent}` }}
               />
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
                 ref={fileInputRef}
-                style={{ ...inputStyle, width: "auto", flexGrow: 1 }}
+                style={{ ...inputStyle, marginBottom: "10px" }}
               />
               <button type="button" onClick={handleImageUpload} style={buttonStyle}>
-                رفع
+                رفع الصورة
               </button>
             </div>
             <button type="button" onClick={() => alert("سيتم توجيهك لصفحة تغيير كلمة المرور.")} style={buttonStyle}>
@@ -239,20 +268,29 @@ const SettingsPage = () => {
             <button type="button" onClick={() => alert("تفعيل المصادقة الثنائية")} style={buttonStyle}>
               تفعيل المصادقة الثنائية
             </button>
-            <button type="button" onClick={() => alert("حذف أو تعطيل الحساب")} style={{ ...buttonStyle, backgroundColor: "#dc3545" }}>
+            <button type="button" onClick={() => alert("حذف أو تعطيل الحساب")} style={dangerButtonStyle}>
               حذف أو تعطيل الحساب
             </button>
           </div>
         </div>
 
         {/* Appearance/Theme Settings */}
-        <div style={{ ...sectionStyle, backgroundColor: theme.secondary, color: theme.primary }}>
-          <h2 style={{ color: theme.background, textAlign: "center", marginBottom: "30px", fontSize: "2em", borderBottom: `2px solid ${theme.accent}`, paddingBottom: "10px" }}>إعدادات المظهر</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+        <div style={sectionCardStyle}>
+          <h2 style={sectionTitleStyle}>إعدادات المظهر</h2>
+          <div style={itemGroupStyle}>
             <div style={itemStyle}>
               <span style={labelStyle}>تغيير الثيم:</span>
-              <button onClick={() => toggleTheme("lightTheme")} style={buttonStyle}>فاتح</button>
-              <button onClick={() => toggleTheme("darkTheme")} style={buttonStyle}>داكن</button>
+              <div style={{ flexBasis: "55%", textAlign: "right", display: "flex", flexWrap: "wrap", justifyContent: "flex-end" }}>
+                {Object.keys(themes).map((themeName) => (
+                  <button
+                    key={themeName}
+                    onClick={() => toggleTheme(themeName)}
+                    style={buttonStyle}
+                  >
+                    {themeName.replace("theme", "Theme ")}
+                  </button>
+                ))}
+              </div>
             </div>
             <div style={itemStyle}>
               <span style={labelStyle}>ألوان واجهة الموقع:</span>
@@ -266,53 +304,57 @@ const SettingsPage = () => {
         </div>
 
         {/* Library Preferences */}
-        <div style={{ ...sectionStyle, backgroundColor: theme.secondary, color: theme.primary }}>
-          <h2 style={{ color: theme.background, textAlign: "center", marginBottom: "30px", fontSize: "2em", borderBottom: `2px solid ${theme.accent}`, paddingBottom: "10px" }}>إعدادات المكتبة</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+        <div style={sectionCardStyle}>
+          <h2 style={sectionTitleStyle}>إعدادات المكتبة</h2>
+          <div style={itemGroupStyle}>
             <div style={itemStyle}>
               <span style={labelStyle}>طريقة عرض الكتب:</span>
-              <button style={buttonStyle}>شبكة</button>
-              <button style={buttonStyle}>قائمة</button>
+              <div style={{ flexBasis: "55%", textAlign: "right" }}>
+                <button style={buttonStyle}>شبكة</button>
+                <button style={buttonStyle}>قائمة</button>
+              </div>
             </div>
             <div style={itemStyle}>
               <span style={labelStyle}>ترتيب الكتب:</span>
-              <button style={buttonStyle}>التاريخ</button>
-              <button style={buttonStyle}>التقييم</button>
-              <button style={buttonStyle}>الأبجدية</button>
+              <div style={{ flexBasis: "55%", textAlign: "right" }}>
+                <button style={buttonStyle}>التاريخ</button>
+                <button style={buttonStyle}>التقييم</button>
+                <button style={buttonStyle}>الأبجدية</button>
+              </div>
             </div>
             <div style={itemStyle}>
               <span style={labelStyle}>إشعارات الكتب الجديدة:</span>
-              <input type="checkbox" style={inputStyle} />
+              <input type="checkbox" style={{ ...inputStyle, width: "auto", flexBasis: "55%" }} />
             </div>
           </div>
         </div>
 
         {/* Notifications Settings */}
-        <div style={{ ...sectionStyle, backgroundColor: theme.secondary, color: theme.primary }}>
-          <h2 style={{ color: theme.background, textAlign: "center", marginBottom: "30px", fontSize: "2em", borderBottom: `2px solid ${theme.accent}`, paddingBottom: "10px" }}>إعدادات الإشعارات</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+        <div style={sectionCardStyle}>
+          <h2 style={sectionTitleStyle}>إعدادات الإشعارات</h2>
+          <div style={itemGroupStyle}>
             <div style={itemStyle}>
               <span style={labelStyle}>إشعارات إضافة كتب جديدة:</span>
-              <input type="checkbox" style={inputStyle} />
+              <input type="checkbox" style={{ ...inputStyle, width: "auto", flexBasis: "55%" }} />
             </div>
             <div style={itemStyle}>
               <span style={labelStyle}>إشعارات تخفيض سعر كتاب:</span>
-              <input type="checkbox" style={inputStyle} />
+              <input type="checkbox" style={{ ...inputStyle, width: "auto", flexBasis: "55%" }} />
             </div>
             <div style={itemStyle}>
               <span style={labelStyle}>إشعارات مراجعة كتاب:</span>
-              <input type="checkbox" style={inputStyle} />
+              <input type="checkbox" style={{ ...inputStyle, width: "auto", flexBasis: "55%" }} />
             </div>
           </div>
         </div>
 
         {/* Privacy Settings */}
-        <div style={{ ...sectionStyle, backgroundColor: theme.secondary, color: theme.primary }}>
-          <h2 style={{ color: theme.background, textAlign: "center", marginBottom: "30px", fontSize: "2em", borderBottom: `2px solid ${theme.accent}`, paddingBottom: "10px" }}>إعدادات الخصوصية</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+        <div style={sectionCardStyle}>
+          <h2 style={sectionTitleStyle}>إعدادات الخصوصية</h2>
+          <div style={itemGroupStyle}>
             <div style={itemStyle}>
               <span style={labelStyle}>من يرى قائمة الكتب المفضلة:</span>
-              <select style={inputStyle}>
+              <select style={{ ...inputStyle, flexBasis: "55%" }}>
                 <option>الكل</option>
                 <option>الأصدقاء</option>
                 <option>أنا فقط</option>
@@ -320,43 +362,47 @@ const SettingsPage = () => {
             </div>
             <div style={itemStyle}>
               <span style={labelStyle}>مزامنة القراءة مع الآخرين:</span>
-              <input type="checkbox" style={inputStyle} />
+              <input type="checkbox" style={{ ...inputStyle, width: "auto", flexBasis: "55%" }} />
             </div>
             <div style={itemStyle}>
               <span style={labelStyle}>مشاركة التعليقات/المراجعات:</span>
-              <input type="checkbox" style={inputStyle} />
+              <input type="checkbox" style={{ ...inputStyle, width: "auto", flexBasis: "55%" }} />
             </div>
           </div>
         </div>
 
         {/* Backup & Sync Settings */}
-        <div style={{ ...sectionStyle, backgroundColor: theme.secondary, color: theme.primary }}>
-          <h2 style={{ color: theme.background, textAlign: "center", marginBottom: "30px", fontSize: "2em", borderBottom: `2px solid ${theme.accent}`, paddingBottom: "10px" }}>إعدادات النسخ الاحتياطي والمزامنة</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+        <div style={sectionCardStyle}>
+          <h2 style={sectionTitleStyle}>إعدادات النسخ الاحتياطي والمزامنة</h2>
+          <div style={itemGroupStyle}>
             <div style={itemStyle}>
               <span style={labelStyle}>مزامنة المكتبة مع:</span>
-              <button style={buttonStyle}>Google Drive</button>
-              <button style={buttonStyle}>Dropbox</button>
+              <div style={{ flexBasis: "55%", textAlign: "right" }}>
+                <button style={buttonStyle}>Google Drive</button>
+                <button style={buttonStyle}>Dropbox</button>
+              </div>
             </div>
             <div style={itemStyle}>
               <span style={labelStyle}>تنزيل نسخة احتياطية:</span>
-              <button style={buttonStyle}>الكتب</button>
-              <button style={buttonStyle}>الإعدادات</button>
+              <div style={{ flexBasis: "55%", textAlign: "right" }}>
+                <button style={buttonStyle}>الكتب</button>
+                <button style={buttonStyle}>الإعدادات</button>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Device Settings */}
-        <div style={{ ...sectionStyle, backgroundColor: theme.secondary, color: theme.primary }}>
-          <h2 style={{ color: theme.background, textAlign: "center", marginBottom: "30px", fontSize: "2em", borderBottom: `2px solid ${theme.accent}`, paddingBottom: "10px" }}>إعدادات الأجهزة</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+        <div style={sectionCardStyle}>
+          <h2 style={sectionTitleStyle}>إعدادات الأجهزة</h2>
+          <div style={itemGroupStyle}>
             <div style={itemStyle}>
               <span style={labelStyle}>إدارة الأجهزة المرتبطة:</span>
               <button style={buttonStyle}>إدارة</button>
             </div>
             <div style={itemStyle}>
               <span style={labelStyle}>تسجيل الخروج من كل الأجهزة:</span>
-              <button style={{ ...buttonStyle, backgroundColor: "#dc3545" }}>تسجيل الخروج</button>
+              <button style={dangerButtonStyle}>تسجيل الخروج</button>
             </div>
           </div>
         </div>

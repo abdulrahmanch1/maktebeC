@@ -1,7 +1,6 @@
 # Node modules
 node_modules/
 backend/node_modules/
-frontend/node_modules/
 
 # Builds
 build/
@@ -9,10 +8,11 @@ dist/
 
 # Env files
 .env
-frontend/.env
+backend/.env
 
 # Uploads
 uploads/
+backend/uploads/
 
 # System files
 .DS_Store

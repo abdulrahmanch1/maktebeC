@@ -3,6 +3,7 @@ const router = express.Router();
 const Book = require('../models/Book');
 const multer = require('multer'); // Add multer
 const path = require('path');
+const authMiddleware = require('../middleware/authMiddleware'); // Import auth middleware
 
 // Multer setup for file uploads
 const storage = multer.diskStorage({
@@ -14,7 +15,21 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + ext); // Use timestamp + original extension
   },
 });
-const upload = multer({ storage: storage });
+const upload = multer({ 
+  storage: storage,
+  fileFilter: function (req, file, cb) {
+    if (file.fieldname === 'cover') {
+      if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+        return cb(new Error('Only image files (jpg, jpeg, png, gif) are allowed for cover!'), false);
+      }
+    } else if (file.fieldname === 'pdfFile') {
+      if (!file.originalname.match(/\.(pdf)$/)) {
+        return cb(new Error('Only PDF files are allowed for pdfFile!'), false);
+      }
+    }
+    cb(null, true);
+  }
+});
 
 // Middleware to get book by ID
 async function getBook(req, res, next) {
@@ -48,7 +63,7 @@ router.get('/:id', getBook, (req, res) => {
 });
 
 // Add a new book
-router.post('/', upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]), async (req, res) => {
+router.post('/', authMiddleware.protect, upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]), async (req, res) => {
   const book = new Book({
     title: req.body.title,
     author: req.body.author,
@@ -70,7 +85,7 @@ router.post('/', upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'pdfFile
 });
 
 // Update a book
-router.patch('/:id', getBook, upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]), async (req, res) => {
+router.patch('/:id', authMiddleware.protect, getBook, upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]), async (req, res) => {
   if (req.body.title != null) res.book.title = req.body.title;
   if (req.body.author != null) res.book.author = req.body.author;
   if (req.body.category != null) res.book.category = req.body.category;
@@ -101,7 +116,7 @@ router.patch('/:id', getBook, upload.fields([{ name: 'cover', maxCount: 1 }, { n
 });
 
 // Delete a book
-router.delete('/:id', getBook, async (req, res) => {
+router.delete('/:id', authMiddleware.protect, getBook, async (req, res) => {
   try {
     await res.book.deleteOne();
     res.json({ message: 'Book deleted' });

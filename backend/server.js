@@ -19,7 +19,7 @@ mongoose.set("strictQuery", true);
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:3000', // Allow requests from your frontend
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Allow requests from your frontend or specified URL
   credentials: true,
 }));
 app.use(express.json());
@@ -55,9 +55,9 @@ app.use((err, req, res, next) => {
 // Connect to MongoDB
 const DB_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/maktebe';
 
-if (!DB_URI) {
-  console.error("❌ MONGO_URI not defined in environment variables. Exiting...");
-  process.exit(1); // Stop the server if DB_URI is not defined
+if (!process.env.JWT_SECRET) {
+  console.error("❌ JWT_SECRET not defined in environment variables. Exiting...");
+  process.exit(1); // Stop the server if JWT_SECRET is not defined
 }
 
 mongoose.connect(DB_URI, {})

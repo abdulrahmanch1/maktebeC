@@ -84,6 +84,7 @@ export const AuthProvider = ({ children }) => {
       token,
       login,
       logout,
+      setUser, // Expose setUser
     }),
     [isLoggedIn, user, token]
   );
