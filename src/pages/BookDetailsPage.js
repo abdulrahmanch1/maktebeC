@@ -73,7 +73,13 @@ const BookDetailsPage = () => {
 
         {book.pdfFile && (
           <button
-            onClick={() => window.open(`${process.env.REACT_APP_API_URL}/uploads/${book.pdfFile}`, '_blank')}
+            onClick={() => {
+              if (!isLoggedIn) {
+                alert("يجب تسجيل الدخول لقراءة الكتاب.");
+                return;
+              }
+              window.open(`${process.env.REACT_APP_API_URL}/uploads/${book.pdfFile}`, '_blank');
+            }}
             style={{
               backgroundColor: theme.accent,
               color: theme.primary,
