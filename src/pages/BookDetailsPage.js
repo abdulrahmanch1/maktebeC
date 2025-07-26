@@ -9,11 +9,13 @@ import axios from "axios";
 const BookDetailsPage = () => {
   const { theme } = useContext(ThemeContext);
   const { toggleFavorite, isFavorite } = useContext(FavoritesContext);
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, user, token, setUser } = useContext(AuthContext); // Get user and token
   const { id } = useParams();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isInReadingList, setIsInReadingList] = useState(false);
+  const [isRead, setIsRead] = useState(false);
 
   useEffect(() => {
     const fetchBookDetails = async () => {
@@ -21,6 +23,15 @@ const BookDetailsPage = () => {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/books/${id}`);
         setBook(response.data);
         setLoading(false);
+
+        // Check if book is in reading list
+        if (user && user.readingList) {
+          const item = user.readingList.find(item => item.book === id);
+          if (item) {
+            setIsInReadingList(true);
+            setIsRead(item.read);
+          }
+        }
       } catch (err) {
         console.error("Error fetching book details:", err);
         setError("الكتاب غير موجود أو حدث خطأ أثناء جلبه.");
@@ -28,7 +39,7 @@ const BookDetailsPage = () => {
       }
     };
     fetchBookDetails();
-  }, [id]);
+  }, [id, user]); // Add user to dependency array
 
   const handleToggleFavorite = () => {
     if (!isLoggedIn) {
@@ -36,6 +47,65 @@ const BookDetailsPage = () => {
       return;
     }
     toggleFavorite(book._id);
+  };
+
+  const handleAddToReadingList = async () => {
+    if (!isLoggedIn) {
+      alert("يجب تسجيل الدخول لإضافة الكتاب إلى قائمة القراءة.");
+      return;
+    }
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/${user._id}/reading-list`, { bookId: book._id }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUser({ ...user, readingList: res.data }); // Update user context
+      setIsInReadingList(true);
+      setIsRead(false); // Newly added book is not read
+      alert("تمت إضافة الكتاب إلى قائمة القراءة.");
+      window.open(`${process.env.REACT_APP_API_URL}/uploads/${book.pdfFile}`, '_blank'); // Open PDF after adding to reading list
+    } catch (err) {
+      console.error("Error adding to reading list:", err);
+      alert(err.response?.data?.message || "فشل إضافة الكتاب إلى قائمة القراءة.");
+    }
+  };
+
+  const handleReadPdf = () => {
+    if (!isLoggedIn) {
+      alert("يجب تسجيل الدخول لقراءة الكتاب.");
+      return;
+    }
+    window.open(`${process.env.REACT_APP_API_URL}/uploads/${book.pdfFile}`, '_blank');
+  };
+
+  const handleToggleReadStatus = async () => {
+    if (!isLoggedIn) return;
+    try {
+      const res = await axios.patch(`${process.env.REACT_APP_API_URL}/api/users/${user._id}/reading-list/${book._id}`, { read: !isRead }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUser({ ...user, readingList: res.data }); // Update user context
+      setIsRead(!isRead);
+      alert(`تم وضع علامة على الكتاب كـ ${!isRead ? "مقروء" : "غير مقروء"}.`);
+    } catch (err) {
+      console.error("Error toggling read status:", err);
+      alert("فشل تحديث حالة الكتاب.");
+    }
+  };
+
+  const handleRemoveFromReadingList = async () => {
+    if (!isLoggedIn) return;
+    try {
+      const res = await axios.delete(`${process.env.REACT_APP_API_URL}/api/users/${user._id}/reading-list/${book._id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUser({ ...user, readingList: res.data }); // Update user context
+      setIsInReadingList(false);
+      setIsRead(false);
+      alert("تمت إزالة الكتاب من قائمة القراءة.");
+    } catch (err) {
+      console.error("Error removing from reading list:", err);
+      alert("فشل إزالة الكتاب من قائمة القراءة.");
+    }
   };
 
   if (loading) {
@@ -71,15 +141,11 @@ const BookDetailsPage = () => {
         <h2 style={{ color: theme.primary, marginTop: "30px", borderTop: `1px solid ${theme.secondary}`, paddingTop: "20px" }}>الوصف:</h2>
         <p style={{ fontSize: "1.1em", lineHeight: "1.8" }}>{book.description}</p>
 
-        {book.pdfFile && (
+        
+
+        {!isInReadingList && (
           <button
-            onClick={() => {
-              if (!isLoggedIn) {
-                alert("يجب تسجيل الدخول لقراءة الكتاب.");
-                return;
-              }
-              window.open(`${process.env.REACT_APP_API_URL}/uploads/${book.pdfFile}`, '_blank');
-            }}
+            onClick={handleAddToReadingList}
             style={{
               backgroundColor: theme.accent,
               color: theme.primary,
@@ -87,15 +153,54 @@ const BookDetailsPage = () => {
               borderRadius: "5px",
               border: "none",
               cursor: "pointer",
-              marginTop: "30px",
+              marginTop: "10px",
               fontSize: "1.1em",
               fontWeight: "bold",
               width: "100%",
               transition: "background-color 0.3s ease",
             }}
           >
-            قراءة الكتاب (PDF)
+            اقرأ الكتاب
           </button>
+        )}
+
+        {isInReadingList && (
+          <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+            <button
+              onClick={handleToggleReadStatus}
+              style={{
+                backgroundColor: isRead ? theme.secondary : theme.accent,
+                color: isRead ? theme.background : theme.primary,
+                padding: "12px 24px",
+                borderRadius: "5px",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "1.1em",
+                fontWeight: "bold",
+                flex: 1,
+                transition: "background-color 0.3s ease",
+              }}
+            >
+              {isRead ? "وضع علامة كغير مقروء" : "وضع علامة كمقروء"}
+            </button>
+            <button
+              onClick={handleRemoveFromReadingList}
+              style={{
+                backgroundColor: "#dc3545", // Red color for remove
+                color: "white",
+                padding: "12px 24px",
+                borderRadius: "5px",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "1.1em",
+                fontWeight: "bold",
+                flex: 1,
+                transition: "background-color 0.3s ease",
+              }}
+            >
+              إزالة من قائمة القراءة
+            </button>
+          </div>
         )}
 
         <button
