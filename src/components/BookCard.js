@@ -73,7 +73,7 @@ const BookCard = ({ book }) => {
             fontSize: "20px", /* Slightly smaller heart */
             backgroundColor: theme.primary, /* Background for the heart icon */
             padding: "4px",
-            marginRight:"4px",
+            marginRight:"10px",
             borderRadius: "50%",
             display: "flex",
             alignItems: "center",

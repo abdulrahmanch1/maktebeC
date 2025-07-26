@@ -3,7 +3,7 @@ const router = express.Router();
 const Book = require('../models/Book');
 const multer = require('multer'); // Add multer
 const path = require('path');
-const authMiddleware = require('../middleware/authMiddleware'); // Import auth middleware
+const { protect } = require('../middleware/authMiddleware'); // Import auth middleware
 
 // Multer setup for file uploads
 const storage = multer.diskStorage({
@@ -63,7 +63,7 @@ router.get('/:id', getBook, (req, res) => {
 });
 
 // Add a new book
-router.post('/', authMiddleware.protect, upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]), async (req, res) => {
+router.post('/', protect, upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]), async (req, res) => {
   const book = new Book({
     title: req.body.title,
     author: req.body.author,
@@ -85,7 +85,7 @@ router.post('/', authMiddleware.protect, upload.fields([{ name: 'cover', maxCoun
 });
 
 // Update a book
-router.patch('/:id', authMiddleware.protect, getBook, upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]), async (req, res) => {
+router.patch('/:id', protect, getBook, upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]), async (req, res) => {
   if (req.body.title != null) res.book.title = req.body.title;
   if (req.body.author != null) res.book.author = req.body.author;
   if (req.body.category != null) res.book.category = req.body.category;
@@ -116,7 +116,7 @@ router.patch('/:id', authMiddleware.protect, getBook, upload.fields([{ name: 'co
 });
 
 // Delete a book
-router.delete('/:id', authMiddleware.protect, getBook, async (req, res) => {
+router.delete('/:id', protect, getBook, async (req, res) => {
   try {
     await res.book.deleteOne();
     res.json({ message: 'Book deleted' });

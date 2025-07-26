@@ -238,5 +238,87 @@ router.delete('/:userId/favorites/:bookId', protect, async (req, res) => {
   }
 });
 
+
+// Add a book to user's reading list (protected)
+router.post('/:userId/reading-list', protect, async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const { bookId } = req.body;
+
+    if (userId !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized to modify this reading list' });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Check if book is already in reading list
+    const bookExists = user.readingList.some(item => item.book.toString() === bookId);
+    if (bookExists) {
+      return res.status(400).json({ message: 'Book already in reading list' });
+    }
+
+    user.readingList.push({ book: bookId, read: false });
+    await user.save();
+    res.status(201).json(user.readingList);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Update book read status in reading list (protected)
+router.patch('/:userId/reading-list/:bookId', protect, async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const bookId = req.params.bookId;
+    const { read } = req.body;
+
+    if (userId !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized to modify this reading list' });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const readingListItem = user.readingList.find(item => item.book.toString() === bookId);
+    if (!readingListItem) {
+      return res.status(404).json({ message: 'Book not found in reading list' });
+    }
+
+    readingListItem.read = read;
+    await user.save();
+    res.json(user.readingList);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Remove a book from user's reading list (protected)
+router.delete('/:userId/reading-list/:bookId', protect, async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const bookId = req.params.bookId;
+
+    if (userId !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized to modify this reading list' });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.readingList = user.readingList.filter(item => item.book.toString() !== bookId);
+    await user.save();
+    res.json(user.readingList);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;
 

@@ -18,10 +18,9 @@ if (!fs.existsSync(uploadsDir)) {
 mongoose.set("strictQuery", true);
 
 // Middleware
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Allow requests from your frontend or specified URL
-  credentials: true,
-}));
+
+
+app.use(cors()); // Temporarily allow all origins for testing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

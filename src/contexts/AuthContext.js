@@ -14,7 +14,26 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
   const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem("token"));
 
-  
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (token) {
+        try {
+          const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/${JSON.parse(localStorage.getItem("user"))._id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setUser(response.data);
+          setIsLoggedIn(true);
+          localStorage.setItem("user", JSON.stringify(response.data));
+        } catch (error) {
+          console.error("Failed to fetch user data:", error);
+          logout();
+        }
+      }
+    };
+    fetchUserData();
+  }, [token]);
 
   // Set default Authorization header for axios on initial load
   useEffect(() => {
@@ -55,7 +74,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("user", JSON.stringify(userData));
       localStorage.setItem("token", userToken);
       localStorage.setItem("favorites", JSON.stringify(userData.favorites || []));
-      localStorage.setItem("profilePicture", userData.profilePicture || ''); // Store profile picture
+      // localStorage.setItem("profilePicture", userData.profilePicture || ''); // Removed: profilePicture is part of user object
       // Set default Authorization header for axios
       axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`;
 
