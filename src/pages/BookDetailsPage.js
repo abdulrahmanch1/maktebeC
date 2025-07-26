@@ -69,13 +69,7 @@ const BookDetailsPage = () => {
     }
   };
 
-  const handleReadPdf = () => {
-    if (!isLoggedIn) {
-      alert("يجب تسجيل الدخول لقراءة الكتاب.");
-      return;
-    }
-    window.open(`${process.env.REACT_APP_API_URL}/uploads/${book.pdfFile}`, '_blank');
-  };
+  
 
   const handleToggleReadStatus = async () => {
     if (!isLoggedIn) return;
