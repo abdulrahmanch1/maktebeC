@@ -21,7 +21,6 @@ const Header = () => {
     >
       <nav>
         <Link to="/" style={{ color: theme.background }}>الرئيسية</Link>
-        <Link to="/complaints" style={{ color: theme.background }}>الشكاوى</Link>
         <Link to="/settings" style={{ color: theme.background }}>الإعدادات</Link>
         <Link to="/favorites" style={{ color: theme.background }}>المفضلة</Link>
         <Link to="/reading-list" style={{ color: theme.background }}>قائمة القراءة</Link>

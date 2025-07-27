@@ -40,18 +40,6 @@ async function getBook(req, res, next) {
     if (book == null) {
       return res.status(404).json({ message: 'Cannot find book' });
     }
-
-    // Calculate how many users have read this book
-    const readCount = await User.countDocuments({ "readingList.book": book._id, "readingList.read": true });
-
-    // Calculate how many users have favorited this book
-    const favoriteCount = await User.countDocuments({ favorites: book._id });
-
-    // Add these counts to the book object
-    book = book.toObject(); // Convert Mongoose document to plain object to add new properties
-    book.readCount = readCount;
-    book.favoriteCount = favoriteCount;
-
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
@@ -71,8 +59,24 @@ router.get('/', async (req, res) => {
 });
 
 // Get one book
-router.get('/:id', getBook, (req, res) => {
-  res.json(res.book);
+router.get('/:id', getBook, async (req, res) => {
+  try {
+    const book = res.book;
+    // Calculate how many users have read this book
+    const readCount = await User.countDocuments({ "readingList.book": book._id, "readingList.read": true });
+
+    // Calculate how many users have favorited this book
+    const favoriteCount = await User.countDocuments({ favorites: book._id });
+
+    // Add these counts to the book object
+    const bookObject = book.toObject();
+    bookObject.readCount = readCount;
+    bookObject.favoriteCount = favoriteCount;
+
+    res.json(bookObject);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 // Add a new book
@@ -158,7 +162,10 @@ router.post('/:id/comments', protect, getBook, async (req, res) => {
     book.comments.push(newComment);
     await book.save();
 
-    res.status(201).json(newComment);
+    // Get the newly added comment with its _id
+    const addedComment = book.comments[book.comments.length - 1];
+
+    res.status(201).json(addedComment);
   } catch (err) {
     console.error("Error adding comment:", err);
     res.status(500).json({ message: err.message });

@@ -2,9 +2,12 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
+  username: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true, select: false }, // Prevent password from being returned in API responses
+  isVerified: { type: Boolean, default: false },
+  verificationToken: String,
+  verificationTokenExpires: Date,
   role: { type: String, enum: ['user', 'admin'], default: 'user' }, // Add user role
   favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
   readingList: [

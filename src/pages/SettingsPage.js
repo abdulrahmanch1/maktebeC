@@ -26,6 +26,8 @@ const SettingsPage = () => {
         return <AppearanceSettings />;
       case "security":
         return <SecuritySettings />;
+      case "contact":
+        return <ContactUsSection />;
       default:
         return <AccountSettings />;
     }
@@ -67,8 +69,67 @@ const SettingsPage = () => {
           <span>🔒</span>
           <span>الأمان</span>
         </div>
+        <div
+          className={`settings-sidebar-item ${activeSection === "contact" ? "active" : ""}`}
+          style={{
+            color: activeSection === "contact" ? theme.accent : theme.background,
+            backgroundColor: activeSection === "contact" ? theme.primary : "transparent",
+          }}
+          onClick={() => setActiveSection("contact")}
+        >
+          <span>✉️</span>
+          <span>تواصل معنا</span>
+        </div>
       </aside>
       <main className="settings-content">{renderSection()}</main>
+    </div>
+  );
+};
+
+// Contact Us Section
+const ContactUsSection = () => {
+  const { theme } = useContext(ThemeContext);
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Here you would typically send this data to your backend
+    alert(`تم إرسال رسالتك بنجاح!\nالموضوع: ${subject}\nالرسالة: ${message}`);
+    setSubject("");
+    setMessage("");
+  };
+
+  return (
+    <div className="settings-section">
+      <h2 style={{ borderColor: theme.accent, color: theme.primary }}>تواصل معنا</h2>
+      <form onSubmit={handleSubmit} style={{ backgroundColor: theme.background, padding: "20px", borderRadius: "8px", boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)" }}>
+        <div className="form-group">
+          <label style={{ color: theme.primary }}>الموضوع:</label>
+          <input
+            type="text"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            placeholder="موضوع الرسالة"
+            required
+            style={{ borderColor: theme.secondary, backgroundColor: theme.background, color: theme.primary }}
+          />
+        </div>
+        <div className="form-group">
+          <label style={{ color: theme.primary }}>رسالتك:</label>
+          <textarea
+            rows="5"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="اكتب رسالتك هنا..."
+            required
+            style={{ borderColor: theme.secondary, backgroundColor: theme.background, color: theme.primary }}
+          ></textarea>
+        </div>
+        <button type="submit" className="button" style={{ backgroundColor: theme.accent, color: theme.primary }}>
+          إرسال الرسالة
+        </button>
+      </form>
     </div>
   );
 };

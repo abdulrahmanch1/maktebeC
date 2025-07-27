@@ -362,8 +362,8 @@ const BookDetailsPage = () => {
           )}
           <div style={{ marginTop: "20px" }}>
             {bookComments.length > 0 ? (
-              bookComments.map((comment, index) => (
-                <div key={index} style={{ display: "flex", alignItems: "center", marginBottom: "15px", padding: "10px", backgroundColor: theme.secondary, borderRadius: "8px" }}>
+              bookComments.map((comment) => (
+                <div key={comment._id} style={{ display: "flex", alignItems: "center", marginBottom: "15px", padding: "10px", backgroundColor: theme.secondary, borderRadius: "8px" }}>
                   <img
                     src={comment.profilePicture && (comment.profilePicture !== 'Untitled.jpg' && comment.profilePicture !== 'user.jpg') ? `${process.env.REACT_APP_API_URL}/uploads/${comment.profilePicture}` : '/imgs/user.jpg'}
                     alt="User Profile"
@@ -379,7 +379,7 @@ const BookDetailsPage = () => {
                         onClick={() => handleToggleLike(comment._id)}
                         style={{
                           cursor: "pointer",
-                          color: comment.likes && comment.likes.includes(user?._id) ? "red" : "red", // Red when liked, red when not (for outline)
+                          color: comment.likes && comment.likes.includes(user?._id) ? "red" : theme.primary, // Red when liked, theme.primary when not
                           fontSize: "20px",
                           marginRight: "10px",
                           transition: "color 0.3s ease, transform 0.3s ease",

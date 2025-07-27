@@ -15,18 +15,30 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
+  // Basic email validation function
+  const validateEmail = (email) => {
+    // Regular expression for basic email validation
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test(String(email).toLowerCase());
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+
+    if (!validateEmail(email)) {
+      setError("البريد الإلكتروني غير صحيح.");
+      return;
+    }
+
     try {
       await axios.post(`${process.env.REACT_APP_API_URL}/api/users/register`, {
         username,
         email,
         password,
       });
-      // Log in the user immediately after successful registration
-      await login(email, password); // Assuming login also handles setting user data
-      navigate("/"); // Redirect to home page
+      alert("تم إنشاء الحساب بنجاح. يرجى التحقق من بريدك الإلكتروني لتأكيد حسابك.");
+      navigate("/login"); // Redirect to login page after registration
     } catch (err) {
       console.error("Registration failed:", err);
       setError(err.response?.data?.message || "Registration failed");

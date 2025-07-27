@@ -4,6 +4,7 @@ import { ThemeContext } from "../contexts/ThemeContext";
 import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 import BookCard from "../components/BookCard";
+import { Link } from "react-router-dom"; // Import Link
 
 const ReadingListPage = () => {
   const { theme } = useContext(ThemeContext);
@@ -63,6 +64,19 @@ const ReadingListPage = () => {
 
   if (error) {
     return <div style={{ backgroundColor: theme.background, color: theme.primary, padding: "20px", textAlign: "center" }}>{error}</div>;
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <div style={{ backgroundColor: theme.background, color: theme.primary, padding: "20px", textAlign: "center", minHeight: "80vh" }}>
+        <h1 style={{ color: theme.primary }}>قائمة القراءة</h1>
+        <p style={{ fontSize: "1.2em", marginBottom: "20px" }}>يجب تسجيل الدخول لإدارة قائمة القراءة الخاصة بك.</p>
+        <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
+          <Link to="/login" style={{ backgroundColor: theme.accent, color: theme.primary, padding: "10px 20px", borderRadius: "5px", textDecoration: "none", fontWeight: "bold" }}>تسجيل الدخول</Link>
+          <Link to="/register" style={{ backgroundColor: theme.secondary, color: theme.background, padding: "10px 20px", borderRadius: "5px", textDecoration: "none", fontWeight: "bold" }}>إنشاء حساب</Link>
+        </div>
+      </div>
+    );
   }
 
   return (

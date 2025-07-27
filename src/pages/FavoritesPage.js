@@ -4,6 +4,8 @@ import { ThemeContext } from "../contexts/ThemeContext";
 import { FavoritesContext } from "../contexts/FavoritesContext";
 import BookCard from "../components/BookCard";
 import axios from "axios";
+import { AuthContext } from "../contexts/AuthContext"; // Import AuthContext
+import { Link } from "react-router-dom"; // Import Link
 
 const FavoritesPage = () => {
   const { theme } = useContext(ThemeContext);
@@ -11,6 +13,7 @@ const FavoritesPage = () => {
   const [favoriteBooksData, setFavoriteBooksData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { isLoggedIn } = useContext(AuthContext); // Get isLoggedIn from AuthContext
 
   useEffect(() => {
     const fetchFavoriteBookDetails = async () => {
@@ -44,6 +47,19 @@ const FavoritesPage = () => {
 
   if (error) {
     return <div style={{ backgroundColor: theme.background, color: theme.primary, padding: "20px", textAlign: "center" }}>{error}</div>;
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <div style={{ backgroundColor: theme.background, color: theme.primary, padding: "20px", textAlign: "center", minHeight: "80vh" }}>
+        <h1 style={{ color: theme.primary }}>الكتب المفضلة</h1>
+        <p style={{ fontSize: "1.2em", marginBottom: "20px" }}>يجب تسجيل الدخول لإضافة الكتب إلى المفضلة وعرضها هنا.</p>
+        <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
+          <Link to="/login" style={{ backgroundColor: theme.accent, color: theme.primary, padding: "10px 20px", borderRadius: "5px", textDecoration: "none", fontWeight: "bold" }}>تسجيل الدخول</Link>
+          <Link to="/register" style={{ backgroundColor: theme.secondary, color: theme.background, padding: "10px 20px", borderRadius: "5px", textDecoration: "none", fontWeight: "bold" }}>إنشاء حساب</Link>
+        </div>
+      </div>
+    );
   }
 
   return (
