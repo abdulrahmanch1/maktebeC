@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true, select: false }, // Prevent password from being returned in API responses
+  role: { type: String, enum: ['user', 'admin'], default: 'user' }, // Add user role
   favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
   readingList: [
     {
@@ -12,7 +13,7 @@ const userSchema = new mongoose.Schema({
       read: { type: Boolean, default: false },
     },
   ],
-  profilePicture: { type: String, default: 'Untitled.jpg' }, // Default profile picture
+  profilePicture: { type: String, default: 'user.jpg' }, // Default profile picture
 });
 
 // Hash password before saving the user

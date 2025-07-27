@@ -117,10 +117,11 @@ const AccountSettings = () => {
       <h2 style={{ borderColor: theme.accent, color: theme.primary }}>إعدادات الحساب</h2>
       <div className="profile-info-section" style={{ display: "flex", alignItems: "center", marginBottom: "20px", gap: "20px" }}>
         <img
-          src={user && user.profilePicture ? `${process.env.REACT_APP_API_URL}/uploads/${user.profilePicture}` : "/imgs/Untitled.jpg"}
+          src={user && user.profilePicture && (user.profilePicture !== 'Untitled.jpg' && user.profilePicture !== 'user.jpg') ? `${process.env.REACT_APP_API_URL}/uploads/${user.profilePicture}` : '/imgs/user.jpg'}
           alt="Profile"
           className="profile-picture"
           style={{ borderColor: theme.accent }}
+          onError={(e) => { e.target.onerror = null; e.target.src = '/imgs/user.jpg'; }}
         />
         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
           <span style={{ color: theme.primary, fontSize: "1em" }}>{user ? user.email : "غير متاح"}</span>

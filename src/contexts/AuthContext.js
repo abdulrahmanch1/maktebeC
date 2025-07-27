@@ -51,7 +51,6 @@ export const AuthProvider = ({ children }) => {
       (response) => response,
       (error) => {
         if (error.response && (error.response.status === 401 || error.response.status === 403 || (error.response.data && error.response.data.message === 'TokenExpiredError: jwt expired'))) {
-          console.log("Token expired or unauthorized, logging out...");
           logout(); // Call logout function
         }
         return Promise.reject(error);

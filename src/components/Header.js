@@ -32,7 +32,8 @@ const Header = () => {
           <>
             <Link to="/settings" style={{ color: theme.background }}>{user ? user.username : "اسم المستخدم"}</Link>
             <img
-              src={user && user.profilePicture ? `${process.env.REACT_APP_API_URL}/uploads/${user.profilePicture}` : "/imgs/e6e4df26ba752161b9fc6a17321fa286.jpg"}
+              src={user && user.profilePicture && (user.profilePicture !== 'Untitled.jpg' && user.profilePicture !== 'user.jpg') ? `${process.env.REACT_APP_API_URL}/uploads/${user.profilePicture}` : '/imgs/user.jpg'}
+              onError={(e) => { e.target.onerror = null; e.target.src = '/imgs/user.jpg'; }}
               alt="user"
               style={{ borderRadius: "50%", width: "40px", height: "40px" }}
             />

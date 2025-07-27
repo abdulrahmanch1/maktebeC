@@ -1,9 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
+import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 
 const AdminPage = () => {
   const { theme } = useContext(ThemeContext);
+  const { user, token, isLoggedIn } = useContext(AuthContext);
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [category, setCategory] = useState("");
@@ -48,6 +50,7 @@ const AdminPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!token) return alert('Please log in again.');
 
     const formData = new FormData();
     formData.append("title", title);
@@ -70,6 +73,7 @@ const AdminPage = () => {
         await axios.patch(`${process.env.REACT_APP_API_URL}/api/books/${editingBook._id}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
           },
         });
         alert("تم تحديث الكتاب بنجاح!");
@@ -78,6 +82,7 @@ const AdminPage = () => {
         await axios.post(`${process.env.REACT_APP_API_URL}/api/books`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
           },
         });
         alert("تم إضافة الكتاب بنجاح!");
@@ -91,8 +96,13 @@ const AdminPage = () => {
   };
 
   const handleDelete = async (id) => {
+    if (!token) return alert('Please log in again.');
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/api/books/${id}`);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/books/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       alert("تم حذف الكتاب بنجاح!");
       fetchBooks(); // Refresh book list
     } catch (error) {
@@ -118,6 +128,15 @@ const AdminPage = () => {
   const handleCancelEdit = () => {
     clearForm();
   };
+
+  if (!isLoggedIn || user?.role !== 'admin') {
+    return (
+      <div style={{ backgroundColor: theme.background, color: theme.primary, padding: "20px", textAlign: "center" }}>
+        <h1>غير مصرح لك بالوصول لهذه الصفحة</h1>
+        <p>يجب أن تكون مسؤولاً لعرض هذه الصفحة.</p>
+      </div>
+    );
+  }
 
   return (
     <div style={{ backgroundColor: theme.background, color: theme.primary, padding: "20px" }}>

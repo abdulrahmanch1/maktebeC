@@ -3,7 +3,8 @@ const router = express.Router();
 const Book = require('../models/Book');
 const multer = require('multer'); // Add multer
 const path = require('path');
-const { protect } = require('../middleware/authMiddleware'); // Import auth middleware
+const { protect, admin } = require('../middleware/authMiddleware'); // Import auth middleware
+const User = require('../models/User'); // Import User model
 
 // Multer setup for file uploads
 const storage = multer.diskStorage({
@@ -39,6 +40,18 @@ async function getBook(req, res, next) {
     if (book == null) {
       return res.status(404).json({ message: 'Cannot find book' });
     }
+
+    // Calculate how many users have read this book
+    const readCount = await User.countDocuments({ "readingList.book": book._id, "readingList.read": true });
+
+    // Calculate how many users have favorited this book
+    const favoriteCount = await User.countDocuments({ favorites: book._id });
+
+    // Add these counts to the book object
+    book = book.toObject(); // Convert Mongoose document to plain object to add new properties
+    book.readCount = readCount;
+    book.favoriteCount = favoriteCount;
+
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
@@ -63,7 +76,7 @@ router.get('/:id', getBook, (req, res) => {
 });
 
 // Add a new book
-router.post('/', protect, upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]), async (req, res) => {
+router.post('/', protect, admin, upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]), async (req, res) => {
   const book = new Book({
     title: req.body.title,
     author: req.body.author,
@@ -85,7 +98,7 @@ router.post('/', protect, upload.fields([{ name: 'cover', maxCount: 1 }, { name:
 });
 
 // Update a book
-router.patch('/:id', protect, getBook, upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]), async (req, res) => {
+router.patch('/:id', protect, admin, getBook, upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]), async (req, res) => {
   if (req.body.title != null) res.book.title = req.body.title;
   if (req.body.author != null) res.book.author = req.body.author;
   if (req.body.category != null) res.book.category = req.body.category;
@@ -116,11 +129,105 @@ router.patch('/:id', protect, getBook, upload.fields([{ name: 'cover', maxCount:
 });
 
 // Delete a book
-router.delete('/:id', protect, getBook, async (req, res) => {
+router.delete('/:id', protect, admin, getBook, async (req, res) => {
   try {
     await res.book.deleteOne();
     res.json({ message: 'Book deleted' });
   } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Add a comment to a book
+router.post('/:id/comments', protect, getBook, async (req, res) => {
+  const { text } = req.body;
+  const book = res.book;
+
+  if (!text) {
+    return res.status(400).json({ message: 'Comment text is required' });
+  }
+
+  try {
+    const newComment = {
+      user: req.user._id,
+      username: req.user.username,
+      profilePicture: req.user.profilePicture || 'Untitled.jpg', // Default if not set
+      text,
+    };
+
+    book.comments.push(newComment);
+    await book.save();
+
+    res.status(201).json(newComment);
+  } catch (err) {
+    console.error("Error adding comment:", err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Delete a comment from a book
+router.delete('/:bookId/comments/:commentId', protect, async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.bookId);
+    if (!book) {
+      return res.status(404).json({ message: 'Book not found' });
+    }
+
+    const commentId = req.params.commentId;
+    const commentIndex = book.comments.findIndex(comment => comment._id.toString() === commentId);
+
+    if (commentIndex === -1) {
+      return res.status(404).json({ message: 'Comment not found' });
+    }
+
+    const commentToDelete = book.comments[commentIndex];
+
+    // Check if the user is the comment author or an admin
+    if (req.user._id.toString() !== commentToDelete.user.toString() && req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Not authorized to delete this comment' });
+    }
+
+    book.comments.splice(commentIndex, 1);
+    await book.save();
+
+    res.json({ message: 'Comment deleted successfully' });
+  } catch (err) {
+    console.error("Error deleting comment:", err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Toggle like on a comment
+router.post('/:bookId/comments/:commentId/like', protect, async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.bookId);
+    if (!book) {
+      return res.status(404).json({ message: 'Book not found' });
+    }
+
+    const commentId = req.params.commentId;
+    const comment = book.comments.id(commentId);
+
+    if (!comment) {
+      return res.status(404).json({ message: 'Comment not found' });
+    }
+
+    const userId = req.user._id;
+    const userLikedIndex = comment.likes.findIndex(id => id.toString() === userId.toString());
+
+    if (userLikedIndex === -1) {
+      // User has not liked, so add like
+      comment.likes.push(userId);
+    } else {
+      // User has liked, so remove like
+      comment.likes.splice(userLikedIndex, 1);
+    }
+
+    await book.save();
+
+    res.json({ likes: comment.likes.length, liked: userLikedIndex === -1 });
+  } catch (err) {
+    console.error("Error toggling like:", err);
     res.status(500).json({ message: err.message });
   }
 });

@@ -75,6 +75,7 @@ router.post('/login', async (req, res) => {
           _id: user._id,
           username: user.username,
           email: user.email,
+          role: user.role, // Include user role
           favorites: user.favorites, // Include favorites
           readingList: user.readingList, // Include readingList
         },

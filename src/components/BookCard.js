@@ -29,7 +29,7 @@ const BookCard = ({ book }) => {
         textAlign: "center",
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
         width: "200px",
-        height: "450px", /* Fixed height for the card */
+        height: "400px", /* Fixed height for the card */
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -39,6 +39,10 @@ const BookCard = ({ book }) => {
         src={`${process.env.REACT_APP_API_URL}/uploads/${book.cover}`}
         alt="صورة الكتاب"
         style={{ width: "100%", height: "300px", objectFit: "cover", borderRadius: "4px", display: "block", margin: "0 auto" }}
+        onError={(e) => {
+          e.target.onerror = null; // Prevent infinite loop
+          e.target.src = "/imgs/no_cover_available.png";
+        }}
       />
       <h2 style={{ fontSize: "1.2em", marginTop: "3px" , marginBottom: "3px", fontWeight: "bold", textAlign: "center", color: theme.accent, margin: "0 auto"}}>
         {book.title}
