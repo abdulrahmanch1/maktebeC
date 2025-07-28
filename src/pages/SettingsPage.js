@@ -91,17 +91,29 @@ const SettingsPage = () => {
 // Contact Us Section
 const ContactUsSection = () => {
   const { theme } = useContext(ThemeContext);
+  const { user, isLoggedIn } = useContext(AuthContext); // Get user and isLoggedIn from AuthContext
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically send this data to your backend
-    toast.success(`تم إرسال رسالتك بنجاح!
-الموضوع: ${subject}
-الرسالة: ${message}`);
-    setSubject("");
-    setMessage("");
+    try {
+      const email = user?.email || "guest@example.com"; // Default email for guests
+      const username = user?.username || "Guest"; // Default username for guests
+
+      await axios.post(`${API_URL}/api/contact`, {
+        subject,
+        message,
+        email,
+        username,
+      });
+      toast.success("تم إرسال رسالتك بنجاح!");
+      setSubject("");
+      setMessage("");
+    } catch (error) {
+      console.error("Error sending contact message:", error);
+      toast.error(error.response?.data?.message || "فشل إرسال الرسالة.");
+    }
   };
 
   return (

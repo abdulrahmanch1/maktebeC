@@ -23,8 +23,10 @@ const AdminPage = () => {
   const [categories, setCategories] = useState(["قصص أطفال", "كتب دينية", "كتب تجارية", "كتب رومانسية", "كتب بوليسية", "أدب", "تاريخ", "علوم", "فلسفة", "تكنولوجيا", "سيرة ذاتية", "شعر", "فن", "طبخ"]); // Initial categories
   const [editingBook, setEditingBook] = useState(null); // State to store the book being edited
   const [refreshTrigger, setRefreshTrigger] = useState(0); // State to trigger re-fetch
+  const [contactMessages, setContactMessages] = useState([]); // State to store contact messages
 
   const { data: booksData, loading, error: fetchError } = useFetch(`${API_URL}/api/books`, [refreshTrigger]);
+  const { data: messagesData, loading: messagesLoading, error: messagesError } = useFetch(`${API_URL}/api/contact/messages`, [refreshTrigger]);
 
   useEffect(() => {
     if (booksData) {
@@ -32,6 +34,12 @@ const AdminPage = () => {
       setCategories(prevCategories => [...new Set([...prevCategories, ...booksData.map((book) => book.category)])]);
     }
   }, [booksData]);
+
+  useEffect(() => {
+    if (messagesData) {
+      setContactMessages(messagesData);
+    }
+  }, [messagesData]);
 
   const clearForm = () => {
     setTitle("");
@@ -127,6 +135,22 @@ const AdminPage = () => {
     clearForm();
   };
 
+  const handleDeleteMessage = async (id) => {
+    if (!token) return toast.error('الرجاء تسجيل الدخول مرة أخرى.');
+    try {
+      await axios.delete(`${API_URL}/api/contact/messages/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("تم حذف الرسالة بنجاح!");
+      setRefreshTrigger(prev => prev + 1); // Trigger re-fetch
+    } catch (error) {
+      console.error("Error deleting message:", error);
+      toast.error(error.response?.data?.message || "فشل حذف الرسالة.");
+    }
+  };
+
   if (!isLoggedIn || user?.role !== 'admin') {
     return (
       <div className="admin-page-container" style={{ backgroundColor: theme.background, color: theme.primary, textAlign: "center" }}>
@@ -212,6 +236,33 @@ const AdminPage = () => {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="admin-books-list-container">
+        <h2 className="admin-books-list-title" style={{ color: theme.primary }}>رسائل التواصل</h2>
+        {messagesLoading ? (
+          <p style={{ textAlign: "center", color: theme.primary }}>جاري تحميل الرسائل...</p>
+        ) : messagesError ? (
+          <p style={{ textAlign: "center", color: "red" }}>فشل تحميل الرسائل: {messagesError.message}</p>
+        ) : contactMessages.length > 0 ? (
+          <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+            {contactMessages.map((message) => (
+              <div key={message._id} className="admin-book-item" style={{ backgroundColor: theme.secondary }}>
+                <div>
+                  <p style={{ color: theme.background }}><strong>الموضوع:</strong> {message.subject}</p>
+                  <p style={{ color: theme.background }}><strong>الرسالة:</strong> {message.message}</p>
+                  <p style={{ color: theme.background }}><strong>المرسل:</strong> {message.username} ({message.email})</p>
+                  <p style={{ color: theme.background }}><strong>التاريخ:</strong> {new Date(message.createdAt).toLocaleDateString()}</p>
+                </div>
+                <div>
+                  <button onClick={() => handleDeleteMessage(message._id)} className="delete">حذف الرسالة</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p style={{ textAlign: "center", color: theme.primary }}>لا توجد رسائل تواصل.</p>
+        )}
       </div>
     </div>
   );

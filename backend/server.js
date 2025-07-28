@@ -45,10 +45,12 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
 // Import Routes
 const booksRouter = require('./routes/books');
 const usersRouter = require('./routes/users');
+const contactRoutes = require('./routes/contactRoutes');
 
 // Use Routes
 app.use('/api/books', booksRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/contact', contactRoutes);
 
 // Basic Route
 app.get('/', (req, res) => {
