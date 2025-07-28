@@ -1,0 +1,33 @@
+.homepage-container {
+  padding: 20px;
+}
+
+.homepage-title {
+  text-align: center;
+}
+
+.search-filter-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  padding: 10px;
+  max-width: 400px; /* Set a maximum width */
+  border-radius: 5px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.category-select {
+  padding: 7.5px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.books-display-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 70vh;
+}

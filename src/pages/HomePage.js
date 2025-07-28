@@ -2,7 +2,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import BookCard from "../components/BookCard";
 import { ThemeContext } from "../contexts/ThemeContext";
-import axios from "axios";
+import useFetch from "../hooks/useFetch";
+import { API_URL } from "../constants";
+import './HomePage.css'; // Import the CSS file
 
 const HomePage = () => {
   const { theme } = useContext(ThemeContext);
@@ -11,20 +13,23 @@ const HomePage = () => {
   const [books, setBooks] = useState([]);
   const [categories, setCategories] = useState(["الكل"]);
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/books`);
-        setBooks(response.data);
+  const { data: booksData, loading, error } = useFetch(`${API_URL}/api/books`);
 
-        const uniqueCategories = ["الكل", ...new Set(response.data.map(book => book.category))];
-        setCategories(uniqueCategories);
-      } catch (error) {
-        console.error("Error fetching books:", error);
-      }
-    };
-    fetchBooks();
-  }, []);
+  useEffect(() => {
+    if (booksData) {
+      setBooks(booksData);
+      const uniqueCategories = ["الكل", ...new Set(booksData.map(book => book.category))];
+      setCategories(uniqueCategories);
+    }
+  }, [booksData]);
+
+  if (loading) {
+    return <div className="homepage-container" style={{ backgroundColor: theme.background, color: theme.primary, textAlign: "center" }}>جاري تحميل الكتب...</div>;
+  }
+
+  if (error) {
+    return <div className="homepage-container" style={{ backgroundColor: theme.background, color: theme.primary, textAlign: "center" }}>حدث خطأ أثناء تحميل الكتب.</div>;
+  }
 
   const filteredBooks = books.filter((book) => {
     const matchesSearchTerm = book.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -33,35 +38,29 @@ const HomePage = () => {
   });
 
   return (
-    <div style={{ backgroundColor: theme.background, color: theme.primary, padding: "20px" }}>
-      <h1 style={{ color: theme.primary, textAlign: "center" }}>البحث عن الكتب</h1>
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
+    <div className="homepage-container" style={{ backgroundColor: theme.background, color: theme.primary }}>
+      <h1 className="homepage-title" style={{ color: theme.primary }}>البحث عن الكتب</h1>
+      <div className="search-filter-container">
         <input
           type="text"
           placeholder="ابحث عن كتاب..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
           style={{
-            padding: "10px",
-            width: "40%",
-            borderRadius: "5px",
             border: `1px solid ${theme.secondary}`,
             backgroundColor: theme.background,
             color: theme.primary,
-            marginBottom: "10px",
-            marginRight: "10px",
           }}
         />
         <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
+          className="category-select"
           style={{
-            padding: "7.5px",
-            borderRadius: "5px",
             border: `1px solid ${theme.secondary}`,
             backgroundColor: theme.background,
             color: theme.primary,
-            marginRight: "10px",
           }}
         >
           {categories.map(category => (
@@ -69,7 +68,7 @@ const HomePage = () => {
           ))}
         </select>
       </div>
-      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", minHeight: "70vh" }}>
+      <div className="books-display-container">
         {filteredBooks.map((book) => (
           <BookCard key={book._id} book={book} />
         ))}

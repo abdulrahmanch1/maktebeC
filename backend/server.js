@@ -74,7 +74,7 @@ if (!process.env.JWT_SECRET) {
   process.exit(1); // Stop the server if JWT_SECRET is not defined
 }
 
-mongoose.connect(DB_URI, {})
+mongoose.connect(DB_URI)
 .then(() => console.log('MongoDB Connected...'))
 .catch(err => {
   console.error('MongoDB connection error:', err);

@@ -5,6 +5,11 @@ const multer = require('multer'); // Add multer
 const path = require('path');
 const { protect, admin } = require('../middleware/authMiddleware'); // Import auth middleware
 const User = require('../models/User'); // Import User model
+const {
+  bookValidationRules,
+  commentValidationRules,
+  handleValidationErrors,
+} = require('../middleware/validationMiddleware');
 
 // Multer setup for file uploads
 const storage = multer.diskStorage({
@@ -80,7 +85,14 @@ router.get('/:id', getBook, async (req, res) => {
 });
 
 // Add a new book
-router.post('/', protect, admin, upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]), async (req, res) => {
+router.post(
+  '/',
+  protect,
+  admin,
+  upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]),
+  bookValidationRules(),
+  handleValidationErrors,
+  async (req, res) => {
   const book = new Book({
     title: req.body.title,
     author: req.body.author,
@@ -102,7 +114,15 @@ router.post('/', protect, admin, upload.fields([{ name: 'cover', maxCount: 1 }, 
 });
 
 // Update a book
-router.patch('/:id', protect, admin, getBook, upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]), async (req, res) => {
+router.patch(
+  '/:id',
+  protect,
+  admin,
+  getBook,
+  upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'pdfFile', maxCount: 1 }]),
+  bookValidationRules(),
+  handleValidationErrors,
+  async (req, res) => {
   if (req.body.title != null) res.book.title = req.body.title;
   if (req.body.author != null) res.book.author = req.body.author;
   if (req.body.category != null) res.book.category = req.body.category;
@@ -143,7 +163,13 @@ router.delete('/:id', protect, admin, getBook, async (req, res) => {
 });
 
 // Add a comment to a book
-router.post('/:id/comments', protect, getBook, async (req, res) => {
+router.post(
+  '/:id/comments',
+  protect,
+  getBook,
+  commentValidationRules(),
+  handleValidationErrors,
+  async (req, res) => {
   const { text } = req.body;
   const book = res.book;
 
@@ -154,7 +180,7 @@ router.post('/:id/comments', protect, getBook, async (req, res) => {
   try {
     const newComment = {
       user: req.user._id,
-      username: req.user.username,
+      username: req.user.username, // Use username from authenticated user
       profilePicture: req.user.profilePicture || 'Untitled.jpg', // Default if not set
       text,
     };

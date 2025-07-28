@@ -4,22 +4,18 @@ import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { ThemeContext } from "../contexts/ThemeContext";
+import './MainLayout.css'; // Import the CSS file
 
 const MainLayout = () => {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-        backgroundColor: theme.background,
-        color: theme.primary,
-      }}
-    >
+    <div className="main-layout" style={{
+      backgroundColor: theme.background,
+      color: theme.primary,
+    }}>
       <Header />
-      <main>
+      <main className="main-content">
         <Outlet />
       </main>
       <Footer />

@@ -1,20 +1,16 @@
 
 import React, { useContext } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
+import './Footer.css'; // Import the CSS file
 
 const Footer = () => {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <footer
-      style={{
-        backgroundColor: theme.primary,
-        color: theme.background,
-        padding: "20px",
-        textAlign: "center",
-        marginTop: "auto",
-      }}
-    >
+    <footer className="footer" style={{
+      backgroundColor: theme.primary,
+      color: theme.background,
+    }}>
       <p>جميع الحقوق محفوظة © 2025</p>
     </footer>
   );

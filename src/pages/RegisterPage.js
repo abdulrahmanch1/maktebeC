@@ -1,19 +1,22 @@
 
 import React, { useContext, useState } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
-import { AuthContext } from "../contexts/AuthContext";
+
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
+import { toast } from 'react-toastify';
+import { API_URL } from "../constants";
+import './AuthPage.css'; // Import the CSS file
 
 const RegisterPage = () => {
   const { theme } = useContext(ThemeContext);
-  const { login } = useContext(AuthContext);
+  
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
 
   // Basic email validation function
   const validateEmail = (email) => {
@@ -24,31 +27,30 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
 
     if (!validateEmail(email)) {
-      setError("البريد الإلكتروني غير صحيح.");
+      toast.error("البريد الإلكتروني غير صحيح.");
       return;
     }
 
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/api/users/register`, {
+      await axios.post(`${API_URL}/api/users/register`, {
         username,
         email,
         password,
       });
-      alert("تم إنشاء الحساب بنجاح. يرجى التحقق من بريدك الإلكتروني لتأكيد حسابك.");
+      toast.success("تم إنشاء الحساب بنجاح. يرجى التحقق من بريدك الإلكتروني لتأكيد حسابك.");
       navigate("/login"); // Redirect to login page after registration
     } catch (err) {
       console.error("Registration failed:", err);
-      setError(err.response?.data?.message || "Registration failed");
+      toast.error(err.response?.data?.message || "فشل التسجيل");
     }
   };
 
   return (
-    <div style={{ backgroundColor: theme.background, color: theme.primary, padding: "20px", minHeight: "80vh" }}>
-      <h1 style={{ textAlign: "center", color: theme.primary }}>إنشاء حساب</h1>
-      <form onSubmit={handleSubmit} style={{ backgroundColor: theme.secondary, color: theme.background }}>
+    <div className="auth-container" style={{ backgroundColor: theme.background, color: theme.primary }}>
+      <h1 className="auth-title" style={{ color: theme.primary }}>إنشاء حساب</h1>
+      <form onSubmit={handleSubmit} className="auth-form" style={{ backgroundColor: theme.secondary, color: theme.background }}>
         <label style={{ color: theme.background }}>اسم المستخدم:</label>
         <input
           type="text"
@@ -76,7 +78,6 @@ const RegisterPage = () => {
           required
           style={{ backgroundColor: theme.background, color: theme.primary, borderColor: theme.accent }}
         />
-        {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
         <button type="submit" style={{ backgroundColor: theme.accent, color: theme.primary }}>إنشاء</button>
       </form>
     </div>

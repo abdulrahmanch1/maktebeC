@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { FavoritesContext } from "../contexts/FavoritesContext";
 import { AuthContext } from "../contexts/AuthContext"; // Import AuthContext
+import { toast } from 'react-toastify';
+import { API_URL } from "../constants";
+import './BookCard.css'; // Import the CSS file
 
 const BookCard = ({ book }) => {
   const { theme } = useContext(ThemeContext);
@@ -18,47 +21,30 @@ const BookCard = ({ book }) => {
   };
 
   return (
-    <div
-      style={{
-        backgroundColor: theme.background,
-        color: theme.primary,
-        border: `1px solid ${theme.secondary}`,
-        borderRadius: "8px",
-        padding: "15px",
-        margin: "10px",
-        textAlign: "center",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-        width: "200px",
-        height: "400px", /* Fixed height for the card */
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-      }}
-    >
+    <div className="book-card" style={{
+      backgroundColor: theme.background,
+      color: theme.primary,
+      border: `1px solid ${theme.secondary}`,
+    }}>
       <img
-        src={`${process.env.REACT_APP_API_URL}/uploads/${book.cover}`}
+        src={`${API_URL}/uploads/${book.cover}`}
         alt="صورة الكتاب"
-        style={{ width: "100%", height: "300px", objectFit: "cover", borderRadius: "4px", display: "block", margin: "0 auto" }}
+        className="book-card-image"
         onError={(e) => {
           e.target.onerror = null; // Prevent infinite loop
           e.target.src = "/imgs/no_cover_available.png";
         }}
       />
-      <h2 style={{ fontSize: "1.2em", marginTop: "3px" , marginBottom: "3px", fontWeight: "bold", textAlign: "center", color: theme.accent, margin: "0 auto"}}>
+      <h2 className="book-card-title" style={{ color: theme.accent }}>
         {book.title}
       </h2>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "10px" }}>
+      <div className="book-card-actions">
         <button
           onClick={handleReadClick}
+          className="read-button"
           style={{
             backgroundColor: theme.accent,
             color: theme.primary,
-            padding: "8px 12px ", /* Smaller padding */
-            borderRadius: "5px",
-            border: "none",
-            cursor: "pointer",
-            flexGrow: 1, /* Allow button to grow */
-            marginRight: "5px", /* Small gap */
           }}
         >
           قراءة الكتاب
@@ -66,26 +52,14 @@ const BookCard = ({ book }) => {
         <span
           onClick={() => {
             if (!isLoggedIn) {
-              alert("يجب تسجيل الدخول لإضافة الكتاب للمفضلة.");
+              toast.error("يجب تسجيل الدخول لإضافة الكتاب للمفضلة.");
               return;
             }
             toggleFavorite(book._id);
           }}
+          className={`favorite-icon ${isLiked ? 'liked' : ''}`}
           style={{
-            cursor: "pointer",
-            color: isLiked ? "red" : "white", /* White by default, red when liked */
-            fontSize: "20px", /* Slightly smaller heart */
-            backgroundColor: theme.primary, /* Background for the heart icon */
-            padding: "4px",
-            marginRight:"10px",
-            borderRadius: "50%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "30px", /* Fixed width for circular background */
-            height: "30px", /* Fixed height for circular background */
-            transition: "color 0.3s ease, background-color 0.3s ease, transform 0.3s ease", /* Add transform to transition */
-            transform: isLiked ? "scale(1.2)" : "scale(1)", /* Scale effect */
+            backgroundColor: theme.primary,
           }}
         >
           {isLiked ? '❤️' : '♡'}

@@ -1,6 +1,8 @@
 import React, { createContext, useState, useMemo, useEffect, useContext, useCallback } from "react";
 import axios from "axios";
 import { AuthContext } from "./AuthContext";
+import { toast } from 'react-toastify';
+import { API_URL } from "../constants";
 
 export const FavoritesContext = createContext({
   favorites: [],
@@ -9,77 +11,83 @@ export const FavoritesContext = createContext({
 });
 
 export const FavoritesProvider = ({ children }) => {
+  // State to store the user's favorite books, initialized from local storage
   const [favorites, setFavorites] = useState(() => {
     try {
       const stored = localStorage.getItem("favorites");
       return stored ? JSON.parse(stored) : [];
     } catch (e) {
+      // If parsing fails, return an empty array
       return [];
     }
   });
-  const { isLoggedIn, user, token } = useContext(AuthContext); // Get token from AuthContext
+  const { isLoggedIn, user, token } = useContext(AuthContext); // Get authentication status, user data, and token from AuthContext
 
-  // Fetch favorites when user logs in or changes
+  // Effect to fetch favorites from the backend when user logs in or changes
   useEffect(() => {
     const fetchFavorites = async () => {
-      if (isLoggedIn && user && user._id && token) {
+      if (isLoggedIn && user && user._id && token) { // Only fetch if user is logged in and has an ID and token
         try {
-          const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/${user._id}`, {
+          const response = await axios.get(`${API_URL}/api/users/${user._id}`, {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${token}`, // Send authorization token
             },
           });
-          setFavorites(response.data.favorites || []);
+          setFavorites(response.data.favorites || []); // Update favorites state with fetched data
         } catch (error) {
           console.error("Failed to fetch favorites:", error);
-          setFavorites([]);
+          setFavorites([]); // Clear favorites on error
+          toast.error(error.response?.data?.message || "فشل جلب المفضلة."); // Display error message
         }
       } else {
-        setFavorites([]);
+        setFavorites([]); // Clear favorites if user is not logged in
       }
     };
 
     fetchFavorites();
-  }, [isLoggedIn, user, token]);
+  }, [isLoggedIn, user, token]); // Re-run effect when these dependencies change
 
-  const toggleFavorite = useCallback(async (bookId) => { // Wrapped in useCallback
-    if (!isLoggedIn || !user || !user._id || !token) {
-      alert("Please log in to add books to your favorites.");
+  // Callback function to toggle a book's favorite status
+  const toggleFavorite = useCallback(async (bookId) => { 
+    if (!isLoggedIn || !user || !user._id || !token) { // Check if user is logged in
+      toast.error("يجب تسجيل الدخول لإضافة الكتاب للمفضلة.");
       return;
     }
 
-    
-
     try {
       if (favorites.includes(bookId)) {
-        // Remove from favorites
-        const res = await axios.delete(`${process.env.REACT_APP_API_URL}/api/users/${user._id}/favorites/${bookId}`, {
+        // If book is already a favorite, remove it
+        const res = await axios.delete(`${API_URL}/api/users/${user._id}/favorites/${bookId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setFavorites(res.data.favorites || favorites.filter((id) => id !== bookId));
-        localStorage.setItem("favorites", JSON.stringify(res.data.favorites || favorites.filter((id) => id !== bookId)));
+        setFavorites(res.data.favorites || favorites.filter((id) => id !== bookId)); // Update favorites state
+        localStorage.setItem("favorites", JSON.stringify(res.data.favorites || favorites.filter((id) => id !== bookId))); // Update local storage
+        toast.success("تمت إزالة الكتاب من المفضلة.");
       } else {
-        // Add to favorites
-        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/${user._id}/favorites`, { bookId }, {
+        // If book is not a favorite, add it
+        const res = await axios.post(`${API_URL}/api/users/${user._id}/favorites`, { bookId }, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setFavorites(res.data.favorites || [...favorites, bookId]);
-        localStorage.setItem("favorites", JSON.stringify(res.data.favorites || [...favorites, bookId]));
+        setFavorites(res.data.favorites || [...favorites, bookId]); // Update favorites state
+        localStorage.setItem("favorites", JSON.stringify(res.data.favorites || [...favorites, bookId])); // Update local storage
+        toast.success("تمت إضافة الكتاب إلى المفضلة.");
       }
     } catch (error) {
       console.error("Failed to toggle favorite:", error);
-      alert("Failed to update favorites. Please try again.");
+      toast.error(error.response?.data?.message || "فشل تحديث المفضلة."); // Display error message
     }
-  }, [favorites, isLoggedIn, user, token]); // Added dependencies for useCallback
+  }, [favorites, isLoggedIn, user, token]); // Dependencies for useCallback
 
-  const isFavorite = useCallback((bookId) => { // Wrapped in useCallback
+  // Callback function to check if a book is a favorite
+  const isFavorite = useCallback((bookId) => { 
     return favorites.includes(bookId);
-  }, [favorites]); // Added dependencies for useCallback
+  }, [favorites]); // Dependencies for useCallback
 
+  // Memoized context value to prevent unnecessary re-renders
   const contextValue = useMemo(
     () => ({
       favorites,

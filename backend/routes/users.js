@@ -7,6 +7,15 @@ const multer = require('multer');
 const path = require('path');
 const crypto = require('crypto'); // Import crypto for token generation
 const nodemailer = require('nodemailer'); // Import nodemailer
+const {
+  registerValidationRules,
+  loginValidationRules,
+  handleValidationErrors,
+  userUpdateValidationRules,
+  favoriteValidationRules,
+  readingListValidationRules,
+  readingStatusValidationRules
+} = require('../middleware/validationMiddleware');
 
 // Multer setup for profile picture uploads
 const storage = multer.diskStorage({
@@ -38,7 +47,7 @@ const generateToken = (id) => {
 };
 
 // Register a new user
-router.post('/register', async (req, res) => {
+router.post('/register', registerValidationRules(), handleValidationErrors, async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
@@ -102,7 +111,7 @@ router.post('/register', async (req, res) => {
 });
 
 // User login
-router.post('/login', async (req, res) => {
+router.post('/login', loginValidationRules(), handleValidationErrors, async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -162,7 +171,7 @@ router.get('/:id', protect, async (req, res) => {
 });
 
 // Update a user (protected)
-router.patch('/:id', protect, async (req, res) => {
+router.patch('/:id', protect, userUpdateValidationRules(), handleValidationErrors, async (req, res) => {
   try {
     // req.user is set by the protect middleware
     if (req.params.id !== req.user._id.toString()) {
@@ -234,7 +243,7 @@ router.delete('/:id', protect, async (req, res) => {
 
 
 // Add a book to user's favorites (protected)
-router.post('/:userId/favorites', protect, async (req, res) => {
+router.post('/:userId/favorites', protect, favoriteValidationRules(), handleValidationErrors, async (req, res) => {
   try {
     const userId = req.params.userId;
     const { bookId } = req.body;
@@ -260,7 +269,7 @@ router.post('/:userId/favorites', protect, async (req, res) => {
 });
 
 // Remove a book from user's favorites (protected)
-router.delete('/:userId/favorites/:bookId', protect, async (req, res) => {
+router.delete('/:userId/favorites/:bookId', protect, favoriteValidationRules(), handleValidationErrors, async (req, res) => {
   try {
     const userId = req.params.userId;
     const bookId = req.params.bookId;
@@ -285,7 +294,7 @@ router.delete('/:userId/favorites/:bookId', protect, async (req, res) => {
 
 
 // Add a book to user's reading list (protected)
-router.post('/:userId/reading-list', protect, async (req, res) => {
+router.post('/:userId/reading-list', protect, readingListValidationRules(), handleValidationErrors, async (req, res) => {
   try {
     const userId = req.params.userId;
     const { bookId } = req.body;
@@ -314,7 +323,7 @@ router.post('/:userId/reading-list', protect, async (req, res) => {
 });
 
 // Update book read status in reading list (protected)
-router.patch('/:userId/reading-list/:bookId', protect, async (req, res) => {
+router.patch('/:userId/reading-list/:bookId', protect, readingStatusValidationRules(), handleValidationErrors, async (req, res) => {
   try {
     const userId = req.params.userId;
     const bookId = req.params.bookId;
@@ -343,7 +352,7 @@ router.patch('/:userId/reading-list/:bookId', protect, async (req, res) => {
 });
 
 // Remove a book from user's reading list (protected)
-router.delete('/:userId/reading-list/:bookId', protect, async (req, res) => {
+router.delete('/:userId/reading-list/:bookId', protect, readingListValidationRules(), handleValidationErrors, async (req, res) => {
   try {
     const userId = req.params.userId;
     const bookId = req.params.bookId;

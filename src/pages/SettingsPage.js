@@ -4,6 +4,8 @@ import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { themes } from "../data/themes";
+import { toast } from 'react-toastify';
+import { API_URL } from "../constants";
 import "./SettingsPage.css"; // Import the new CSS file
 
 const SettingsPage = () => {
@@ -95,7 +97,9 @@ const ContactUsSection = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Here you would typically send this data to your backend
-    alert(`تم إرسال رسالتك بنجاح!\nالموضوع: ${subject}\nالرسالة: ${message}`);
+    toast.success(`تم إرسال رسالتك بنجاح!
+الموضوع: ${subject}
+الرسالة: ${message}`);
     setSubject("");
     setMessage("");
   };
@@ -146,11 +150,11 @@ const AccountSettings = () => {
     const formData = new FormData();
     formData.append("profilePicture", file);
     try {
-      const res = await axios.patch(`${process.env.REACT_APP_API_URL}/api/users/${user._id}/profile-picture`, formData, {
+      const res = await axios.patch(`${API_URL}/api/users/${user._id}/profile-picture`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUser({ ...user, profilePicture: res.data.profilePicture });
-      alert("تم تحديث الصورة بنجاح!");
+      toast.success("تم تحديث الصورة بنجاح!");
     } catch (err) {
       console.error(err);
     }
@@ -165,9 +169,9 @@ const AccountSettings = () => {
 
   const handleUsernameUpdate = async () => {
     try {
-      const res = await axios.patch(`${process.env.REACT_APP_API_URL}/api/users/${user._id}`, { username: newUsername }, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await axios.patch(`${API_URL}/api/users/${user._id}`, { username: newUsername }, { headers: { Authorization: `Bearer ${token}` } });
       setUser({ ...user, username: res.data.username });
-      alert("تم تحديث اسم المستخدم بنجاح!");
+      toast.success("تم تحديث اسم المستخدم بنجاح!");
     } catch (err) {
       console.error(err);
     }
@@ -178,7 +182,7 @@ const AccountSettings = () => {
       <h2 style={{ borderColor: theme.accent, color: theme.primary }}>إعدادات الحساب</h2>
       <div className="profile-info-section" style={{ display: "flex", alignItems: "center", marginBottom: "20px", gap: "20px" }}>
         <img
-          src={user && user.profilePicture && (user.profilePicture !== 'Untitled.jpg' && user.profilePicture !== 'user.jpg') ? `${process.env.REACT_APP_API_URL}/uploads/${user.profilePicture}` : '/imgs/user.jpg'}
+          src={user && user.profilePicture && (user.profilePicture !== 'Untitled.jpg' && user.profilePicture !== 'user.jpg') ? `${API_URL}/uploads/${user.profilePicture}` : '/imgs/user.jpg'}
           alt="Profile"
           className="profile-picture"
           style={{ borderColor: theme.accent }}
@@ -240,7 +244,7 @@ const SecuritySettings = () => {
     // to trigger the email sending process on the backend.
     // For now, we just set the state to true.
     setPasswordResetEmailSent(true);
-    alert("تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني. يرجى التحقق من صندوق الوارد الخاص بك.");
+    toast.info("تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني. يرجى التحقق من صندوق الوارد الخاص بك.");
   };
 
   return (
