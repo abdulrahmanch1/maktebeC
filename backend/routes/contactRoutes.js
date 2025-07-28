@@ -24,7 +24,7 @@ const handleValidationErrors = (req, res, next) => {
 };
 
 // POST a new contact message
-router.post('/', contactMessageValidationRules(), handleValidationErrors, async (req, res) => {
+router.post('/', protect, contactMessageValidationRules(), handleValidationErrors, async (req, res) => {
   try {
     const { subject, message, email, username } = req.body;
 
@@ -52,6 +52,23 @@ router.get('/messages', protect, admin, async (req, res) => {
   } catch (error) {
     console.error('Error fetching contact messages:', error);
     res.status(500).json({ message: 'فشل جلب الرسائل.' });
+  }
+});
+
+// DELETE a contact message (Admin only)
+router.delete('/messages/:id', protect, admin, async (req, res) => {
+  try {
+    const message = await ContactMessage.findById(req.params.id);
+
+    if (!message) {
+      return res.status(404).json({ message: 'الرسالة غير موجودة.' });
+    }
+
+    await message.deleteOne();
+    res.json({ message: 'تم حذف الرسالة بنجاح!' });
+  } catch (error) {
+    console.error('Error deleting contact message:', error);
+    res.status(500).json({ message: 'فشل حذف الرسالة.' });
   }
 });
 

@@ -8,6 +8,7 @@ import HomePage from '../pages/HomePage';
 import SettingsPage from '../pages/SettingsPage';
 import BookDetailsPage from '../pages/BookDetailsPage';
 import AdminPage from '../pages/AdminPage';
+import ContactMessagesPage from '../pages/ContactMessagesPage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import FavoritesPage from '../pages/FavoritesPage';
@@ -24,6 +25,7 @@ const AppRoutes = () => {
           <Route path="settings" element={<SettingsPage />} />
           <Route path="book/:id" element={<BookDetailsPage />} />
           <Route path="admin" element={<AdminPage />} />
+          <Route path="admin/contact-messages" element={<ContactMessagesPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
           <Route path="favorites" element={<FavoritesPage />} />

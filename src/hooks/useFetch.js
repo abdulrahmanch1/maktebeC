@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const useFetch = (url, dependencies = []) => {
+const useFetch = (url, dependencies = [], config = {}) => {
   // State to store fetched data, loading status, and any errors
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -13,7 +13,7 @@ const useFetch = (url, dependencies = []) => {
       setLoading(true); // Set loading to true before fetching
       setError(null); // Clear any previous errors
       try {
-        const response = await axios.get(url); // Make the API request
+        const response = await axios.get(url, config); // Make the API request
         setData(response.data); // Set the fetched data
       } catch (err) {
         setError(err); // Set error if request fails
