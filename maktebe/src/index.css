@@ -25,6 +25,16 @@ main {
   padding: 20px;
 }
 
+@media (max-width: 400px) {
+  main {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  form {
+    gap: 8px;
+  }
+}
+
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
 }
@@ -56,6 +66,12 @@ textarea {
   font-size: 16px;
   width: 100%;
   box-sizing: border-box; /* Include padding in width */
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--placeholder-color, #a9a9a9); /* Use CSS variable with a fallback */
+  opacity: 1; /* Override Firefox's default opacity */
 }
 
 button {

@@ -254,7 +254,7 @@ const BookDetailsPage = () => {
               className="book-action-button"
               style={{
                 backgroundColor: isRead ? theme.secondary : theme.accent,
-                color: isRead ? theme.background : theme.primary,
+                color: theme.primary,
               }}
             >
               {isRead ? "وضع علامة كغير مقروء" : "وضع علامة كمقروء"}
@@ -262,6 +262,7 @@ const BookDetailsPage = () => {
             <button
               onClick={handleRemoveFromReadingList}
               className="book-action-button remove"
+              style={{ color: theme.primary }}
             >
               إزالة من قائمة القراءة
             </button>
@@ -273,7 +274,7 @@ const BookDetailsPage = () => {
           className="book-action-button"
           style={{
             backgroundColor: isLiked ? theme.secondary : theme.accent,
-            color: isLiked ? theme.background : theme.primary,
+            color: theme.primary,
           }}
         >
           {isLiked ? "إزالة من المفضلة" : "إضافة إلى المفضلة"}
@@ -322,9 +323,9 @@ const BookDetailsPage = () => {
                     onError={(e) => { e.target.onerror = null; e.target.src = '/imgs/user.jpg'; }}
                   />
                   <div className="comment-content">
-                    <p className="comment-username" style={{ color: theme.background }}>{comment.username}</p>
-                    <p className="comment-text" style={{ color: theme.background }}>{comment.text}</p>
-                    <p className="comment-date" style={{ color: theme.background }}>{new Date(comment.createdAt).toLocaleDateString()}</p>
+                    <p className="comment-username" style={{ color: theme.primary }}>{comment.username}</p>
+                    <p className="comment-text" style={{ color: theme.primary }}>{comment.text}</p>
+                    <p className="comment-date" style={{ color: theme.primary }}>{new Date(comment.createdAt).toLocaleDateString()}</p>
                     <div className="comment-actions">
                       <span
                         onClick={() => handleToggleLike(comment._id)}

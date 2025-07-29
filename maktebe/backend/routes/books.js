@@ -181,7 +181,7 @@ router.post(
     const newComment = {
       user: req.user._id,
       username: req.user.username, // Use username from authenticated user
-      profilePicture: req.user.profilePicture || 'Untitled.jpg', // Default if not set
+      profilePicture: req.user.profilePicture || 'user.jpg', // Default if not set
       text,
     };
 

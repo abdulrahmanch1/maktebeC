@@ -1,5 +1,5 @@
 .reading-list-container {
-  padding: 20px;
+  padding: 0;
 }
 
 .reading-list-title {
@@ -41,4 +41,24 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+@media (max-width: 520px) {
+  .reading-list-title {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+  }
+
+  .reading-list-toggle-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px; /* Add space between stacked buttons */
+  }
+
+  .reading-list-toggle-button {
+    width: 80%; /* Make buttons wider on small screens */
+    margin: 0; /* Remove horizontal margins */
+    font-size: 0.9em; /* Reduce font size for smaller screens */
+  }
 }

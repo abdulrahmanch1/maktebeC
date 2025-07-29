@@ -40,15 +40,15 @@ const BookCard = ({ book }) => {
       </h2>
       <div className="book-card-actions">
         <button
-          onClick={handleReadClick}
-          className="read-button"
-          style={{
-            backgroundColor: theme.accent,
-            color: theme.primary,
-          }}
-        >
-          قراءة الكتاب
-        </button>
+            onClick={handleReadClick}
+            className="read-button"
+            style={{
+              backgroundColor: theme.accent,
+              color: theme.primary,
+            }}
+          >
+            اقرأ
+          </button>
         <span
           onClick={() => {
             if (!isLoggedIn) {

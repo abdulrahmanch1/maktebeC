@@ -7,4 +7,11 @@
 .main-content {
   flex-grow: 1;
   padding: 20px;
+  margin: 0; /* Remove margin */
+}
+
+@media (max-width: 344px) {
+  .main-content {
+    padding: 0;
+  }
 }
