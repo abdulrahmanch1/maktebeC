@@ -1,0 +1,44 @@
+.reading-list-container {
+  padding: 20px;
+}
+
+.reading-list-title {
+  text-align: center;
+}
+
+.reading-list-login-prompt {
+  text-align: center;
+  min-height: 80vh;
+}
+
+.reading-list-login-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.reading-list-login-button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.reading-list-toggle-buttons {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.reading-list-toggle-button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.reading-list-books-display {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
