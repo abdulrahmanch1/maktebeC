@@ -56,7 +56,21 @@ async function getBook(req, res, next) {
 // Get all books
 router.get('/', async (req, res) => {
   try {
-    const books = await Book.find();
+    const { search } = req.query;
+    let query = {};
+
+    if (search) {
+      query = {
+        $or: [
+          { title: { $regex: search, $options: 'i' } },
+          { author: { $regex: search, $options: 'i' } },
+          { category: { $regex: search, $options: 'i' } },
+          { keywords: { $regex: search, $options: 'i' } }, // Search in keywords
+        ],
+      };
+    }
+
+    const books = await Book.find(query);
     res.json(books);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -103,6 +117,7 @@ router.post(
     pages: req.body.pages,
     publishYear: req.body.publishYear,
     language: req.body.language,
+    keywords: req.body.keywords ? req.body.keywords.split(',').map(keyword => keyword.trim()) : [], // Process keywords
   });
 
   try {
@@ -143,6 +158,7 @@ router.patch(
   if (req.body.pages != null) res.book.pages = req.body.pages;
   if (req.body.publishYear != null) res.book.publishYear = req.body.publishYear;
   if (req.body.language != null) res.book.language = req.body.language;
+  if (req.body.keywords != null) res.book.keywords = req.body.keywords.split(',').map(keyword => keyword.trim()); // Process keywords
 
   try {
     const updatedBook = await res.book.save();

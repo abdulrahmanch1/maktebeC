@@ -20,6 +20,7 @@ const bookSchema = new mongoose.Schema({
       createdAt: { type: Date, default: Date.now },
     },
   ],
+  keywords: [{ type: String }], // Add keywords field as an array of strings
 });
 
 module.exports = mongoose.model('Book', bookSchema);

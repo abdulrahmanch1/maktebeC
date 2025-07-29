@@ -21,6 +21,7 @@ const AdminPage = () => {
   const [pages, setPages] = useState("");
   const [publishYear, setPublishYear] = useState("");
   const [language, setLanguage] = useState("");
+  const [keywords, setKeywords] = useState(""); // New state for keywords
   const [categories] = useState(["قصص أطفال", "كتب دينية", "كتب تجارية", "كتب رومانسية", "كتب بوليسية", "أدب", "تاريخ", "علوم", "فلسفة", "تكنولوجيا", "سيرة ذاتية", "شعر", "فن", "طبخ"]);
   const [editingBook, setEditingBook] = useState(null);
 
@@ -36,6 +37,7 @@ const AdminPage = () => {
     setPages("");
     setPublishYear("");
     setLanguage("");
+    setKeywords(""); // Clear keywords
     setEditingBook(null);
     navigate('/admin');
   }, [navigate]);
@@ -53,6 +55,7 @@ const AdminPage = () => {
           setPages(book.pages);
           setPublishYear(book.publishYear);
           setLanguage(book.language);
+          setKeywords(book.keywords ? book.keywords.join(', ') : ''); // Set keywords
         })
         .catch(error => {
           toast.error("الكتاب المراد تعديله غير موجود");
@@ -75,6 +78,7 @@ const AdminPage = () => {
     formData.append("pages", pages);
     formData.append("publishYear", publishYear);
     formData.append("language", language);
+    formData.append("keywords", keywords); // Append keywords
     if (cover) formData.append("cover", cover);
     if (pdfFile) formData.append("pdfFile", pdfFile);
     try {
@@ -172,6 +176,10 @@ const AdminPage = () => {
           <div className="admin-form-group">
             <label>ملف PDF</label>
             <input type="file" accept="application/pdf" onChange={(e) => setPdfFile(e.target.files[0])} style={{ border: `1px solid ${theme.accent}`, backgroundColor: theme.background, color: theme.primary }} />
+          </div>
+          <div className="admin-form-group">
+            <label>الكلمات المفتاحية (افصل بينها بفاصلة)</label>
+            <input type="text" placeholder="أدخل كلمات مفتاحية" value={keywords} onChange={(e) => setKeywords(e.target.value)} style={{ border: `1px solid ${theme.accent}`, backgroundColor: theme.background, color: theme.primary }} />
           </div>
           <button type="submit" className="admin-form-button" style={{ backgroundColor: theme.accent, color: theme.primary }}>{editingBook ? "تحديث الكتاب" : "إضافة الكتاب"}</button>
           {editingBook && (
