@@ -127,6 +127,8 @@
   object-fit: cover;
   border: 4px solid;
 }
+<<<<<<< HEAD
+=======
 
 @media (max-width: 768px) {
   .settings-container {
@@ -150,3 +152,4 @@
     padding: 20px;
   }
 }
+>>>>>>> 1188a9b (feat: Implement email verification for user registration)

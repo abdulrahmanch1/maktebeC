@@ -26,7 +26,10 @@ const AppRoutes = () => {
           <Route path="settings" element={<SettingsPage />} />
           <Route path="book/:id" element={<BookDetailsPage />} />
           <Route path="admin" element={<AdminPage />} />
+<<<<<<< HEAD
+=======
           <Route path="admin/books" element={<AdminBooksPage />} />
+>>>>>>> 1188a9b (feat: Implement email verification for user registration)
           <Route path="admin/contact-messages" element={<ContactMessagesPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />

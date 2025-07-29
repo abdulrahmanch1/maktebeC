@@ -5,6 +5,7 @@
   align-items: center;
 }
 
+<<<<<<< HEAD
 .header-content {
   display: flex;
   justify-content: space-between;
@@ -71,4 +72,3 @@
     display: none; /* Hide logout button on header for very small screens */
   }
 }
-

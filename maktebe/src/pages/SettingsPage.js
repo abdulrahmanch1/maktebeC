@@ -41,7 +41,11 @@ const SettingsPage = () => {
         <div
           className={`settings-sidebar-item ${activeSection === "account" ? "active" : ""}`}
           style={{
+<<<<<<< HEAD
+            color: activeSection === "account" ? theme.accent : theme.background,
+=======
             color: activeSection === "account" ? theme.background : theme.primary,
+>>>>>>> 1188a9b (feat: Implement email verification for user registration)
             backgroundColor: activeSection === "account" ? theme.primary : "transparent",
           }}
           onClick={() => setActiveSection("account")}
@@ -52,7 +56,11 @@ const SettingsPage = () => {
         <div
           className={`settings-sidebar-item ${activeSection === "appearance" ? "active" : ""}`}
           style={{
+<<<<<<< HEAD
+            color: activeSection === "appearance" ? theme.accent : theme.background,
+=======
             color: activeSection === "appearance" ? theme.background : theme.primary,
+>>>>>>> 1188a9b (feat: Implement email verification for user registration)
             backgroundColor: activeSection === "appearance" ? theme.primary : "transparent",
           }}
           onClick={() => setActiveSection("appearance")}
@@ -63,7 +71,11 @@ const SettingsPage = () => {
         <div
           className={`settings-sidebar-item ${activeSection === "security" ? "active" : ""}`}
           style={{
+<<<<<<< HEAD
+            color: activeSection === "security" ? theme.accent : theme.background,
+=======
             color: activeSection === "security" ? theme.background : theme.primary,
+>>>>>>> 1188a9b (feat: Implement email verification for user registration)
             backgroundColor: activeSection === "security" ? theme.primary : "transparent",
           }}
           onClick={() => setActiveSection("security")}
@@ -74,7 +86,11 @@ const SettingsPage = () => {
         <div
           className={`settings-sidebar-item ${activeSection === "contact" ? "active" : ""}`}
           style={{
+<<<<<<< HEAD
+            color: activeSection === "contact" ? theme.accent : theme.background,
+=======
             color: activeSection === "contact" ? theme.background : theme.primary,
+>>>>>>> 1188a9b (feat: Implement email verification for user registration)
             backgroundColor: activeSection === "contact" ? theme.primary : "transparent",
           }}
           onClick={() => setActiveSection("contact")}
@@ -236,7 +252,11 @@ const AppearanceSettings = () => {
               style={{ backgroundColor: themes[themeName].background, color: themes[themeName].primary, boxShadow: theme.primary === themes[themeName].primary ? `0 0 15px ${themes[themeName].accent}` : '' }}
               onClick={() => toggleTheme(themeName)}
             >
+<<<<<<< HEAD
+              {themeName}
+=======
               {themes[themeName].name}
+>>>>>>> 1188a9b (feat: Implement email verification for user registration)
             </div>
           ))}
         </div>

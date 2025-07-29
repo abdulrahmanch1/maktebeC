@@ -55,12 +55,15 @@ const favoriteValidationRules = () => {
   ];
 };
 
+<<<<<<< HEAD
+=======
 const paramBookIdValidationRules = () => {
   return [
     param('bookId').isMongoId().withMessage('معرف الكتاب في المسار غير صالح.')
   ];
 };
 
+>>>>>>> 1188a9b (feat: Implement email verification for user registration)
 const readingListValidationRules = () => {
   return [
     body('bookId').isMongoId().withMessage('معرف الكتاب غير صالح.')

@@ -165,6 +165,8 @@
   font-size: 0.8em;
   margin-left: 10px;
 }
+<<<<<<< HEAD
+=======
 
 @media (max-width: 768px) {
   .book-details-container {
@@ -172,3 +174,4 @@
     align-items: center;
   }
 }
+>>>>>>> 1188a9b (feat: Implement email verification for user registration)

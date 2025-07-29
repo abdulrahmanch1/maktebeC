@@ -263,14 +263,22 @@ router.post('/:userId/favorites', protect, favoriteValidationRules(), handleVali
       user.favorites.push(bookId);
       await user.save();
     }
+<<<<<<< HEAD
     res.json({ favorites: user.favorites });
+=======
+    res.json({ favorites: user.favorites });
+>>>>>>> 1188a9b (feat: Implement email verification for user registration)
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
 // Remove a book from user's favorites (protected)
+<<<<<<< HEAD
+router.delete('/:userId/favorites/:bookId', protect, favoriteValidationRules(), handleValidationErrors, async (req, res) => {
+=======
 router.delete('/:userId/favorites/:bookId', protect, paramBookIdValidationRules(), handleValidationErrors, async (req, res) => {
+>>>>>>> 1188a9b (feat: Implement email verification for user registration)
   try {
     const userId = req.params.userId;
     const bookId = req.params.bookId;
@@ -287,7 +295,11 @@ router.delete('/:userId/favorites/:bookId', protect, paramBookIdValidationRules(
 
     user.favorites = user.favorites.filter(favId => favId.toString() !== bookId);
     await user.save();
+<<<<<<< HEAD
     res.json({ favorites: user.favorites });
+=======
+    res.json({ favorites: user.favorites });
+>>>>>>> 1188a9b (feat: Implement email verification for user registration)
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
