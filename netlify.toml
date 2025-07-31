@@ -6,9 +6,6 @@
   directory = "backend"
   node_bundler = "esbuild"
 
-[[plugins]]
-  package = "@netlify/plugin-functions-install-core"
-
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/api/:splat"
