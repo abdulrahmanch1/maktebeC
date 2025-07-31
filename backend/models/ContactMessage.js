@@ -1,11 +1,12 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const mongoose = require('mongoose');
 
-const ContactMessage = sequelize.define('ContactMessage', {
-  subject: { type: DataTypes.STRING, allowNull: false },
-  message: { type: DataTypes.TEXT, allowNull: false },
-  email: { type: DataTypes.STRING, allowNull: false },
-  username: { type: DataTypes.STRING, defaultValue: 'Guest' },
+const contactMessageSchema = new mongoose.Schema({
+  subject: { type: String, required: true },
+  message: { type: String, required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null }, // Optional: if user is logged in
+  email: { type: String, required: true },
+  username: { type: String, default: 'Guest' },
+  createdAt: { type: Date, default: Date.now },
 });
 
-module.exports = ContactMessage;
+module.exports = mongoose.model('ContactMessage', contactMessageSchema);
