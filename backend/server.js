@@ -50,5 +50,13 @@ if (!DB_URI) {
     });
 }
 
+// Serve frontend build
+app.use(express.static(path.join(__dirname, '../build')));
+
+// Catch-all route for SPA
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../build', 'index.html'));
+});
+
 // Export the app for Vercel
 module.exports = app;
