@@ -22,8 +22,8 @@ const LoginPage = () => {
   return (
     <div className="auth-container" style={{ backgroundColor: theme.background, color: theme.primary }}>
       <h1 className="auth-title" style={{ color: theme.primary }}>تسجيل الدخول</h1>
-      <form onSubmit={handleSubmit} className="auth-form" style={{ backgroundColor: theme.secondary, color: theme.background }}>
-        <label style={{ color: theme.background }}>البريد الإلكتروني:</label>
+      <form onSubmit={handleSubmit} className="auth-form" style={{ backgroundColor: theme.secondary, color: theme.primary }}>
+        <label>البريد الإلكتروني:</label>
         <input
           type="email"
           placeholder="البريد الإلكتروني"
@@ -32,7 +32,7 @@ const LoginPage = () => {
           required
           style={{ backgroundColor: theme.background, color: theme.primary, borderColor: theme.accent }}
         />
-        <label style={{ color: theme.background }}>كلمة المرور:</label>
+        <label>كلمة المرور:</label>
         <input
           type="password"
           placeholder="كلمة المرور"

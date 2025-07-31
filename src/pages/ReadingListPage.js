@@ -13,7 +13,7 @@ import './ReadingListPage.css'; // Import the CSS file
 const ReadingListPage = () => {
   const { theme } = useContext(ThemeContext);
   const { user, isLoggedIn, token } = useContext(AuthContext);
-  const [showReadBooks, setShowReadBooks] = useState(true);
+  const [showReadBooks, setShowReadBooks] = useState(false);
   const [readingListBooks, setReadingListBooks] = useState([]);
 
   const { data: userData, loading, error } = useFetch(
@@ -74,16 +74,6 @@ const ReadingListPage = () => {
 
       <div className="reading-list-toggle-buttons">
         <button
-          onClick={() => setShowReadBooks(true)}
-          className="reading-list-toggle-button"
-          style={{
-            backgroundColor: showReadBooks ? theme.accent : theme.secondary,
-            color: theme.primary,
-          }}
-        >
-          الكتب التي تم قراءتها
-        </button>
-        <button
           onClick={() => setShowReadBooks(false)}
           className="reading-list-toggle-button"
           style={{
@@ -92,6 +82,16 @@ const ReadingListPage = () => {
           }}
         >
           الكتب التي لم تتم قراءتها
+        </button>
+        <button
+          onClick={() => setShowReadBooks(true)}
+          className="reading-list-toggle-button"
+          style={{
+            backgroundColor: showReadBooks ? theme.accent : theme.secondary,
+            color: theme.primary,
+          }}
+        >
+          الكتب التي تم قراءتها
         </button>
       </div>
 

@@ -1,4 +1,4 @@
-const { body, validationResult } = require('express-validator');
+const { body, validationResult, param } = require('express-validator');
 
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
@@ -55,6 +55,12 @@ const favoriteValidationRules = () => {
   ];
 };
 
+const paramBookIdValidationRules = () => {
+  return [
+    param('bookId').isMongoId().withMessage('معرف الكتاب في المسار غير صالح.')
+  ];
+};
+
 const readingListValidationRules = () => {
   return [
     body('bookId').isMongoId().withMessage('معرف الكتاب غير صالح.')
@@ -76,5 +82,6 @@ module.exports = {
   userUpdateValidationRules,
   favoriteValidationRules,
   readingListValidationRules,
-  readingStatusValidationRules
+  readingStatusValidationRules,
+  paramBookIdValidationRules
 };

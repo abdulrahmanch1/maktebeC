@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
@@ -46,15 +46,15 @@ const ContactMessagesPage = () => {
         <p style={{ textAlign: "center", color: theme.primary }}>جاري تحميل الرسائل...</p>
       ) : messagesError ? (
         <p style={{ textAlign: "center", color: "red" }}>فشل تحميل الرسائل: {messagesError.message}</p>
-      ) : contactMessages.length > 0 ? (
+      ) : (contactMessages && contactMessages.length > 0) ? (
         <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
           {contactMessages.map((message) => (
             <div key={message._id} className="admin-book-item" style={{ backgroundColor: theme.secondary }}>
               <div>
-                <p style={{ color: theme.background }}><strong>الموضوع:</strong> {message.subject}</p>
-                <p style={{ color: theme.background }}><strong>الرسالة:</strong> {message.message}</p>
-                <p style={{ color: theme.background }}><strong>المرسل:</strong> {message.username} ({message.email})</p>
-                <p style={{ color: theme.background }}><strong>التاريخ:</strong> {new Date(message.createdAt).toLocaleDateString()}</p>
+                <p style={{ color: theme.primary }}><strong>الموضوع:</strong> {message.subject}</p>
+                <p style={{ color: theme.primary }}><strong>الرسالة:</strong> {message.message}</p>
+                <p style={{ color: theme.primary }}><strong>المرسل:</strong> {message.username} ({message.email})</p>
+                <p style={{ color: theme.primary }}><strong>التاريخ:</strong> {new Date(message.createdAt).toLocaleDateString()}</p>
               </div>
               <div>
                 <button onClick={() => handleDeleteMessage(message._id)} className="delete">حذف الرسالة</button>

@@ -12,6 +12,7 @@ const SettingsPage = () => {
   const { theme } = useContext(ThemeContext);
   const { isLoggedIn } = useContext(AuthContext);
   const [activeSection, setActiveSection] = useState("account");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,6 +20,11 @@ const SettingsPage = () => {
       navigate("/login");
     }
   }, [isLoggedIn, navigate]);
+
+  const handleSectionChange = (section) => {
+    setActiveSection(section);
+    setIsDropdownOpen(false); // Close dropdown on selection
+  };
 
   const renderSection = () => {
     switch (activeSection) {
@@ -35,63 +41,71 @@ const SettingsPage = () => {
     }
   };
 
+  const sidebarItems = [
+    { key: "account", icon: "👤", text: "إعدادات الحساب" },
+    { key: "appearance", icon: "🎨", text: "المظهر" },
+    { key: "security", icon: "🔒", text: "الأمان" },
+    { key: "contact", icon: "✉️", text: "تواصل معنا" },
+  ];
+
   return (
     <div className="settings-container" style={{ backgroundColor: theme.background, color: theme.primary }}>
+      {/* Desktop Sidebar */}
       <aside className="settings-sidebar" style={{ borderColor: theme.secondary, backgroundColor: theme.secondary }}>
-        <div
-          className={`settings-sidebar-item ${activeSection === "account" ? "active" : ""}`}
-          style={{
-            color: activeSection === "account" ? theme.accent : theme.background,
-            backgroundColor: activeSection === "account" ? theme.primary : "transparent",
-          }}
-          onClick={() => setActiveSection("account")}
-        >
-          <span>👤</span>
-          <span>إعدادات الحساب</span>
-        </div>
-        <div
-          className={`settings-sidebar-item ${activeSection === "appearance" ? "active" : ""}`}
-          style={{
-            color: activeSection === "appearance" ? theme.accent : theme.background,
-            backgroundColor: activeSection === "appearance" ? theme.primary : "transparent",
-          }}
-          onClick={() => setActiveSection("appearance")}
-        >
-          <span>🎨</span>
-          <span>المظهر</span>
-        </div>
-        <div
-          className={`settings-sidebar-item ${activeSection === "security" ? "active" : ""}`}
-          style={{
-            color: activeSection === "security" ? theme.accent : theme.background,
-            backgroundColor: activeSection === "security" ? theme.primary : "transparent",
-          }}
-          onClick={() => setActiveSection("security")}
-        >
-          <span>🔒</span>
-          <span>الأمان</span>
-        </div>
-        <div
-          className={`settings-sidebar-item ${activeSection === "contact" ? "active" : ""}`}
-          style={{
-            color: activeSection === "contact" ? theme.accent : theme.background,
-            backgroundColor: activeSection === "contact" ? theme.primary : "transparent",
-          }}
-          onClick={() => setActiveSection("contact")}
-        >
-          <span>✉️</span>
-          <span>تواصل معنا</span>
-        </div>
+        {sidebarItems.map(item => (
+          <div
+            key={item.key}
+            className={`settings-sidebar-item ${activeSection === item.key ? "active" : ""}`}
+            style={{
+              color: activeSection === item.key ? theme.background : theme.primary,
+              backgroundColor: activeSection === item.key ? theme.primary : "transparent",
+            }}
+            onClick={() => handleSectionChange(item.key)}
+          >
+            <span>{item.icon}</span>
+            <span className="settings-sidebar-text">{item.text}</span>
+          </div>
+        ))}
       </aside>
+
+      {/* Mobile Header & Dropdown */}
+      <div className="settings-mobile-header">
+        <button className="settings-mobile-button" onClick={() => setIsDropdownOpen(!isDropdownOpen)} style={{ backgroundColor: theme.secondary, color: theme.primary, borderColor: theme.accent }}>
+          <span>⚙️</span>
+          <span>الملف الشخصي</span>
+        </button>
+        {isDropdownOpen && (
+          <div className="settings-dropdown" style={{ backgroundColor: theme.secondary, borderColor: theme.accent }}>
+            {sidebarItems.map(item => (
+              <div
+                key={item.key}
+                className="settings-dropdown-item"
+                style={{
+                  color: activeSection === item.key ? theme.background : theme.primary,
+                  backgroundColor: activeSection === item.key ? theme.primary : "transparent",
+                  borderBottom: `1px solid ${theme.accent}`
+                }}
+                onClick={() => handleSectionChange(item.key)}
+              >
+                <span>{item.icon}</span>
+                <span>{item.text}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
       <main className="settings-content">{renderSection()}</main>
     </div>
   );
 };
 
+// ... (rest of the components: ContactUsSection, AccountSettings, etc. remain the same)
+
 // Contact Us Section
 const ContactUsSection = () => {
   const { theme } = useContext(ThemeContext);
-  const { user, isLoggedIn } = useContext(AuthContext); // Get user and isLoggedIn from AuthContext
+  const { user } = useContext(AuthContext); // Get user from AuthContext
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
 
@@ -192,23 +206,21 @@ const AccountSettings = () => {
   return (
     <div className="settings-section">
       <h2 style={{ borderColor: theme.accent, color: theme.primary }}>إعدادات الحساب</h2>
-      <div className="profile-info-section" style={{ display: "flex", alignItems: "center", marginBottom: "20px", gap: "20px" }}>
+      <div className="profile-info-section">
         <img
           src={user && user.profilePicture && (user.profilePicture !== 'Untitled.jpg' && user.profilePicture !== 'user.jpg') ? `${API_URL}/uploads/${user.profilePicture}` : '/imgs/user.jpg'}
-          alt="Profile"
+          alt="صورة الملف الشخصي"
           className="profile-picture"
           style={{ borderColor: theme.accent }}
           onError={(e) => { e.target.onerror = null; e.target.src = '/imgs/user.jpg'; }}
         />
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-          <span style={{ color: theme.primary, fontSize: "1em" }}>{user ? user.email : "غير متاح"}</span>
-          <input type="file" onChange={handleImageChange} ref={fileInputRef} style={{ display: 'none' }} />
-          <button className="button" onClick={() => fileInputRef.current.click()} style={{ backgroundColor: theme.accent, color: theme.primary, marginTop: "10px" }}>
-            تغيير الصورة
-          </button>
-        </div>
+        <span className="profile-email" style={{ color: theme.primary }}>{user ? user.email : "غير متاح"}</span>
+        <input type="file" onChange={handleImageChange} ref={fileInputRef} style={{ display: 'none' }} />
+        <button className="button change-picture-button" onClick={() => fileInputRef.current.click()} style={{ backgroundColor: theme.accent, color: theme.primary }}>
+          تغيير الصورة
+        </button>
       </div>
-      <div className="form-group">
+      <div className="form-group username-form-group">
         <label>اسم المستخدم</label>
         <input type="text" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} style={{ borderColor: theme.secondary, backgroundColor: theme.background, color: theme.primary }} />
         <button className="button" onClick={handleUsernameUpdate} style={{ backgroundColor: theme.accent, color: theme.primary }}>
@@ -236,7 +248,7 @@ const AppearanceSettings = () => {
               style={{ backgroundColor: themes[themeName].background, color: themes[themeName].primary, boxShadow: theme.primary === themes[themeName].primary ? `0 0 15px ${themes[themeName].accent}` : '' }}
               onClick={() => toggleTheme(themeName)}
             >
-              {themeName}
+              {themes[themeName].name}
             </div>
           ))}
         </div>

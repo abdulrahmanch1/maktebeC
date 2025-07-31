@@ -14,7 +14,8 @@ const {
   userUpdateValidationRules,
   favoriteValidationRules,
   readingListValidationRules,
-  readingStatusValidationRules
+  readingStatusValidationRules,
+  paramBookIdValidationRules
 } = require('../middleware/validationMiddleware');
 
 // Multer setup for profile picture uploads
@@ -72,9 +73,9 @@ router.post('/register', registerValidationRules(), handleValidationErrors, asyn
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: newUser.email,
-      subject: 'تأكيد حسابك في مكتبة الكتب',
+      subject: 'تأكيد حسابك في دار القرَاء',
       html: `<p>مرحباً ${newUser.username},</p>
-             <p>يرجى النقر على الرابط التالي لتأكيد حسابك في مكتبة الكتب:</p>
+             <p>يرجى النقر على الرابط التالي لتأكيد حسابك في دار القرَاء:</p>
              <p><a href="${verificationUrl}">${verificationUrl}</a></p>
              <p>هذا الرابط صالح لمدة ساعة واحدة.</p>
              <p>شكراً لك!</p>`,
@@ -139,7 +140,7 @@ router.post('/login', loginValidationRules(), handleValidationErrors, async (req
         token: generateToken(user._id),
       });
     } else {
-      res.status(401).json({ message: 'Invalid email or password' });
+      res.status(401).json({ message: 'البريد الإلكتروني أو كلمة المرور غير صحيحة.' });
     }
   } catch (err) {
     console.error("Error during login:", err); // More detailed error logging
@@ -258,18 +259,20 @@ router.post('/:userId/favorites', protect, favoriteValidationRules(), handleVali
       return res.status(404).json({ message: 'User not found' });
     }
 
+    // Add book to favorites if it's not already there
     if (!user.favorites.includes(bookId)) {
       user.favorites.push(bookId);
       await user.save();
     }
-    res.json(user.favorites);
+
+    res.json({ favorites: user.favorites });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
 // Remove a book from user's favorites (protected)
-router.delete('/:userId/favorites/:bookId', protect, favoriteValidationRules(), handleValidationErrors, async (req, res) => {
+router.delete('/:userId/favorites/:bookId', protect, paramBookIdValidationRules(), handleValidationErrors, async (req, res) => {
   try {
     const userId = req.params.userId;
     const bookId = req.params.bookId;
@@ -284,9 +287,11 @@ router.delete('/:userId/favorites/:bookId', protect, favoriteValidationRules(), 
       return res.status(404).json({ message: 'User not found' });
     }
 
-    user.favorites = user.favorites.filter(favId => favId.toString() !== bookId);
+    // Remove book from favorites
+    user.favorites = user.favorites.filter(id => id.toString() !== bookId);
     await user.save();
-    res.json(user.favorites);
+
+    res.json({ favorites: user.favorites });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -352,7 +357,7 @@ router.patch('/:userId/reading-list/:bookId', protect, readingStatusValidationRu
 });
 
 // Remove a book from user's reading list (protected)
-router.delete('/:userId/reading-list/:bookId', protect, readingListValidationRules(), handleValidationErrors, async (req, res) => {
+router.delete('/:userId/reading-list/:bookId', protect, paramBookIdValidationRules(), handleValidationErrors, async (req, res) => {
   try {
     const userId = req.params.userId;
     const bookId = req.params.bookId;

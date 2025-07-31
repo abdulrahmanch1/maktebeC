@@ -28,8 +28,9 @@ const BookCard = ({ book }) => {
     }}>
       <img
         src={`${API_URL}/uploads/${book.cover}`}
-        alt="صورة الكتاب"
+        alt={`غلاف كتاب ${book.title}`}
         className="book-card-image"
+        loading="lazy"
         onError={(e) => {
           e.target.onerror = null; // Prevent infinite loop
           e.target.src = "/imgs/no_cover_available.png";
@@ -40,15 +41,15 @@ const BookCard = ({ book }) => {
       </h2>
       <div className="book-card-actions">
         <button
-          onClick={handleReadClick}
-          className="read-button"
-          style={{
-            backgroundColor: theme.accent,
-            color: theme.primary,
-          }}
-        >
-          قراءة الكتاب
-        </button>
+            onClick={handleReadClick}
+            className="read-button"
+            style={{
+              backgroundColor: theme.accent,
+              color: theme.primary,
+            }}
+          >
+            اقرأ
+          </button>
         <span
           onClick={() => {
             if (!isLoggedIn) {

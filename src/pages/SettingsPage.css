@@ -49,10 +49,12 @@
 }
 
 .form-group {
-  margin-bottom: 25px;
+  margin-bottom: 35px; /* Increased margin-bottom */
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px; /* Increased gap for more space between elements */
+  width: 100%;
+  max-width: 450px;
 }
 
 .form-group label {
@@ -68,7 +70,6 @@
   border: 1px solid;
   font-size: 1em;
   width: 100%;
-  max-width: 450px;
   box-sizing: border-box;
 }
 
@@ -82,6 +83,14 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+.form-group .button {
+  width: 100%;
+}
+
+.username-form-group input[type="text"] {
+  margin-bottom: 10px; /* Add margin-bottom specifically to the username input */
+}
+
 .button:hover {
   transform: translateY(-2px);
 }
@@ -92,8 +101,10 @@
 
 .theme-options {
   display: flex;
+  flex-direction: column; /* Stack the buttons vertically */
+  align-items: center; /* Center them horizontally */
   gap: 15px;
-  flex-wrap: wrap;
+  width: 100%;
 }
 
 .theme-option {
@@ -103,6 +114,9 @@
   text-align: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   border: 2px solid transparent;
+  width: 90%;
+  max-width: 450px; /* Match the max-width of other form groups */
+  box-sizing: border-box; /* Ensure padding is included in the width */
 }
 
 .theme-option:hover {
@@ -113,11 +127,21 @@
   box-shadow: 0 0 15px;
 }
 
-.profile-picture-section {
+.profile-info-section {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+  gap: 15px; /* Space between items */
+  margin-bottom: 40px; /* Space below the section */
+}
+
+.profile-email {
+  font-size: 1em;
+}
+
+.change-picture-button {
+  width: 90%;
+  max-width: 300px; /* Optional: prevent button from becoming too large */
 }
 
 .profile-picture {
@@ -126,4 +150,100 @@
   border-radius: 50%;
   object-fit: cover;
   border: 4px solid;
+}
+
+/* Mobile Styles */
+.settings-mobile-header {
+  display: none; /* Hidden by default */
+  padding: 20px;
+  position: relative;
+}
+
+.settings-mobile-button {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.2em;
+  font-weight: bold;
+  border-radius: 8px;
+  border: 2px solid;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 2px solid;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.settings-dropdown-item {
+  padding: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1em;
+}
+
+.settings-dropdown-item.active {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}
+
+.settings-dropdown-item:not(:last-child) {
+  border-bottom: 1px solid;
+}
+
+@media (max-width: 860px) {
+  .settings-container {
+    flex-direction: column;
+  }
+
+  .settings-sidebar {
+    display: none; /* Hide desktop sidebar */
+  }
+
+  .settings-mobile-header {
+    display: block; /* Show mobile header */
+  }
+
+  .settings-content {
+    padding: 20px;
+  }
+
+  .settings-section h2 {
+    font-size: 1.8em;
+  }
+
+  .profile-picture {
+    width: 120px;
+    height: 120px;
+  }
+
+  .form-group {
+    gap: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-section h2 {
+    font-size: 1.5em; /* Further reduce heading font size */
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 360px) {
+  .profile-picture {
+    width: 100px;
+    height: 100px;
+  }
 }

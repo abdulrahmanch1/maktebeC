@@ -165,3 +165,11 @@
   font-size: 0.8em;
   margin-left: 10px;
 }
+
+@media (max-width: 768px) {
+  .book-details-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+}
