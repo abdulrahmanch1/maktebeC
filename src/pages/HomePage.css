@@ -35,6 +35,12 @@
   min-height: 70vh;
 }
 
+@media (max-width: 344px) {
+  .homepage-container {
+    padding: 0;
+  }
+}
+
 @media (max-width: 600px) {
   .search-filter-container {
     width: 100%; /* Ensure container takes full width */

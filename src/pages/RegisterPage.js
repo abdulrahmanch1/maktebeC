@@ -3,7 +3,6 @@ import React, { useContext, useState } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
 
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import { API_URL } from "../constants";
@@ -50,8 +49,8 @@ const RegisterPage = () => {
   return (
     <div className="auth-container" style={{ backgroundColor: theme.background, color: theme.primary }}>
       <h1 className="auth-title" style={{ color: theme.primary }}>إنشاء حساب</h1>
-      <form onSubmit={handleSubmit} className="auth-form" style={{ backgroundColor: theme.secondary, color: theme.background }}>
-        <label style={{ color: theme.background }}>اسم المستخدم:</label>
+      <form onSubmit={handleSubmit} className="auth-form" style={{ backgroundColor: theme.secondary, color: theme.primary }}>
+        <label>اسم المستخدم:</label>
         <input
           type="text"
           placeholder="اسم المستخدم"
@@ -60,7 +59,7 @@ const RegisterPage = () => {
           required
           style={{ backgroundColor: theme.background, color: theme.primary, borderColor: theme.accent }}
         />
-        <label style={{ color: theme.background }}>البريد الإلكتروني:</label>
+        <label>البريد الإلكتروني:</label>
         <input
           type="email"
           placeholder="البريد الإلكتروني"
@@ -69,7 +68,7 @@ const RegisterPage = () => {
           required
           style={{ backgroundColor: theme.background, color: theme.primary, borderColor: theme.accent }}
         />
-        <label style={{ color: theme.background }}>كلمة المرور:</label>
+        <label>كلمة المرور:</label>
         <input
           type="password"
           placeholder="كلمة المرور"

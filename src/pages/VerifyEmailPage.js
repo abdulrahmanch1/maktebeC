@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 import { ThemeContext } from '../contexts/ThemeContext';
@@ -25,18 +25,14 @@ const VerifyEmailPage = () => {
   }, [data, loading, navigate]);
 
   let message = 'جاري تأكيد بريدك الإلكتروني...';
-  let isError = false;
 
   if (!token) {
     message = 'رمز التحقق مفقود.';
-    isError = true;
   } else if (!loading) {
     if (error) {
       message = error.response?.data?.message || 'فشل تأكيد البريد الإلكتروني.';
-      isError = true;
     } else if (data) {
       message = data.message;
-      isError = false;
     }
   }
 

@@ -41,7 +41,7 @@ const Header = () => {
               <img
                 src={user && user.profilePicture && (user.profilePicture !== 'Untitled.jpg' && user.profilePicture !== 'user.jpg') ? `${API_URL}/uploads/${user.profilePicture}` : '/imgs/user.jpg'}
                 onError={(e) => { e.target.onerror = null; e.target.src = '/imgs/user.jpg'; }}
-                alt="user"
+                alt="صورة المستخدم"
                 className="header-user-avatar"
               />
               <button onClick={logout} className="header-button logout-button-header" style={{ backgroundColor: theme.accent, color: theme.primary }}>تسجيل الخروج</button>

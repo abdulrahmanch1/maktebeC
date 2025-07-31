@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { AuthContext } from "../contexts/AuthContext";
@@ -21,10 +21,26 @@ const AdminPage = () => {
   const [pages, setPages] = useState("");
   const [publishYear, setPublishYear] = useState("");
   const [language, setLanguage] = useState("");
-  const [categories, setCategories] = useState(["قصص أطفال", "كتب دينية", "كتب تجارية", "كتب رومانسية", "كتب بوليسية", "أدب", "تاريخ", "علوم", "فلسفة", "تكنولوجيا", "سيرة ذاتية", "شعر", "فن", "طبخ"]);
+  const [keywords, setKeywords] = useState(""); // New state for keywords
+  const [categories] = useState(["قصص أطفال", "كتب دينية", "كتب تجارية", "كتب رومانسية", "كتب بوليسية", "أدب", "تاريخ", "علوم", "فلسفة", "تكنولوجيا", "سيرة ذاتية", "شعر", "فن", "طبخ"]);
   const [editingBook, setEditingBook] = useState(null);
 
   const editBookId = searchParams.get('edit');
+
+  const clearForm = useCallback(() => {
+    setTitle("");
+    setAuthor("");
+    setCategory("");
+    setDescription("");
+    setCover(null);
+    setPdfFile(null);
+    setPages("");
+    setPublishYear("");
+    setLanguage("");
+    setKeywords(""); // Clear keywords
+    setEditingBook(null);
+    navigate('/admin');
+  }, [navigate]);
 
   useEffect(() => {
     if (editBookId) {
@@ -39,6 +55,7 @@ const AdminPage = () => {
           setPages(book.pages);
           setPublishYear(book.publishYear);
           setLanguage(book.language);
+          setKeywords(book.keywords ? book.keywords.join(', ') : ''); // Set keywords
         })
         .catch(error => {
           toast.error("الكتاب المراد تعديله غير موجود");
@@ -47,21 +64,7 @@ const AdminPage = () => {
     } else {
       clearForm();
     }
-  }, [editBookId, navigate]);
-
-  const clearForm = () => {
-    setTitle("");
-    setAuthor("");
-    setCategory("");
-    setDescription("");
-    setCover(null);
-    setPdfFile(null);
-    setPages("");
-    setPublishYear("");
-    setLanguage("");
-    setEditingBook(null);
-    navigate('/admin');
-  };
+  }, [editBookId, navigate, clearForm]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -75,11 +78,11 @@ const AdminPage = () => {
     formData.append("pages", pages);
     formData.append("publishYear", publishYear);
     formData.append("language", language);
+    formData.append("keywords", keywords); // Append keywords
     if (cover) formData.append("cover", cover);
     if (pdfFile) formData.append("pdfFile", pdfFile);
-
     try {
-      if (editingBook) {
+    if (editingBook) {
         await axios.patch(`${API_URL}/api/books/${editingBook._id}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -102,7 +105,6 @@ const AdminPage = () => {
       toast.error(error.response?.data?.message || "فشل حفظ الكتاب.");
     }
   };
-
   if (!isLoggedIn || user?.role !== 'admin') {
     return (
       <div className="admin-page-container" style={{ backgroundColor: theme.background, color: theme.primary, textAlign: "center" }}>
@@ -123,19 +125,19 @@ const AdminPage = () => {
         </Link>
       </div>
 
-      <div className="admin-form-container" style={{ backgroundColor: theme.secondary }}>
-        <h2 className="admin-form-title" style={{ color: theme.background }}>{editingBook ? "تعديل الكتاب" : "إضافة كتاب جديد"}</h2>
+      <div className="admin-form-container" style={{ backgroundColor: theme.secondary, color: theme.primary }}>
+        <h2 className="admin-form-title">{editingBook ? "تعديل الكتاب" : "إضافة كتاب جديد"}</h2>
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div className="admin-form-group">
-            <label style={{ color: theme.background }}>عنوان الكتاب</label>
+            <label>عنوان الكتاب</label>
             <input type="text" placeholder="أدخل عنوان الكتاب" value={title} onChange={(e) => setTitle(e.target.value)} required style={{ border: `1px solid ${theme.accent}`, backgroundColor: theme.background, color: theme.primary }} />
           </div>
           <div className="admin-form-group">
-            <label style={{ color: theme.background }}>اسم الكاتب</label>
+            <label>اسم الكاتب</label>
             <input type="text" placeholder="أدخل اسم الكاتب" value={author} onChange={(e) => setAuthor(e.target.value)} required style={{ border: `1px solid ${theme.accent}`, backgroundColor: theme.background, color: theme.primary }} />
           </div>
           <div className="admin-form-group">
-            <label style={{ color: theme.background }}>التصنيف</label>
+            <label>التصنيف</label>
             <input
               type="text"
               list="category-options"
@@ -152,28 +154,32 @@ const AdminPage = () => {
             </datalist>
           </div>
           <div className="admin-form-group">
-            <label style={{ color: theme.background }}>الوصف</label>
+            <label>الوصف</label>
             <textarea placeholder="أدخل وصف الكتاب" rows="4" value={description} onChange={(e) => setDescription(e.target.value)} required style={{ border: `1px solid ${theme.accent}`, backgroundColor: theme.background, color: theme.primary }}></textarea>
           </div>
           <div className="admin-form-group">
-            <label style={{ color: theme.background }}>عدد الصفحات</label>
+            <label>عدد الصفحات</label>
             <input type="number" placeholder="أدخل عدد الصفحات" value={pages} onChange={(e) => setPages(e.target.value)} required style={{ border: `1px solid ${theme.accent}`, backgroundColor: theme.background, color: theme.primary }} />
           </div>
           <div className="admin-form-group">
-            <label style={{ color: theme.background }}>سنة النشر</label>
+            <label>سنة النشر</label>
             <input type="number" placeholder="أدخل سنة النشر" value={publishYear} onChange={(e) => setPublishYear(e.target.value)} required style={{ border: `1px solid ${theme.accent}`, backgroundColor: theme.background, color: theme.primary }} />
           </div>
           <div className="admin-form-group">
-            <label style={{ color: theme.background }}>اللغة</label>
+            <label>اللغة</label>
             <input type="text" placeholder="أدخل اللغة" value={language} onChange={(e) => setLanguage(e.target.value)} required style={{ border: `1px solid ${theme.accent}`, backgroundColor: theme.background, color: theme.primary }} />
           </div>
           <div className="admin-form-group">
-            <label style={{ color: theme.background }}>صورة الغلاف</label>
+            <label>صورة الغلاف</label>
             <input type="file" accept="image/*" onChange={(e) => setCover(e.target.files[0])} style={{ border: `1px solid ${theme.accent}`, backgroundColor: theme.background, color: theme.primary }} />
           </div>
           <div className="admin-form-group">
-            <label style={{ color: theme.background }}>ملف PDF</label>
+            <label>ملف PDF</label>
             <input type="file" accept="application/pdf" onChange={(e) => setPdfFile(e.target.files[0])} style={{ border: `1px solid ${theme.accent}`, backgroundColor: theme.background, color: theme.primary }} />
+          </div>
+          <div className="admin-form-group">
+            <label>الكلمات المفتاحية (افصل بينها بفاصلة)</label>
+            <input type="text" placeholder="أدخل كلمات مفتاحية" value={keywords} onChange={(e) => setKeywords(e.target.value)} style={{ border: `1px solid ${theme.accent}`, backgroundColor: theme.background, color: theme.primary }} />
           </div>
           <button type="submit" className="admin-form-button" style={{ backgroundColor: theme.accent, color: theme.primary }}>{editingBook ? "تحديث الكتاب" : "إضافة الكتاب"}</button>
           {editingBook && (

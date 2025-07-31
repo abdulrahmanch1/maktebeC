@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
@@ -12,6 +11,11 @@ const MainLayout = () => {
   useEffect(() => {
     document.body.style.backgroundColor = theme.background;
     document.body.style.color = theme.primary;
+
+    // Set placeholder color based on theme brightness
+    const placeholderColor = theme.isDark ? '#999' : '#a9a9a9';
+    document.documentElement.style.setProperty('--placeholder-color', placeholderColor);
+
   }, [theme]);
 
   return (
