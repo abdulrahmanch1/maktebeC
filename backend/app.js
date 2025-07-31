@@ -1,9 +1,9 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const sequelize = require('./config/database');
 
 const app = express();
 
@@ -12,9 +12,6 @@ const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir);
 }
-
-// Set Mongoose strictQuery to true
-mongoose.set("strictQuery", true);
 
 // Middleware
 const allowedOrigins = [process.env.FRONTEND_URL, 'http://localhost:3000', 'http://localhost:3001', 'http://192.168.1.31:3000'].filter(Boolean);
@@ -65,17 +62,11 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-// Connect to MongoDB
-const DB_URI = process.env.MONGO_URI;
-
-if (DB_URI) {
-  mongoose.connect(DB_URI)
-  .then(() => console.log('MongoDB Connected...'))
-  .catch(err => {
-    console.error('MongoDB connection error:', err);
-  });
-} else {
-  console.error('MONGO_URI not defined in environment variables.');
-}
+// Sync database
+sequelize.sync().then(() => {
+  console.log('Database synced');
+}).catch(err => {
+  console.error('Failed to sync database:', err);
+});
 
 module.exports = app;
