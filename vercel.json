@@ -13,18 +13,5 @@
       }
     }
   ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "backend/server.js"
-    },
-    {
-      "src": "/uploads/(.*)",
-      "dest": "/backend/uploads/$1"
-    },
-    {
-      "src": "/((?!api/|static/).*)",
-      "dest": "/index.html"
-    }
-  ]
+  
 }
