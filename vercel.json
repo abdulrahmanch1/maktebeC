@@ -19,8 +19,7 @@
       "dest": "backend/server.js"
     },
     {
-      "src": "/(.*)",
-      "headers": { "Cache-Control": "no-cache" },
+      "src": "/((?!api/|static/).*)",
       "dest": "/index.html"
     }
   ]
