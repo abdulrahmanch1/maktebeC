@@ -1,6 +1,6 @@
-# مشروع مكتبة Maktebe
+# دار القرَاء
 
-مكتبة عربية مبنية بـ React (واجهة أمامية) و Node.js + Express + MongoDB (واجهة خلفية).
+دار القرَاء هي مكتبة عربية مبنية بـ React (واجهة أمامية) و Node.js + Express + MongoDB (واجهة خلفية).
 
 ## ️ المتطلبات
 - Node.js
@@ -51,55 +51,12 @@ REACT_APP_API_URL=http://localhost:5000
 
 ---
 
-## ️ السبب الرئيسي لرسالة الخطأ:
+## نشر على Vercel
 
-> **JsonWebTokenError: secret or public key must be provided**
+عند نشر المشروع على Vercel، يجب عليك تعيين متغيرات البيئة التالية في إعدادات المشروع على Vercel:
 
-هو أن **متغيّر البيئة `JWT_SECRET` غير معرّف** عند تشغيل الخادم.
-
----
-
-###  تفاصيل من الكود:
-
-في ملف `backend/middleware/authMiddleware.js`، يتم قراءة المتغير كالتالي:
-
-```js
-require('dotenv').config();
-const JWT_SECRET = process.env.JWT_SECRET;
-const decoded = jwt.verify(token, JWT_SECRET);
-```
-
-لكن إذا لم يكن هناك ملف `.env` في المجلد `backend/`، أو لم يتضمن هذا المتغيّر، فإن `jsonwebtoken` يُرجع الخطأ المذكور.
-
----
-
-###  كما يوضّح `README.md`:
-
-من الضروري إنشاء ملف `.env` داخل مجلد `backend` يحتوي على:
-
-```env
-JWT_SECRET=your_jwt_secret_key
-MONGO_URI=mongodb://localhost:27017/maktebe
-```
-
----
-
-### ✅ الحل:
-
-1. أنشئ ملف `.env` داخل مجلد `backend/`، بنفس مستوى `server.js`.
-
-2. أضف فيه:
-
-   ```env
-   JWT_SECRET=اختر_كلمة_سرية_للتوقيع
-   MONGO_URI=mongodb://localhost:27017/maktebe
-   ```
-
-3. ثم شغّل الخادم من داخل مجلد `backend`:
-
-   ```bash
-   cd backend
-   npm run dev
-   ```
-
-✅ بعد ذلك، سيتم تحميل المتغيرات البيئية بنجاح، ويختفي الخطأ المتعلق بـ JWT.
+- `MONGO_URI`: رابط قاعدة بيانات MongoDB الخاصة بك.
+- `JWT_SECRET`: مفتاح سري لتوقيع JWT.
+- `FRONTEND_URL`: رابط الواجهة الأمامية للمشروع على Vercel.
+- `EMAIL_USER`: عنوان البريد الإلكتروني الذي سيتم استخدامه لإرسال رسائل التحقق.
+- `EMAIL_PASS`: كلمة مرور البريد الإلكتروني.

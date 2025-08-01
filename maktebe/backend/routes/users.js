@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
     cb(null, path.join(__dirname, '../uploads')); // Destination folder for uploads
   },
   filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname); // Get the original extension
+    const ext = path.extname(file.originalname);
     cb(null, Date.now() + '-profile' + ext); // Use timestamp + '-profile' + original extension
   },
 });
@@ -69,13 +69,13 @@ router.post('/register', registerValidationRules(), handleValidationErrors, asyn
     const newUser = await user.save();
 
     // Send verification email
-    const verificationUrl = `${process.env.REACT_APP_API_URL}/api/users/verify-email/${newUser.verificationToken}`;
+    const verificationUrl = `${process.env.FRONTEND_URL}/verify-email/${newUser.verificationToken}`;
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: newUser.email,
-      subject: 'تأكيد حسابك في مكتبة الكتب',
+      subject: 'تأكيد حسابك في دار القرَاء',
       html: `<p>مرحباً ${newUser.username},</p>
-             <p>يرجى النقر على الرابط التالي لتأكيد حسابك في مكتبة الكتب:</p>
+             <p>يرجى النقر على الرابط التالي لتأكيد حسابك في دار القرَاء:</p>
              <p><a href="${verificationUrl}">${verificationUrl}</a></p>
              <p>هذا الرابط صالح لمدة ساعة واحدة.</p>
              <p>شكراً لك!</p>`,
@@ -404,4 +404,3 @@ router.get('/verify-email/:token', async (req, res) => {
 });
 
 module.exports = router;
-
