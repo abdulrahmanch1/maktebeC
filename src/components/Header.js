@@ -18,6 +18,10 @@ const Header = () => {
     setSidebarOpen(!isSidebarOpen);
   };
 
+  console.log("Header - isLoggedIn:", isLoggedIn);
+  console.log("Header - user:", user);
+  console.log("Header - user.profilePicture:", user?.profilePicture);
+
   return (
     <header className="header" style={{
       backgroundColor: theme.primary,
