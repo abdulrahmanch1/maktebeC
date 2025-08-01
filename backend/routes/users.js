@@ -8,6 +8,16 @@ const path = require('path');
 const crypto = require('crypto'); // Import crypto for token generation
 const nodemailer = require('nodemailer'); // Import nodemailer
 const cloudinary = require('cloudinary').v2; // Import Cloudinary
+const {
+  registerValidationRules,
+  loginValidationRules,
+  handleValidationErrors,
+  userUpdateValidationRules,
+  favoriteValidationRules,
+  readingListValidationRules,
+  readingStatusValidationRules,
+  paramBookIdValidationRules
+} = require('../middleware/validationMiddleware');
 
 // Configure Cloudinary
 cloudinary.config({
