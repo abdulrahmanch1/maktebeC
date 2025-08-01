@@ -30,6 +30,9 @@ const Header = () => {
         <nav className="header-nav">
           <Link to="/" className="header-link" style={{ color: theme.background }}>الرئيسية</Link>
           <Link to="/settings" className="header-link" style={{ color: theme.background }}>الإعدادات</Link>
+          {user && user.role === 'admin' && (
+            <Link to="/admin-dashboard" className="header-link" style={{ color: theme.background }}>لوحة التحكم</Link>
+          )}
           <Link to="/favorites" className="header-link" style={{ color: theme.background }}>المفضلة</Link>
           <Link to="/reading-list" className="header-link" style={{ color: theme.background }}>قائمة القراءة</Link>
         </nav>
