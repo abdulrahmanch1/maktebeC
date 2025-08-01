@@ -19,7 +19,15 @@
       "dest": "backend/server.js"
     },
     {
-      "src": "/((?!static/).*)",
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/imgs/(.*)",
+      "dest": "/imgs/$1"
+    },
+    {
+      "src": "/(.*)",
       "dest": "/index.html"
     }
   ]
