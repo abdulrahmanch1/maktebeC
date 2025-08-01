@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { AuthContext } from "../contexts/AuthContext";
-import { API_URL } from "../constants";
+
 import { FaBars } from 'react-icons/fa';
 import Sidebar from './Sidebar';
 import Overlay from './Overlay';
