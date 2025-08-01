@@ -20,7 +20,8 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/$1"
+      "headers": { "Cache-Control": "no-cache" },
+      "dest": "/index.html"
     }
   ]
 }

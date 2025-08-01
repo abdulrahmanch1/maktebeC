@@ -81,13 +81,13 @@ router.post('/register', registerValidationRules(), handleValidationErrors, asyn
              <p>شكراً لك!</p>`,
     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
+    /* transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error("Error sending verification email:", error);
       } else {
         console.log("Verification email sent:", info.response);
       }
-    });
+    }); */
 
     if (newUser) {
       res.status(201).json({
