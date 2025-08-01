@@ -4,8 +4,21 @@ import { ThemeContext } from "../contexts/ThemeContext";
 import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 import { toast } from 'react-toastify';
-import { API_URL } from "../constants";
+import { API_URL, CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY } from "../constants";
 import './AdminPage.css'; // Import the CSS file
+
+const uploadToCloudinary = async (file, resourceType) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', 'unsigned_upload'); // You might need to configure an unsigned upload preset in Cloudinary
+  formData.append('cloud_name', CLOUDINARY_CLOUD_NAME);
+  formData.append('api_key', CLOUDINARY_API_KEY);
+
+  const response = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`, formData, {
+    headers: { "X-Requested-With": "XMLHttpRequest" },
+  });
+  return response.data.secure_url;
+};
 
 const AdminPage = () => {
   const { theme } = useContext(ThemeContext);
@@ -70,30 +83,37 @@ const AdminPage = () => {
     e.preventDefault();
     if (!token) return toast.error('الرجاء تسجيل الدخول مرة أخرى.');
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("author", author);
-    formData.append("category", category);
-    formData.append("description", description);
-    formData.append("pages", pages);
-    formData.append("publishYear", publishYear);
-    formData.append("language", language);
-    formData.append("keywords", keywords); // Append keywords
-    if (cover) formData.append("cover", cover);
-    if (pdfFile) formData.append("pdfFile", pdfFile);
+    const bookData = {
+      title,
+      author,
+      category,
+      description,
+      pages,
+      publishYear,
+      language,
+      keywords: keywords.split(',').map(keyword => keyword.trim()),
+    };
+
     try {
-    if (editingBook) {
-        await axios.patch(`${API_URL}/api/books/${editingBook._id}`, formData, {
+      if (cover) {
+        const coverUrl = await uploadToCloudinary(cover, 'image');
+        bookData.cover = coverUrl;
+      }
+      if (pdfFile) {
+        const pdfUrl = await uploadToCloudinary(pdfFile, 'raw'); // Use 'raw' for PDF files
+        bookData.pdfFile = pdfUrl;
+      }
+
+      if (editingBook) {
+        await axios.patch(`${API_URL}/api/books/${editingBook._id}`, bookData, {
           headers: {
-            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
           },
         });
         toast.success("تم تحديث الكتاب بنجاح!");
       } else {
-        await axios.post(`${API_URL}/api/books`, formData, {
+        await axios.post(`${API_URL}/api/books`, bookData, {
           headers: {
-            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
           },
         });
@@ -127,7 +147,7 @@ const AdminPage = () => {
 
       <div className="admin-form-container" style={{ backgroundColor: theme.secondary, color: theme.primary }}>
         <h2 className="admin-form-title">{editingBook ? "تعديل الكتاب" : "إضافة كتاب جديد"}</h2>
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <form onSubmit={handleSubmit}>
           <div className="admin-form-group">
             <label>عنوان الكتاب</label>
             <input type="text" placeholder="أدخل عنوان الكتاب" value={title} onChange={(e) => setTitle(e.target.value)} required style={{ border: `1px solid ${theme.accent}`, backgroundColor: theme.background, color: theme.primary }} />
