@@ -5,23 +5,18 @@ const multer = require('multer'); // Add multer
 const path = require('path');
 const { protect, admin } = require('../middleware/authMiddleware'); // Import auth middleware
 const User = require('../models/User'); // Import User model
-const {
-  bookValidationRules,
-  commentValidationRules,
-  handleValidationErrors,
-} = require('../middleware/validationMiddleware');
+const cloudinary = require('cloudinary').v2; // Import Cloudinary
 
-// Multer setup for file uploads
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../uploads')); // Destination folder for uploads
-  },
-  filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname);
-    cb(null, Date.now() + ext);
-  },
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-const upload = multer({ 
+
+// Multer setup for file uploads (using memory storage for Cloudinary)
+const storage = multer.memoryStorage();
+const upload = multer({
   storage: storage,
   fileFilter: function (req, file, cb) {
     if (file.fieldname === 'cover') {
@@ -112,8 +107,8 @@ router.post(
     author: req.body.author,
     category: req.body.category,
     description: req.body.description,
-    cover: req.files && req.files.cover ? req.files.cover[0].filename : '',
-    pdfFile: req.files && req.files.pdfFile ? req.files.pdfFile[0].filename : '',
+    cover: req.files && req.files.cover ? (await cloudinary.uploader.upload(`data:${req.files.cover[0].mimetype};base64,${req.files.cover[0].buffer.toString('base64')}`, { folder: 'book_covers' })).secure_url : '',
+    pdfFile: req.files && req.files.pdfFile ? (await cloudinary.uploader.upload(`data:${req.files.pdfFile[0].mimetype};base64,${req.files.pdfFile[0].buffer.toString('base64')}`, { folder: 'book_pdfs', resource_type: 'raw' })).secure_url : '',
     pages: req.body.pages,
     publishYear: req.body.publishYear,
     language: req.body.language,
@@ -144,13 +139,15 @@ router.patch(
   if (req.body.description != null) res.book.description = req.body.description;
 
   if (req.files && req.files.cover) {
-    res.book.cover = req.files.cover[0].filename;
+    const result = await cloudinary.uploader.upload(`data:${req.files.cover[0].mimetype};base64,${req.files.cover[0].buffer.toString('base64')}`, { folder: 'book_covers' });
+    res.book.cover = result.secure_url;
   } else if (req.body.cover != null) {
     res.book.cover = req.body.cover;
   }
 
   if (req.files && req.files.pdfFile) {
-    res.book.pdfFile = req.files.pdfFile[0].filename;
+    const result = await cloudinary.uploader.upload(`data:${req.files.pdfFile[0].mimetype};base64,${req.files.pdfFile[0].buffer.toString('base64')}`, { folder: 'book_pdfs', resource_type: 'raw' });
+    res.book.pdfFile = result.secure_url;
   } else if (req.body.pdfFile != null) {
     res.book.pdfFile = req.body.pdfFile;
   }
