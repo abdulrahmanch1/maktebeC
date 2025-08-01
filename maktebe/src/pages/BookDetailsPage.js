@@ -26,6 +26,11 @@ const BookDetailsPage = () => {
     if (bookData) {
       setBook(bookData);
       setBookComments(bookData.comments || []);
+      document.title = `مكتبة الكتب | ${bookData.title} - ${bookData.author}`;
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', bookData.description);
+      }
 
       // Check if book is in reading list
       if (user && user.readingList) {
@@ -211,13 +216,38 @@ const BookDetailsPage = () => {
 
   const isLiked = isFavorite(book._id);
 
+  const bookSchema = {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    "name": book.title,
+    "author": {
+      "@type": "Person",
+      "name": book.author
+    },
+    "bookFormat": "http://schema.org/EBook", // Assuming it's an e-book
+    "inLanguage": book.language,
+    "numberOfPages": book.pages,
+    "description": book.description,
+    "image": `${API_URL}/uploads/${book.cover}`,
+    "url": window.location.href,
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.5", // Placeholder, ideally from user ratings
+      "reviewCount": book.comments ? book.comments.length : 0 // Number of comments as review count
+    }
+  };
+
   return (
     <div style={{ backgroundColor: theme.background, color: theme.primary, padding: "40px 20px", display: "flex", flexDirection: "row-reverse", justifyContent: "center", alignItems: "flex-start", gap: "40px", flexWrap: "wrap" }}>
+      <script type="application/ld+json">
+        {JSON.stringify(bookSchema)}
+      </script>
       <div className="book-cover-section">
         <img
           src={`${API_URL}/uploads/${book.cover}`}
-          alt={book.title}
+          alt={`غلاف كتاب ${book.title}`}
           className="book-cover-image"
+          loading="lazy"
         />
       </div>
       <div className="book-info-section">
@@ -318,7 +348,7 @@ const BookDetailsPage = () => {
                 <div key={comment._id} className="comment-item" style={{ backgroundColor: theme.secondary }}>
                   <img
                     src={comment.profilePicture && (comment.profilePicture !== 'Untitled.jpg' && comment.profilePicture !== 'user.jpg') ? `${API_URL}/uploads/${comment.profilePicture}` : '/imgs/user.jpg'}
-                    alt="User Profile"
+                    alt={`صورة ملف ${comment.username}`}
                     className="comment-user-avatar"
                     onError={(e) => { e.target.onerror = null; e.target.src = '/imgs/user.jpg'; }}
                   />

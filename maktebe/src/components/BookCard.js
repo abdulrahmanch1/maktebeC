@@ -28,8 +28,9 @@ const BookCard = ({ book }) => {
     }}>
       <img
         src={`${API_URL}/uploads/${book.cover}`}
-        alt="صورة الكتاب"
+        alt={`غلاف كتاب ${book.title}`}
         className="book-card-image"
+        loading="lazy"
         onError={(e) => {
           e.target.onerror = null; // Prevent infinite loop
           e.target.src = "/imgs/no_cover_available.png";

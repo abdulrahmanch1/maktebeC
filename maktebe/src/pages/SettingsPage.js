@@ -209,7 +209,7 @@ const AccountSettings = () => {
       <div className="profile-info-section">
         <img
           src={user && user.profilePicture && (user.profilePicture !== 'Untitled.jpg' && user.profilePicture !== 'user.jpg') ? `${API_URL}/uploads/${user.profilePicture}` : '/imgs/user.jpg'}
-          alt="Profile"
+          alt="صورة الملف الشخصي"
           className="profile-picture"
           style={{ borderColor: theme.accent }}
           onError={(e) => { e.target.onerror = null; e.target.src = '/imgs/user.jpg'; }}

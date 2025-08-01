@@ -2,12 +2,12 @@
 import React, { createContext, useState, useMemo, useEffect } from "react";
 import { themes } from "../data/themes";
 
-export const ThemeContext = createContext({ toggleTheme: (themeName) => {}, theme: themes.theme1 });
+export const ThemeContext = createContext({ toggleTheme: (themeName) => {}, theme: themes.theme2 });
 
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
-    return savedTheme ? JSON.parse(savedTheme) : themes.theme1;
+    return savedTheme ? JSON.parse(savedTheme) : themes.theme2;
   });
 
   useEffect(() => {
