@@ -208,11 +208,10 @@ const AccountSettings = () => {
       <h2 style={{ borderColor: theme.accent, color: theme.primary }}>إعدادات الحساب</h2>
       <div className="profile-info-section">
         <img
-          src={user && user.profilePicture && (user.profilePicture !== 'Untitled.jpg' && user.profilePicture !== 'user.jpg') ? `${API_URL}/uploads/${user.profilePicture}` : '/imgs/user.jpg'}
+          src={user && user.profilePicture ? user.profilePicture : '/imgs/user.jpg'}
           alt="صورة الملف الشخصي"
           className="profile-picture"
           style={{ borderColor: theme.accent }}
-          onError={(e) => { e.target.onerror = null; e.target.src = '/imgs/user.jpg'; }}
         />
         <span className="profile-email" style={{ color: theme.primary }}>{user ? user.email : "غير متاح"}</span>
         <input type="file" onChange={handleImageChange} ref={fileInputRef} style={{ display: 'none' }} />
