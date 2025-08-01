@@ -42,7 +42,7 @@ const Header = () => {
             <>
               <Link to="/settings" className="header-link" style={{ color: theme.background }}>{user ? user.username : "اسم المستخدم"}</Link>
               <img
-                src={user && user.profilePicture && (user.profilePicture !== 'Untitled.jpg' && user.profilePicture !== 'user.jpg') ? `${API_URL}/uploads/${user.profilePicture}` : '/imgs/user.jpg'}
+                src={'/imgs/user.jpg'}
                 onError={(e) => { e.target.onerror = null; e.target.src = '/imgs/user.jpg'; }}
                 alt="صورة المستخدم"
                 className="header-user-avatar"
