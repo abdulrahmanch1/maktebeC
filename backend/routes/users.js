@@ -7,27 +7,17 @@ const multer = require('multer');
 const path = require('path');
 const crypto = require('crypto'); // Import crypto for token generation
 const nodemailer = require('nodemailer'); // Import nodemailer
-const {
-  registerValidationRules,
-  loginValidationRules,
-  handleValidationErrors,
-  userUpdateValidationRules,
-  favoriteValidationRules,
-  readingListValidationRules,
-  readingStatusValidationRules,
-  paramBookIdValidationRules
-} = require('../middleware/validationMiddleware');
+const cloudinary = require('cloudinary').v2; // Import Cloudinary
 
-// Multer setup for profile picture uploads
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../uploads')); // Destination folder for uploads
-  },
-  filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname);
-    cb(null, Date.now() + '-profile' + ext); // Use timestamp + '-profile' + original extension
-  },
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+// Multer setup for profile picture uploads (using memory storage for Cloudinary)
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // Placeholder for JWT Secret - MUST be loaded from environment variables in production
@@ -213,7 +203,12 @@ router.patch('/:id/profile-picture', protect, upload.single('profilePicture'), a
     }
 
     if (req.file) {
-      user.profilePicture = req.file.filename;
+      // Upload image to Cloudinary
+      const result = await cloudinary.uploader.upload(req.file.path || `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`, {
+        folder: 'profile_pictures', // Optional: folder in Cloudinary
+        resource_type: 'image', // Ensure it's treated as an image
+      });
+      user.profilePicture = result.secure_url;
     }
 
     const updatedUser = await user.save();
