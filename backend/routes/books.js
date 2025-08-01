@@ -6,6 +6,11 @@ const path = require('path');
 const { protect, admin } = require('../middleware/authMiddleware'); // Import auth middleware
 const User = require('../models/User'); // Import User model
 const cloudinary = require('cloudinary').v2; // Import Cloudinary
+const {
+  bookValidationRules,
+  commentValidationRules,
+  handleValidationErrors,
+} = require('../middleware/validationMiddleware');
 
 // Configure Cloudinary
 cloudinary.config({
