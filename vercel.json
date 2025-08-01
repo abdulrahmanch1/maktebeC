@@ -19,7 +19,7 @@
       "dest": "backend/server.js"
     },
     {
-      "src": "/(.*)",
+      "src": "/((?!static/).*)",
       "dest": "/index.html"
     }
   ]
