@@ -17,7 +17,7 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "maktebe/backend/server.js"
+      "dest": "backend-api"
     },
     {
       "src": "/(.*)",
