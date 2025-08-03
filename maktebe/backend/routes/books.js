@@ -1,27 +1,28 @@
 const express = require('express');
 const router = express.Router();
 const Book = require('../models/Book');
-const multer = require('multer'); // Add multer
+const multer = require('multer');
 const path = require('path');
-const { protect, admin } = require('../middleware/authMiddleware'); // Import auth middleware
-const User = require('../models/User'); // Import User model
+const { protect, admin } = require('../middleware/authMiddleware');
+const User = require('../models/User');
 const {
   bookValidationRules,
   commentValidationRules,
   handleValidationErrors,
 } = require('../middleware/validationMiddleware');
+const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
 
-// Multer setup for file uploads
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../uploads')); // Destination folder for uploads
-  },
-  filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname);
-    cb(null, Date.now() + ext);
-  },
+// Cloudinary configuration (ensure these are set in your .env file)
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-const upload = multer({ 
+
+// Multer setup for file uploads to memory
+const storage = multer.memoryStorage();
+const upload = multer({
   storage: storage,
   fileFilter: function (req, file, cb) {
     if (file.fieldname === 'cover') {
@@ -34,7 +35,7 @@ const upload = multer({
       }
     }
     cb(null, true);
-  }
+  },
 });
 
 // Middleware to get book by ID
@@ -107,26 +108,42 @@ router.post(
   bookValidationRules(),
   handleValidationErrors,
   async (req, res) => {
-  const book = new Book({
-    title: req.body.title,
-    author: req.body.author,
-    category: req.body.category,
-    description: req.body.description,
-    cover: req.files && req.files.cover ? req.files.cover[0].filename : '',
-    pdfFile: req.files && req.files.pdfFile ? req.files.pdfFile[0].filename : '',
-    pages: req.body.pages,
-    publishYear: req.body.publishYear,
-    language: req.body.language,
-    keywords: req.body.keywords ? req.body.keywords.split(',').map(keyword => keyword.trim()) : [], // Process keywords
-  });
+    try {
+      let coverUrl = '';
+      let pdfFileUrl = '';
 
-  try {
-    const newBook = await book.save();
-    res.status(201).json(newBook);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+      // Upload cover to Cloudinary if it exists
+      if (req.files && req.files.cover) {
+        const coverResult = await cloudinary.uploader.upload(req.files.cover[0].path, { resource_type: 'image' });
+        coverUrl = coverResult.secure_url;
+      }
+
+      // Upload PDF to Cloudinary if it exists
+      if (req.files && req.files.pdfFile) {
+        const pdfResult = await cloudinary.uploader.upload(req.files.pdfFile[0].path, { resource_type: 'raw' });
+        pdfFileUrl = pdfResult.secure_url;
+      }
+
+      const book = new Book({
+        title: req.body.title,
+        author: req.body.author,
+        category: req.body.category,
+        description: req.body.description,
+        cover: coverUrl,
+        pdfFile: pdfFileUrl,
+        pages: req.body.pages,
+        publishYear: req.body.publishYear,
+        language: req.body.language,
+        keywords: req.body.keywords ? req.body.keywords.split(',').map(keyword => keyword.trim()) : [],
+      });
+
+      const newBook = await book.save();
+      res.status(201).json(newBook);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
   }
-});
+);
 
 // Update a book
 router.patch(
@@ -138,35 +155,40 @@ router.patch(
   bookValidationRules(),
   handleValidationErrors,
   async (req, res) => {
-  if (req.body.title != null) res.book.title = req.body.title;
-  if (req.body.author != null) res.book.author = req.body.author;
-  if (req.body.category != null) res.book.category = req.body.category;
-  if (req.body.description != null) res.book.description = req.body.description;
+    try {
+      if (req.body.title != null) res.book.title = req.body.title;
+      if (req.body.author != null) res.book.author = req.body.author;
+      if (req.body.category != null) res.book.category = req.body.category;
+      if (req.body.description != null) res.book.description = req.body.description;
 
-  if (req.files && req.files.cover) {
-    res.book.cover = req.files.cover[0].filename;
-  } else if (req.body.cover != null) {
-    res.book.cover = req.body.cover;
+      // Handle cover update
+      if (req.files && req.files.cover) {
+        const coverResult = await cloudinary.uploader.upload(req.files.cover[0].path, { resource_type: 'image' });
+        res.book.cover = coverResult.secure_url;
+      } else if (req.body.cover != null) {
+        res.book.cover = req.body.cover;
+      }
+
+      // Handle PDF update
+      if (req.files && req.files.pdfFile) {
+        const pdfResult = await cloudinary.uploader.upload(req.files.pdfFile[0].path, { resource_type: 'raw' });
+        res.book.pdfFile = pdfResult.secure_url;
+      } else if (req.body.pdfFile != null) {
+        res.book.pdfFile = req.body.pdfFile;
+      }
+
+      if (req.body.pages != null) res.book.pages = req.body.pages;
+      if (req.body.publishYear != null) res.book.publishYear = req.body.publishYear;
+      if (req.body.language != null) res.book.language = req.body.language;
+      if (req.body.keywords != null) res.book.keywords = req.body.keywords.split(',').map(keyword => keyword.trim());
+
+      const updatedBook = await res.book.save();
+      res.json(updatedBook);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
   }
-
-  if (req.files && req.files.pdfFile) {
-    res.book.pdfFile = req.files.pdfFile[0].filename;
-  } else if (req.body.pdfFile != null) {
-    res.book.pdfFile = req.body.pdfFile;
-  }
-
-  if (req.body.pages != null) res.book.pages = req.body.pages;
-  if (req.body.publishYear != null) res.book.publishYear = req.body.publishYear;
-  if (req.body.language != null) res.book.language = req.body.language;
-  if (req.body.keywords != null) res.book.keywords = req.body.keywords.split(',').map(keyword => keyword.trim()); // Process keywords
-
-  try {
-    const updatedBook = await res.book.save();
-    res.json(updatedBook);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+);
 
 // Delete a book
 router.delete('/:id', protect, admin, getBook, async (req, res) => {
