@@ -37,6 +37,15 @@ app.get('/api', (req, res) => {
   res.send('API is running...');
 });
 
+// DEBUG ROUTE - REMOVE AFTER TESTING
+app.get('/api/debug-env', (req, res) => {
+  res.json({
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || 'Not Set',
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY ? 'Set' : 'Not Set',
+    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET ? 'Set' : 'Not Set',
+  });
+});
+
 // Connect to MongoDB
 const DB_URI = process.env.MONGO_URI;
 
