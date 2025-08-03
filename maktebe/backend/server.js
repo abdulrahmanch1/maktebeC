@@ -28,17 +28,17 @@ const usersRouter = require('./routes/users');
 const contactRoutes = require('./routes/contactRoutes');
 
 // Use Routes
-app.use('/api/books', booksRouter);
-app.use('/api/users', usersRouter);
-app.use('/api/contact', contactRoutes);
+app.use('/books', booksRouter);
+app.use('/users', usersRouter);
+app.use('/contact', contactRoutes);
 
 // Basic Route for checking if API is up
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
 // DEBUG ROUTE - REMOVE AFTER TESTING
-app.get('/api/debug-env', (req, res) => {
+app.get('/debug-env', (req, res) => {
   res.json({
     CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || 'Not Set',
     CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY ? 'Set' : 'Not Set',
