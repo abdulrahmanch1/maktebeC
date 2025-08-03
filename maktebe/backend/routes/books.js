@@ -114,13 +114,13 @@ router.post(
 
       // Upload cover to Cloudinary if it exists
       if (req.files && req.files.cover) {
-        const coverResult = await cloudinary.uploader.upload(req.files.cover[0].path, { resource_type: 'image' });
+        const coverResult = await cloudinary.uploader.upload(req.files.cover[0].buffer, { resource_type: 'image' });
         coverUrl = coverResult.secure_url;
       }
 
       // Upload PDF to Cloudinary if it exists
       if (req.files && req.files.pdfFile) {
-        const pdfResult = await cloudinary.uploader.upload(req.files.pdfFile[0].path, { resource_type: 'raw' });
+        const pdfResult = await cloudinary.uploader.upload(req.files.pdfFile[0].buffer, { resource_type: 'raw' });
         pdfFileUrl = pdfResult.secure_url;
       }
 
@@ -163,7 +163,7 @@ router.patch(
 
       // Handle cover update
       if (req.files && req.files.cover) {
-        const coverResult = await cloudinary.uploader.upload(req.files.cover[0].path, { resource_type: 'image' });
+        const coverResult = await cloudinary.uploader.upload(req.files.cover[0].buffer, { resource_type: 'image' });
         res.book.cover = coverResult.secure_url;
       } else if (req.body.cover != null) {
         res.book.cover = req.body.cover;
@@ -171,7 +171,7 @@ router.patch(
 
       // Handle PDF update
       if (req.files && req.files.pdfFile) {
-        const pdfResult = await cloudinary.uploader.upload(req.files.pdfFile[0].path, { resource_type: 'raw' });
+        const pdfResult = await cloudinary.uploader.upload(req.files.pdfFile[0].buffer, { resource_type: 'raw' });
         res.book.pdfFile = pdfResult.secure_url;
       } else if (req.body.pdfFile != null) {
         res.book.pdfFile = req.body.pdfFile;
