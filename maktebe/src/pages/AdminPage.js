@@ -78,31 +78,32 @@ const AdminPage = () => {
     formData.append("pages", pages);
     formData.append("publishYear", publishYear);
     formData.append("language", language);
-    formData.append("keywords", keywords); // Append keywords
+    formData.append("keywords", keywords);
     if (cover) formData.append("cover", cover);
     if (pdfFile) formData.append("pdfFile", pdfFile);
+
     try {
-    if (editingBook) {
-        await axios.patch(`${API_URL}/api/books/${editingBook._id}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        toast.success("تم تحديث الكتاب بنجاح!");
-      } else {
-        await axios.post(`${API_URL}/api/books`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        toast.success("تم إضافة الكتاب بنجاح!");
+      const url = editingBook ? `${API_URL}/api/books/${editingBook._id}` : `${API_URL}/api/books`;
+      const method = editingBook ? 'PATCH' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'فشل حفظ الكتاب.');
       }
+
+      toast.success(editingBook ? "تم تحديث الكتاب بنجاح!" : "تم إضافة الكتاب بنجاح!");
       clearForm();
     } catch (error) {
       console.error("Error saving book:", error);
-      toast.error(error.response?.data?.message || "فشل حفظ الكتاب.");
+      toast.error(error.message);
     }
   };
   if (!isLoggedIn || user?.role !== 'admin') {
