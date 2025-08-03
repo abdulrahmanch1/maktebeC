@@ -3,8 +3,7 @@
   "builds": [
     {
       "src": "maktebe/backend/server.js",
-      "use": "@vercel/node",
-      "root": "maktebe/backend"
+      "use": "@vercel/node"
     },
     {
       "src": "maktebe/package.json",
