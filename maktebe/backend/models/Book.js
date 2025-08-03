@@ -5,11 +5,11 @@ const bookSchema = new mongoose.Schema({
   author: { type: String, required: true },
   category: { type: String, required: true },
   description: { type: String, required: true },
-  cover: { type: String, required: true },
+  cover: { type: String },
   pages: { type: Number, required: true },
   publishYear: { type: Number, required: true },
   language: { type: String, required: true },
-  pdfFile: { type: String }, // Add this line for PDF file path
+  pdfFile: { type: String },
   comments: [
     {
       user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },

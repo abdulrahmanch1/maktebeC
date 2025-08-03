@@ -129,8 +129,8 @@ router.post(
         author: req.body.author,
         category: req.body.category,
         description: req.body.description,
-        cover: coverUrl,
-        pdfFile: pdfFileUrl,
+        cover: coverUrl || undefined,
+        pdfFile: pdfFileUrl || undefined,
         pages: req.body.pages,
         publishYear: req.body.publishYear,
         language: req.body.language,
@@ -165,6 +165,8 @@ router.patch(
       if (req.files && req.files.cover) {
         const coverResult = await cloudinary.uploader.upload(req.files.cover[0].buffer, { resource_type: 'image' });
         res.book.cover = coverResult.secure_url;
+      } else if (req.body.cover === '') { // Allow clearing cover
+        res.book.cover = undefined;
       } else if (req.body.cover != null) {
         res.book.cover = req.body.cover;
       }
@@ -173,6 +175,8 @@ router.patch(
       if (req.files && req.files.pdfFile) {
         const pdfResult = await cloudinary.uploader.upload(req.files.pdfFile[0].buffer, { resource_type: 'raw' });
         res.book.pdfFile = pdfResult.secure_url;
+      } else if (req.body.pdfFile === '') { // Allow clearing pdfFile
+        res.book.pdfFile = undefined;
       } else if (req.body.pdfFile != null) {
         res.book.pdfFile = req.body.pdfFile;
       }
