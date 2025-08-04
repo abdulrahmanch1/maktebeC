@@ -1,5 +1,11 @@
 const express = require('express');
 const router = express.Router();
+
+// Test endpoint - remove after debugging
+router.get('/test', (req, res) => {
+  res.status(200).json({ message: 'Backend is running and accessible!' });
+});
+
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { protect } = require('../middleware/authMiddleware');
