@@ -4,7 +4,7 @@
     {
       "src": "backend/server.js",
       "use": "@vercel/node",
-      "name": "backend-api" 
+      "name": "backend-api"
     },
     {
       "src": "package.json",
@@ -14,10 +14,15 @@
       }
     }
   ],
+  "functions": {
+    "backend/server.js": {
+      "runtime": "@vercel/node"
+    }
+  },
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "backend-api" 
+      "dest": "backend-api"
     },
     {
       "src": "/(.*)",
