@@ -61,7 +61,7 @@ router.post('/register', registerValidationRules(), handleValidationErrors, asyn
 
     const newUser = await user.save();
 
-    const verificationUrl = `${process.env.REACT_APP_API_URL}/verify-email/${newUser.verificationToken}`;
+    const verificationUrl = `${process.env.FRONTEND_URL}/verify-email/${newUser.verificationToken}`;
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: newUser.email,
