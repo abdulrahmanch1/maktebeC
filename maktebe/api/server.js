@@ -50,9 +50,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
 console.log('Server: Static files serving configured.');
 
 // Routes
-const booksRouter = require('./routes/books');
-const usersRouter = require('./routes/users');
-const contactRoutes = require('./routes/contactRoutes');
+const booksRouter = require('../backend/routes/books');
+const usersRouter = require('../backend/routes/users');
+const contactRoutes = require('../backend/routes/contactRoutes');
 
 app.use('/api/books', booksRouter);
 app.use('/api/users', usersRouter);
