@@ -13,7 +13,8 @@
     "react-router-dom": "^6.25.1",
     "react-scripts": "5.0.1",
     "react-toastify": "^11.0.5",
-    "web-vitals": "^4.2.2"
+    "web-vitals": "^4.2.2",
+    "axios": "^1.11.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -40,6 +41,5 @@
     ]
   },
   "devDependencies": {
-    "axios": "^1.11.0"
   }
 }

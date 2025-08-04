@@ -114,13 +114,25 @@ router.post(
 
       // Upload cover to Cloudinary if it exists
       if (req.files && req.files.cover) {
-        const coverResult = await cloudinary.uploader.upload(req.files.cover[0].buffer, { resource_type: 'image' });
+        const coverResult = await new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream({ resource_type: 'image' }, (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          });
+          stream.end(req.files.cover[0].buffer);
+        });
         coverUrl = coverResult.secure_url;
       }
 
       // Upload PDF to Cloudinary if it exists
       if (req.files && req.files.pdfFile) {
-        const pdfResult = await cloudinary.uploader.upload(req.files.pdfFile[0].buffer, { resource_type: 'raw' });
+        const pdfResult = await new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream({ resource_type: 'raw' }, (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          });
+          stream.end(req.files.pdfFile[0].buffer);
+        });
         pdfFileUrl = pdfResult.secure_url;
       }
 
@@ -134,7 +146,7 @@ router.post(
         pages: req.body.pages,
         publishYear: req.body.publishYear,
         language: req.body.language,
-        keywords: req.body.keywords ? req.body.keywords.split(',').map(keyword => keyword.trim()) : [],
+        keywords: Array.isArray(req.body.keywords) ? req.body.keywords : req.body.keywords.split(',').map(keyword => keyword.trim()),
       });
 
       const newBook = await book.save();
