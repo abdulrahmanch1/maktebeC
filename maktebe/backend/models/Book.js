@@ -21,6 +21,8 @@ const bookSchema = new mongoose.Schema({
     },
   ],
   keywords: [{ type: String }], // Add keywords field as an array of strings
+  favoriteCount: { type: Number, default: 0 }, // New field for favorite count
+  readCount: { type: Number, default: 0 },     // New field for read count
 });
 
 module.exports = mongoose.model('Book', bookSchema);

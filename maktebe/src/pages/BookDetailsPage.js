@@ -54,7 +54,7 @@ const BookDetailsPage = () => {
   const handleAddToReadingList = async () => {
     // Always open the PDF
     if (book && book.pdfFile) {
-      window.open(`${API_URL}/uploads/${book.pdfFile}`, '_blank');
+      window.open(book.pdfFile, '_blank');
     } else {
       toast.error("ملف الكتاب غير متوفر.");
       return;
@@ -228,7 +228,7 @@ const BookDetailsPage = () => {
     "inLanguage": book.language,
     "numberOfPages": book.pages,
     "description": book.description,
-    "image": `${API_URL}/uploads/${book.cover}`,
+    "image": book.cover,
     "url": window.location.href,
     "aggregateRating": {
       "@type": "AggregateRating",
@@ -244,7 +244,7 @@ const BookDetailsPage = () => {
       </script>
       <div className="book-cover-section">
         <img
-          src={`${API_URL}/uploads/${book.cover}`}
+          src={book.cover}
           alt={`غلاف كتاب ${book.title}`}
           className="book-cover-image"
           loading="lazy"

@@ -84,26 +84,22 @@ const AdminPage = () => {
 
     try {
       const url = editingBook ? `${API_URL}/api/books/${editingBook._id}` : `${API_URL}/api/books`;
-      const method = editingBook ? 'PATCH' : 'POST';
-
-      const response = await fetch(url, {
+      const method = editingBook ? 'patch' : 'post';
+      await axios({
         method,
-        body: formData,
+        url,
+        data: formData,
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data', // Axios handles this automatically with FormData, but good to be explicit
         },
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'فشل حفظ الكتاب.');
-      }
 
       toast.success(editingBook ? "تم تحديث الكتاب بنجاح!" : "تم إضافة الكتاب بنجاح!");
       clearForm();
     } catch (error) {
       console.error("Error saving book:", error);
-      toast.error(error.message);
+      toast.error(error.response?.data?.message || 'فشل حفظ الكتاب.');
     }
   };
   if (!isLoggedIn || user?.role !== 'admin') {

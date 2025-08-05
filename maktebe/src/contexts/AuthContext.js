@@ -21,8 +21,14 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       if (token) {
+        const storedUser = localStorage.getItem("user");
+        if (!storedUser) {
+          logout();
+          return;
+        }
         try {
-          const response = await axios.get(`${API_URL}/api/users/${JSON.parse(localStorage.getItem("user"))._id}`, {
+          const userObject = JSON.parse(storedUser);
+          const response = await axios.get(`${API_URL}/api/users/${userObject._id}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -79,7 +85,6 @@ export const AuthProvider = ({ children }) => {
       setToken(userToken);
       localStorage.setItem("user", JSON.stringify(userData));
       localStorage.setItem("token", userToken);
-      localStorage.setItem("favorites", JSON.stringify(userData.favorites || []));
       
       // Set default Authorization header for all subsequent Axios requests
       axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`;
@@ -99,7 +104,6 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    localStorage.removeItem("favorites");
     
     // Remove default Authorization header for Axios
     delete axios.defaults.headers.common['Authorization'];

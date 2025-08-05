@@ -56,24 +56,28 @@ async function getBook(req, res, next) {
 
 // Get all books
 router.get('/', async (req, res) => {
+  console.log('GET /api/books route hit');
   try {
     const { search } = req.query;
     let query = {};
 
     if (search) {
+      console.log('Search term provided:', search);
       query = {
         $or: [
           { title: { $regex: search, $options: 'i' } },
           { author: { $regex: search, $options: 'i' } },
           { category: { $regex: search, $options: 'i' } },
-          { keywords: { $regex: search, $options: 'i' } }, // Search in keywords
         ],
       };
     }
 
+    console.log('Executing Book.find with query:', query);
     const books = await Book.find(query);
+    console.log('Books found:', books.length);
     res.json(books);
   } catch (err) {
+    console.error('Error in GET /api/books:', err);
     res.status(500).json({ message: err.message });
   }
 });
@@ -81,19 +85,7 @@ router.get('/', async (req, res) => {
 // Get one book
 router.get('/:id', getBook, async (req, res) => {
   try {
-    const book = res.book;
-    // Calculate how many users have read this book
-    const readCount = await User.countDocuments({ "readingList.book": book._id, "readingList.read": true });
-
-    // Calculate how many users have favorited this book
-    const favoriteCount = await User.countDocuments({ favorites: book._id });
-
-    // Add these counts to the book object
-    const bookObject = book.toObject();
-    bookObject.readCount = readCount;
-    bookObject.favoriteCount = favoriteCount;
-
-    res.json(bookObject);
+    res.json(res.book); // Directly return the book object with pre-calculated counts
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

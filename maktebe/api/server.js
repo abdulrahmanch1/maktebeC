@@ -4,7 +4,6 @@ require('dotenv').config({ path: path.join(__dirname, '../backend/.env') });
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const fs = require('fs');
 
 console.log('Server: Starting server.js execution...');
 console.log('MONGO_URI:', process.env.MONGO_URI);
@@ -15,12 +14,7 @@ const PORT = process.env.PORT || 5000;
 
 console.log(`Server: PORT is ${PORT}`);
 
-// Ensure uploads directory exists
-const uploadsDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir);
-  console.log('Server: Created uploads directory.');
-}
+
 
 // Mongoose config
 mongoose.set('strictQuery', true);
@@ -95,7 +89,13 @@ if (!process.env.JWT_SECRET) {
   process.exit(1);
 }
 
-mongoose.connect(DB_URI)
+mongoose.connect(DB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000, // Keep a short timeout for initial server selection
+  socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+  connectTimeoutMS: 10000 // Give up initial connection after 10 seconds
+})
   .then(() => console.log('Server: MongoDB Connected successfully!'))
   .catch(err => {
     console.error('Server: MongoDB connection error:', err);

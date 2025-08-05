@@ -8,6 +8,7 @@ router.get('/test', (req, res) => {
 
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Book = require('../models/Book');
 const { protect } = require('../middleware/authMiddleware');
 const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
@@ -242,6 +243,7 @@ router.post('/:userId/favorites', protect, favoriteValidationRules(), handleVali
     if (!user.favorites.includes(bookId)) {
       user.favorites.push(bookId);
       await user.save();
+      await Book.findByIdAndUpdate(bookId, { $inc: { favoriteCount: 1 } });
     }
 
     res.json({ favorites: user.favorites });
@@ -266,6 +268,7 @@ router.delete('/:userId/favorites/:bookId', protect, paramBookIdValidationRules(
 
     user.favorites = user.favorites.filter(id => id.toString() !== bookId);
     await user.save();
+    await Book.findByIdAndUpdate(bookId, { $inc: { favoriteCount: -1 } });
 
     res.json({ favorites: user.favorites });
   } catch (err) {
@@ -294,6 +297,7 @@ router.post('/:userId/reading-list', protect, readingListValidationRules(), hand
 
     user.readingList.push({ book: bookId, read: false });
     await user.save();
+    await Book.findByIdAndUpdate(bookId, { $inc: { readCount: 1 } });
     res.status(201).json(user.readingList);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -344,6 +348,7 @@ router.delete('/:userId/reading-list/:bookId', protect, paramBookIdValidationRul
 
     user.readingList = user.readingList.filter(item => item.book.toString() !== bookId);
     await user.save();
+    await Book.findByIdAndUpdate(bookId, { $inc: { readCount: -1 } });
     res.json(user.readingList);
   } catch (err) {
     res.status(500).json({ message: err.message });
