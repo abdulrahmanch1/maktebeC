@@ -175,7 +175,13 @@ router.patch(
 
       // Handle cover update
       if (req.files && req.files.cover) {
-        const coverResult = await cloudinary.uploader.upload(req.files.cover[0].buffer, { resource_type: 'image' });
+        const coverResult = await new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream({ resource_type: 'image' }, (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          });
+          stream.end(req.files.cover[0].buffer);
+        });
         res.book.cover = coverResult.secure_url;
       } else if (req.body.cover === '') { // Allow clearing cover
         res.book.cover = undefined;
@@ -185,7 +191,13 @@ router.patch(
 
       // Handle PDF update
       if (req.files && req.files.pdfFile) {
-        const pdfResult = await cloudinary.uploader.upload(req.files.pdfFile[0].buffer, { resource_type: 'raw' });
+        const pdfResult = await new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream({ resource_type: 'raw' }, (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          });
+          stream.end(req.files.pdfFile[0].buffer);
+        });
         res.book.pdfFile = pdfResult.secure_url;
       } else if (req.body.pdfFile === '') { // Allow clearing pdfFile
         res.book.pdfFile = undefined;

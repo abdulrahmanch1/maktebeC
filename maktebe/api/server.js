@@ -1,11 +1,14 @@
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../backend/.env') });
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const path = require('path');
 const fs = require('fs');
 
 console.log('Server: Starting server.js execution...');
+console.log('MONGO_URI:', process.env.MONGO_URI);
+console.log('JWT_SECRET:', process.env.JWT_SECRET);
 
 const app = express();
 const PORT = process.env.PORT || 5000;

@@ -160,7 +160,7 @@ router.get('/:id', protect, async (req, res) => {
 
 router.patch('/:id', protect, userUpdateValidationRules(), handleValidationErrors, async (req, res) => {
   try {
-    if (req.params.id !== req.user._id.toString()) {
+    if (req.user.role !== 'admin' && req.params.id !== req.user._id.toString()) {
       return res.status(403).json({ message: 'Not authorized to update this user' });
     }
 
@@ -210,7 +210,7 @@ router.patch('/:id/profile-picture', protect, upload.single('profilePicture'), a
 
 router.delete('/:id', protect, async (req, res) => {
   try {
-    if (req.params.id !== req.user._id.toString()) {
+    if (req.user.role !== 'admin' && req.params.id !== req.user._id.toString()) {
       return res.status(403).json({ message: 'Not authorized to delete this user' });
     }
 

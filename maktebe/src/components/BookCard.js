@@ -4,7 +4,7 @@ import { ThemeContext } from "../contexts/ThemeContext";
 import { FavoritesContext } from "../contexts/FavoritesContext";
 import { AuthContext } from "../contexts/AuthContext"; // Import AuthContext
 import { toast } from 'react-toastify';
-import { API_URL } from "../constants";
+
 import './BookCard.css'; // Import the CSS file
 
 const BookCard = ({ book }) => {
@@ -27,7 +27,7 @@ const BookCard = ({ book }) => {
       border: `1px solid ${theme.secondary}`,
     }}>
       <img
-        src={`${API_URL}/uploads/${book.cover}`}
+        src={book.cover}
         alt={`غلاف كتاب ${book.title}`}
         className="book-card-image"
         loading="lazy"

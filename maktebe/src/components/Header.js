@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { AuthContext } from "../contexts/AuthContext";
-import { API_URL } from "../constants";
+
 import { FaBars } from 'react-icons/fa';
 import Sidebar from './Sidebar';
 import Overlay from './Overlay';
@@ -39,7 +39,7 @@ const Header = () => {
             <>
               <Link to="/settings" className="header-link" style={{ color: theme.background }}>{user ? user.username : "اسم المستخدم"}</Link>
               <img
-                src={user && user.profilePicture && (user.profilePicture !== 'Untitled.jpg' && user.profilePicture !== 'user.jpg') ? `${API_URL}/uploads/${user.profilePicture}` : '/imgs/user.jpg'}
+                src={user && user.profilePicture && (user.profilePicture !== 'Untitled.jpg' && user.profilePicture !== 'user.jpg') ? user.profilePicture : '/imgs/user.jpg'}
                 onError={(e) => { e.target.onerror = null; e.target.src = '/imgs/user.jpg'; }}
                 alt="صورة المستخدم"
                 className="header-user-avatar"

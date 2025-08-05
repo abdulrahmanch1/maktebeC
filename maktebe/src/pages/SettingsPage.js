@@ -208,7 +208,7 @@ const AccountSettings = () => {
       <h2 style={{ borderColor: theme.accent, color: theme.primary }}>إعدادات الحساب</h2>
       <div className="profile-info-section">
         <img
-          src={user && user.profilePicture && (user.profilePicture !== 'Untitled.jpg' && user.profilePicture !== 'user.jpg') ? `${API_URL}/uploads/${user.profilePicture}` : '/imgs/user.jpg'}
+          src={user && user.profilePicture && (user.profilePicture !== 'Untitled.jpg' && user.profilePicture !== 'user.jpg') ? user.profilePicture : '/imgs/user.jpg'}
           alt="صورة الملف الشخصي"
           className="profile-picture"
           style={{ borderColor: theme.accent }}

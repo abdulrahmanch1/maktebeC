@@ -347,7 +347,7 @@ const BookDetailsPage = () => {
               bookComments.map((comment) => (
                 <div key={comment._id} className="comment-item" style={{ backgroundColor: theme.secondary }}>
                   <img
-                    src={comment.profilePicture && (comment.profilePicture !== 'Untitled.jpg' && comment.profilePicture !== 'user.jpg') ? `${API_URL}/uploads/${comment.profilePicture}` : '/imgs/user.jpg'}
+                    src={comment.profilePicture && (comment.profilePicture !== 'Untitled.jpg' && comment.profilePicture !== 'user.jpg') ? comment.profilePicture : '/imgs/user.jpg'}
                     alt={`صورة ملف ${comment.username}`}
                     className="comment-user-avatar"
                     onError={(e) => { e.target.onerror = null; e.target.src = '/imgs/user.jpg'; }}

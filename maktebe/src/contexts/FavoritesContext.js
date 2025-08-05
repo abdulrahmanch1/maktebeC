@@ -72,8 +72,8 @@ export const FavoritesProvider = ({ children }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setFavorites(res.data.favorites || [...favorites, bookId]); // Update favorites state
-        localStorage.setItem("favorites", JSON.stringify(res.data.favorites || [...favorites, bookId])); // Update local storage
+        setFavorites(res.data.favorites);
+        localStorage.setItem("favorites", JSON.stringify(res.data.favorites));
         toast.success("تمت إضافة الكتاب إلى المفضلة.");
       }
     } catch (error) {
