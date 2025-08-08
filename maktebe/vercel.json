@@ -2,26 +2,28 @@
   "version": 2,
   "builds": [
     {
-      "src": "maktebe/package.json",
+      "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "build",
         "buildCommand": "npm run build"
-      }
+      },
+      "root": "maktebe"
     },
     {
-      "src": "maktebe/api/server.js",
-      "use": "@vercel/node"
+      "src": "api/server.js",
+      "use": "@vercel/node",
+      "root": "maktebe"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "maktebe/api/server.js"
+      "dest": "api/server.js"
     },
     {
       "src": "/(.*)",
-      "dest": "maktebe/build/index.html"
+      "dest": "/index.html"
     }
   ]
 }
