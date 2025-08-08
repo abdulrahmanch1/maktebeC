@@ -19,6 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "npm run generate-sitemap && react-scripts build",
+    "vercel-build": "npm run build",
     "generate-sitemap": "node scripts/generate-sitemap.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
