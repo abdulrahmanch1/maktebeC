@@ -1,0 +1,3 @@
+{"timestamp":28998691,"category":"bounce.tracking.protection","name":"purge_action","extra":{"require_stateful_bounces":"true","success":"true","site_host":"youtube.com","bounce_time":"1754677242","is_dry_run":"true","glean_timestamp":"1754682486322"}}
+{"timestamp":28998691,"category":"bounce.tracking.protection","name":"purge_action","extra":{"success":"true","site_host":"backblaze.com","is_dry_run":"true","glean_timestamp":"1754682486322","bounce_time":"1754676291","require_stateful_bounces":"true"}}
+{"timestamp":28998691,"category":"bounce.tracking.protection","name":"purge_action","extra":{"glean_timestamp":"1754682486322","bounce_time":"1754677242","success":"true","site_host":"google.com.tr","require_stateful_bounces":"true","is_dry_run":"true"}}

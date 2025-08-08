@@ -25,3 +25,7 @@ clear
 npm install -g @google/gemini-cli
 sudo npm install -g @google/gemini-cli
 gemini
+cd maktebe
+npm start
+npm i
+npm start
