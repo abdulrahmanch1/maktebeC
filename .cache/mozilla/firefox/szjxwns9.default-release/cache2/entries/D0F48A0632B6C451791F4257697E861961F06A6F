@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="chrome://browser/content/contentSearchUI.css" />
     <link rel="stylesheet" href="chrome://newtab/content/css/activity-stream.css" />
   </head>
-  <!-- Cached: Fri, 08 Aug 2025 18:29:43 GMT -->
+  <!-- Cached: Fri, 08 Aug 2025 18:54:13 GMT -->
   <body class="activity-stream">
     <div id="header-asrouter-container" role="presentation"></div>
     <div id="root">
@@ -130,9 +130,9 @@ window.__STARTUP_STATE__ = {
 			},
 			{
 				"bookmarkGuid": null,
-				"frecency": 1300,
+				"frecency": 1400,
 				"guid": "lnwUiF4ZZej_",
-				"lastVisitDate": 1754670596437,
+				"lastVisitDate": 1754677875671,
 				"title": "abdulrahmanch1",
 				"url": "https://github.com/abdulrahmanch1",
 				"type": "history",
@@ -175,9 +175,9 @@ window.__STARTUP_STATE__ = {
 				"title": "مكتبة الكتب | تصفح واقرأ آلاف الكتب والروايات",
 				"url": "https://dar-alqurra.vercel.app/",
 				"type": "history",
+				"screenshot": "moz-page-thumb://thumbnails/?url=https%3A%2F%2Fdar-alqurra.vercel.app%2F&revision=5002",
 				"hostname": "dar-alqurra",
-				"typedBonus": true,
-				"screenshot": "moz-page-thumb://thumbnails/?url=https%3A%2F%2Fdar-alqurra.vercel.app%2F&revision=5002"
+				"typedBonus": true
 			},
 			{
 				"bookmarkGuid": null,
@@ -1937,4 +1937,4 @@ window.__STARTUP_STATE__ = {
 	}
 };
 
-{�v殩           h�BH~�f����       :about:home alt-data 1;22288,script version 20250718125403  tA
+-��R�Z           h�G�H~�a����       :about:home alt-data 1;22288,script version 20250718125403  tA
