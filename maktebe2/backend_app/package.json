@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "api_server.js",
   "scripts": {
-    "start": "node api_server.js",
+    "start": "npm install && node api_server.js",
     "dev": "nodemon ../api/server.js",
     "test": "jest --testTimeout=10000"
   },
