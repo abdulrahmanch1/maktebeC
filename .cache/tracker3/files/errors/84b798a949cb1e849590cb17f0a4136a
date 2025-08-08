@@ -1,0 +1,4 @@
+[Report]
+Uri=file:///home/abdulrahman/Documents/maktebe/node_modules/@surma/rollup-plugin-off-main-thread/tests/fixtures/import-meta
+Message=Subject file:///home/abdulrahman/Documents/maktebe/node_modules/workbox-build/node_modules/fs-extra/lib/output is not is not a nfo:FileDataObject, cannot have property `tracker:extractorHash'
+Sparql=DELETE WHERE {\nGRAPH <http://tracker.api.gnome.org/ontology/v3/tracker#FileSystem> {\n  <urn:fileid:60b94530-0dbb-494d-9930-37c3087c7bc8:5962758> nie:mimeType ?nie_mimeType } };\nINSERT DATA {\nGRAPH <http://tracker.api.gnome.org/ontology/v3/tracker#FileSystem> {\n<urn:fileid:60b94530-0dbb-494d-9930-37c3087c7bc8:5962758> a nie:InformationElement , nfo:Folder ; \n  nie:mimeType "inode/directory" .\n}\n};\n

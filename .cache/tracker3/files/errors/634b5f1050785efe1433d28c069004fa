@@ -1,0 +1,3 @@
+[Report]
+Uri=file:///home/abdulrahman/Documents/maktebe/backend/node_modules/@types/yargs/helpers.d.mts
+Message=Could not get any metadata for uri:'file:///home/abdulrahman/Documents/maktebe/backend/node_modules/@types/yargs/helpers.d.mts' and mime:'video/mp2t'

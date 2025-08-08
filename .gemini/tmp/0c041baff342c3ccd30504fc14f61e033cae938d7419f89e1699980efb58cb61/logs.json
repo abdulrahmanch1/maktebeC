@@ -1,0 +1,296 @@
+[
+  {
+    "sessionId": "046dc47a-22be-4245-8ceb-2267932d975d",
+    "messageId": 0,
+    "type": "user",
+    "message": "افحص هاد المشروع بالكامل @dar-alkura",
+    "timestamp": "2025-08-08T15:15:01.061Z"
+  },
+  {
+    "sessionId": "046dc47a-22be-4245-8ceb-2267932d975d",
+    "messageId": 1,
+    "type": "user",
+    "message": "انا ما قرائت يلي كتبتو لاني نسيت ما اكتبلك انا بدي ارفع المشروع على vercel الباك اند بمشروع و الفرونت اند بمشروع و اوصل ببعض بدي المشروع يكون مناست 100% لهل طريقه",
+    "timestamp": "2025-08-08T15:30:19.773Z"
+  },
+  {
+    "sessionId": "046dc47a-22be-4245-8ceb-2267932d975d",
+    "messageId": 2,
+    "type": "user",
+    "message": "ليك ارفع مجلد الbackend الى https://github.com/abdulrahmanch1/maktebe-backend.git و مشروع الmaktebe الى الhttps://github.com/abdulrahmanch1/maktebe-frontend.git",
+    "timestamp": "2025-08-08T15:33:16.469Z"
+  },
+  {
+    "sessionId": "046dc47a-22be-4245-8ceb-2267932d975d",
+    "messageId": 3,
+    "type": "user",
+    "message": "abdulrahman@unknown00d86139cd62:~/dar-alkura/maktebe$ git add .\nabdulrahman@unknown00d86139cd62:~/dar-alkura/maktebe$ commit -m \"hwghp hgholhx\"\nbash: commit: command not found...\nabdulrahman@unknown00d86139cd62:~/dar-alkura/maktebe$ git commit -m \"hwghp hgholhx\"\nOn branch master\nnothing to commit, working tree clean\nabdulrahman@unknown00d86139cd62:~/dar-alkura/maktebe$",
+    "timestamp": "2025-08-08T16:11:45.840Z"
+  },
+  {
+    "sessionId": "046dc47a-22be-4245-8ceb-2267932d975d",
+    "messageId": 4,
+    "type": "user",
+    "message": "اعطيني الاكواد انا بدي اكتب",
+    "timestamp": "2025-08-08T16:15:01.449Z"
+  },
+  {
+    "sessionId": "046dc47a-22be-4245-8ceb-2267932d975d",
+    "messageId": 5,
+    "type": "user",
+    "message": "abdulrahman@unknown00d86139cd62:~/dar-alkura/maktebe$ git add .\nabdulrahman@unknown00d86139cd62:~/dar-alkura/maktebe$ git commit -m \"اصلاح كامل\"\nOn branch master\nnothing to commit, working tree clean\nabdulrahman@unknown00d86139cd62:~/dar-alkura/maktebe$",
+    "timestamp": "2025-08-08T16:16:37.690Z"
+  },
+  {
+    "sessionId": "046dc47a-22be-4245-8ceb-2267932d975d",
+    "messageId": 6,
+    "type": "user",
+    "message": "ملفات المشروع مانا موجوده هون /home/abdulrahman/dar-alkura/maktebe يعني الملفات الاساسيه",
+    "timestamp": "2025-08-08T16:20:52.378Z"
+  },
+  {
+    "sessionId": "046dc47a-22be-4245-8ceb-2267932d975d",
+    "messageId": 7,
+    "type": "user",
+    "message": "@dar-alkura/maktebe/",
+    "timestamp": "2025-08-08T16:22:24.722Z"
+  },
+  {
+    "sessionId": "046dc47a-22be-4245-8ceb-2267932d975d",
+    "messageId": 8,
+    "type": "user",
+    "message": "كس امك المشروع مانو موجود انته حازفه",
+    "timestamp": "2025-08-08T16:23:01.503Z"
+  },
+  {
+    "sessionId": "046dc47a-22be-4245-8ceb-2267932d975d",
+    "messageId": 9,
+    "type": "user",
+    "message": "يييييييييييييييييييييييييييييييييييييييييييييييييييييييييييييي ميف فيني جيب الملفات يا ابن الحرام يا حمار",
+    "timestamp": "2025-08-08T16:25:23.442Z"
+  },
+  {
+    "sessionId": "046dc47a-22be-4245-8ceb-2267932d975d",
+    "messageId": 10,
+    "type": "user",
+    "message": "كتبلي جواب كتير طويل",
+    "timestamp": "2025-08-08T16:27:55.426Z"
+  },
+  {
+    "sessionId": "046dc47a-22be-4245-8ceb-2267932d975d",
+    "messageId": 11,
+    "type": "user",
+    "message": "كس امك",
+    "timestamp": "2025-08-08T16:28:56.346Z"
+  },
+  {
+    "sessionId": "ea5201f9-798e-4dfb-b32b-bcdca2d13fd1",
+    "messageId": 0,
+    "type": "user",
+    "message": "السلام عليكم انا عندي مشروع بدي ياك تفحصلي ياه بدقه و تستكشف جميع الاخطأ",
+    "timestamp": "2025-08-08T16:33:27.249Z"
+  },
+  {
+    "sessionId": "ea5201f9-798e-4dfb-b32b-bcdca2d13fd1",
+    "messageId": 1,
+    "type": "user",
+    "message": "@maktebe",
+    "timestamp": "2025-08-08T16:35:15.665Z"
+  },
+  {
+    "sessionId": "ea5201f9-798e-4dfb-b32b-bcdca2d13fd1",
+    "messageId": 2,
+    "type": "user",
+    "message": "ابدء",
+    "timestamp": "2025-08-08T16:38:25.771Z"
+  },
+  {
+    "sessionId": "ea5201f9-798e-4dfb-b32b-bcdca2d13fd1",
+    "messageId": 3,
+    "type": "user",
+    "message": "افحص المشروع مره  ثانيه بدقه ا كبر بكثيييير",
+    "timestamp": "2025-08-08T16:43:51.160Z"
+  },
+  {
+    "sessionId": "ea5201f9-798e-4dfb-b32b-bcdca2d13fd1",
+    "messageId": 4,
+    "type": "user",
+    "message": "امسح الملفات الغير ضروريه",
+    "timestamp": "2025-08-08T16:50:18.110Z"
+  },
+  {
+    "sessionId": "ea5201f9-798e-4dfb-b32b-bcdca2d13fd1",
+    "messageId": 5,
+    "type": "user",
+    "message": "نعم",
+    "timestamp": "2025-08-08T16:51:42.557Z"
+  },
+  {
+    "sessionId": "ea5201f9-798e-4dfb-b32b-bcdca2d13fd1",
+    "messageId": 6,
+    "type": "user",
+    "message": "أكمل",
+    "timestamp": "2025-08-08T17:09:59.797Z"
+  },
+  {
+    "sessionId": "ea5201f9-798e-4dfb-b32b-bcdca2d13fd1",
+    "messageId": 7,
+    "type": "user",
+    "message": "أكمل",
+    "timestamp": "2025-08-08T17:10:16.028Z"
+  },
+  {
+    "sessionId": "ea5201f9-798e-4dfb-b32b-bcdca2d13fd1",
+    "messageId": 8,
+    "type": "user",
+    "message": "أكمل",
+    "timestamp": "2025-08-08T17:20:42.916Z"
+  },
+  {
+    "sessionId": "51337362-a9e6-4915-a36e-ccb52c979c1f",
+    "messageId": 0,
+    "type": "user",
+    "message": "افحص المشروع هاد بدقه عاليه و افحص كل الملافات واحد تلو  الاخر بدي ياك تستكشف كل الاخطأ مع الاضافه الى الاخطأ في التفكير البرمجي",
+    "timestamp": "2025-08-08T17:26:47.144Z"
+  },
+  {
+    "sessionId": "51337362-a9e6-4915-a36e-ccb52c979c1f",
+    "messageId": 1,
+    "type": "user",
+    "message": "افحص المشروع هاد بدقه عاليه و افحص كل الملافات واحد تلو  الاخر بدي ياك تستكشف كل الاخطأ مع الاضافه الى الاخطأ في التفكير البرمجي@maktebe",
+    "timestamp": "2025-08-08T17:27:08.316Z"
+  },
+  {
+    "sessionId": "51337362-a9e6-4915-a36e-ccb52c979c1f",
+    "messageId": 2,
+    "type": "user",
+    "message": "افحص المشروع هاد بدقه عاليه و افحص كل الملافات واحد تلو  الاخر بدي ياك تستكشف كل الاخطأ مع الاضافه الى الاخطأ في التفكير البرمجي@maktebe/",
+    "timestamp": "2025-08-08T17:27:26.083Z"
+  },
+  {
+    "sessionId": "51337362-a9e6-4915-a36e-ccb52c979c1f",
+    "messageId": 3,
+    "type": "user",
+    "message": "لك كيف هيك الملفات ممسوحه",
+    "timestamp": "2025-08-08T17:29:05.198Z"
+  },
+  {
+    "sessionId": "51337362-a9e6-4915-a36e-ccb52c979c1f",
+    "messageId": 4,
+    "type": "user",
+    "message": "هلق افحص المشروع",
+    "timestamp": "2025-08-08T17:30:22.814Z"
+  },
+  {
+    "sessionId": "51337362-a9e6-4915-a36e-ccb52c979c1f",
+    "messageId": 5,
+    "type": "user",
+    "message": "لا لقد احضرتها",
+    "timestamp": "2025-08-08T17:30:58.235Z"
+  },
+  {
+    "sessionId": "51337362-a9e6-4915-a36e-ccb52c979c1f",
+    "messageId": 6,
+    "type": "user",
+    "message": "هلق انته افحص المشروع بالكامل و بدقه عاليه",
+    "timestamp": "2025-08-08T17:32:12.014Z"
+  },
+  {
+    "sessionId": "8353a5ca-0940-48ff-9293-489929c8e366",
+    "messageId": 0,
+    "type": "user",
+    "message": "افحص المشروع هاد بدقه عاليه و افحص كل الملافات واحد تلو  الاخر بدي ياك تستكشف كل الاخطأ مع الاضافه الى الاخطأ في التفكير البرمجي@maktebe/",
+    "timestamp": "2025-08-08T17:32:31.484Z"
+  },
+  {
+    "sessionId": "8353a5ca-0940-48ff-9293-489929c8e366",
+    "messageId": 1,
+    "type": "user",
+    "message": "افحص المشروع هاد بدقه عاليه و افحص كل الملافات واحد تلو  الاخر بدي ياك تستكشف كل الاخطأ مع الاضافه الى الاخطأ في التفكير البرمجي@maktebe/",
+    "timestamp": "2025-08-08T17:32:38.276Z"
+  },
+  {
+    "sessionId": "8353a5ca-0940-48ff-9293-489929c8e366",
+    "messageId": 2,
+    "type": "user",
+    "message": "اكمل",
+    "timestamp": "2025-08-08T17:32:47.459Z"
+  },
+  {
+    "sessionId": "8353a5ca-0940-48ff-9293-489929c8e366",
+    "messageId": 3,
+    "type": "user",
+    "message": "abdulrahman@unknown00d86139cd62:~$ cd maktebe\nabdulrahman@unknown00d86139cd62:~/maktebe$ npm start\n\n> maktebe@0.1.0 start\n> react-scripts start\n\nsh: line 1: react-scripts: command not found\nabdulrahman@unknown00d86139cd62:~/maktebe$",
+    "timestamp": "2025-08-08T17:43:14.990Z"
+  },
+  {
+    "sessionId": "8353a5ca-0940-48ff-9293-489929c8e366",
+    "messageId": 4,
+    "type": "user",
+    "message": "أرفع التغيرات على github",
+    "timestamp": "2025-08-08T17:49:26.196Z"
+  },
+  {
+    "sessionId": "8353a5ca-0940-48ff-9293-489929c8e366",
+    "messageId": 5,
+    "type": "user",
+    "message": "https://github.com/abdulrahmanch1/maktebeC.git",
+    "timestamp": "2025-08-08T17:50:35.034Z"
+  },
+  {
+    "sessionId": "8353a5ca-0940-48ff-9293-489929c8e366",
+    "messageId": 6,
+    "type": "user",
+    "message": "abdulrahman@unknown00d86139cd62:~/maktebe$ git add .\nabdulrahman@unknown00d86139cd62:~/maktebe$ commit -m \"tum sorunlsr cozuldu\"\nbash: commit: command not found...\nabdulrahman@unknown00d86139cd62:~/maktebe$ git commit -m \"tum sorunlsr cozuldu\"\n[master 234d3b6] tum sorunlsr cozuldu\n Committer: abdulrahman <abdulrahman@unknown00d86139cd62.home>\nYour name and email address were configured automatically based\non your username and hostname. Please check that they are accurate.\nYou can suppress this message by setting them explicitly. Run the\nfollowing command and follow the instructions in your editor to edit\nyour configuration file:\n\n    git config --global --edit\n\nAfter doing this, you may fix the identity used for this commit with:\n\n    git commit --amend --reset-author\n\n 72 files changed, 29558 insertions(+)\n create mode 100644 maktebe/.env.example\n create mode 100644 maktebe/.gitignore\n create mode 100644 maktebe/README.md\n create mode 100644 maktebe/api/server.js\n create mode 100644 maktebe/backend/.env.example\n create mode 100644 maktebe/backend/__tests__/book.test.js\n create mode 100644 maktebe/backend/__tests__/user.test.js\n create mode 100644 maktebe/backend/jest.config.js\n create mode 100644 maktebe/backend/middleware/authMiddleware.js\n create mode 100644 maktebe/backend/middleware/validationMiddleware.js\n create mode 100644 maktebe/backend/models/Book.js\n create mode 100644 maktebe/backend/models/ContactMessage.js\n create mode 100644 maktebe/backend/models/User.js\n create mode 100644 maktebe/backend/package-lock.json\n create mode 100644 maktebe/backend/package.json\n create mode 100644 maktebe/backend/routes/books.js\n create mode 100644 maktebe/backend/routes/contactRoutes.js\n create mode 100644 maktebe/backend/routes/users.js\n create mode 100644 maktebe/package-lock.json\n create mode 100644 maktebe/package.json\n create mode 100644 maktebe/public/favicon.ico\n create mode 100644 maktebe/public/imgs/no_cover_available.png\n create mode 100644 maktebe/public/imgs/user.jpg\n create mode 100644 maktebe/public/index.html\n create mode 100644 maktebe/public/logo192.png\n create mode 100644 maktebe/public/logo512.png\n create mode 100644 maktebe/public/manifest.json\n create mode 100644 maktebe/public/robots.txt\n create mode 100644 maktebe/scripts/generate-sitemap.js\n create mode 100644 maktebe/src/components/BookCard.css\n create mode 100644 maktebe/src/components/BookCard.js\n create mode 100644 maktebe/src/components/Footer.css\n create mode 100644 maktebe/src/components/Footer.js\n create mode 100644 maktebe/src/components/Header.css\n create mode 100644 maktebe/src/components/Header.js\n create mode 100644 maktebe/src/components/Overlay.css\n create mode 100644 maktebe/src/components/Overlay.js\n create mode 100644 maktebe/src/components/Sidebar.css\n create mode 100644 maktebe/src/components/Sidebar.js\n create mode 100644 maktebe/src/constants/index.js\n create mode 100644 maktebe/src/contexts/AuthContext.js\n create mode 100644 maktebe/src/contexts/FavoritesContext.js\n create mode 100644 maktebe/src/contexts/ThemeContext.js\n create mode 100644 maktebe/src/data/themes.js\n create mode 100644 maktebe/src/hooks/useFetch.js\n create mode 100644 maktebe/src/index.css\n create mode 100644 maktebe/src/index.js\n create mode 100644 maktebe/src/layouts/MainLayout.css\n create mode 100644 maktebe/src/layouts/MainLayout.js\n create mode 100644 maktebe/src/pages/AdminBooksPage.js\n create mode 100644 maktebe/src/pages/AdminPage.css\n create mode 100644 maktebe/src/pages/AdminPage.js\n create mode 100644 maktebe/src/pages/AuthPage.css\n create mode 100644 maktebe/src/pages/BookDetailsPage.css\n create mode 100644 maktebe/src/pages/BookDetailsPage.js\n create mode 100644 maktebe/src/pages/ContactMessagesPage.js\n create mode 100644 maktebe/src/pages/FavoritesPage.css\n create mode 100644 maktebe/src/pages/FavoritesPage.js\n create mode 100644 maktebe/src/pages/HomePage.css\n create mode 100644 maktebe/src/pages/HomePage.js\n create mode 100644 maktebe/src/pages/LoginPage.js\n create mode 100644 maktebe/src/pages/NotFoundPage.css\n create mode 100644 maktebe/src/pages/NotFoundPage.js\n create mode 100644 maktebe/src/pages/ReadingListPage.css\n create mode 100644 maktebe/src/pages/ReadingListPage.js\n create mode 100644 maktebe/src/pages/RegisterPage.js\n create mode 100644 maktebe/src/pages/SettingsPage.css\n create mode 100644 maktebe/src/pages/SettingsPage.js\n create mode 100644 maktebe/src/pages/VerifyEmailPage.css\n create mode 100644 maktebe/src/pages/VerifyEmailPage.js\n create mode 100644 maktebe/src/routes/index.js\n create mode 100644 maktebe/vercel.json\nabdulrahman@unknown00d86139cd62:~/maktebe$ git push origin mastr\nerror: src refspec mastr does not match any\nerror: failed to push some refs to 'origin'\nabdulrahman@unknown00d86139cd62:~/maktebe$",
+    "timestamp": "2025-08-08T17:54:06.324Z"
+  },
+  {
+    "sessionId": "8353a5ca-0940-48ff-9293-489929c8e366",
+    "messageId": 7,
+    "type": "user",
+    "message": "ليك شولازم ضيف بقصم Environment Variables من اعدادات مشروعي على vercel",
+    "timestamp": "2025-08-08T18:00:18.132Z"
+  },
+  {
+    "sessionId": "8353a5ca-0940-48ff-9293-489929c8e366",
+    "messageId": 8,
+    "type": "user",
+    "message": "اااا صح انا نسيت انا ما بدي استخدم cloud لانو بطيء بدي شي يكون اسرع بكثير و مجاني و بيستحمل ملفات كبيره",
+    "timestamp": "2025-08-08T18:01:44.012Z"
+  },
+  {
+    "sessionId": "8353a5ca-0940-48ff-9293-489929c8e366",
+    "messageId": 9,
+    "type": "user",
+    "message": "What's your main interest? Coding with APIs and SDKs Interactive Digital Asset Management شو اختار",
+    "timestamp": "2025-08-08T18:11:12.387Z"
+  },
+  {
+    "sessionId": "8353a5ca-0940-48ff-9293-489929c8e366",
+    "messageId": 10,
+    "type": "user",
+    "message": "لك انا عم احكي داخل Cloudinary شو اختار",
+    "timestamp": "2025-08-08T18:12:40.979Z"
+  },
+  {
+    "sessionId": "8353a5ca-0940-48ff-9293-489929c8e366",
+    "messageId": 11,
+    "type": "user",
+    "message": "شولازم ضيف في قصم الEnvironment Variables",
+    "timestamp": "2025-08-08T18:14:42.627Z"
+  },
+  {
+    "sessionId": "8353a5ca-0940-48ff-9293-489929c8e366",
+    "messageId": 12,
+    "type": "user",
+    "message": "[21:24:11.717] Running build in Washington, D.C., USA (East) – iad1\n[21:24:11.717] Build machine configuration: 2 cores, 8 GB\n[21:24:11.732] Cloning github.com/abdulrahmanch1/maktebeC (Branch: master, Commit: 7067fde)\n[21:24:11.740] Skipping build cache, deployment was triggered without cache.\n[21:24:12.045] Warning: Failed to fetch one or more git submodules\n[21:24:12.046] Cloning completed: 314.000ms\n[21:24:14.622] Running \"vercel build\"\n[21:24:15.084] Vercel CLI 44.7.3\n[21:24:15.263] WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings\n[21:24:15.693] Installing dependencies...\n[21:24:21.914] npm warn deprecated w3c-hr-time@1.0.2: Use your platform's native performance.now() and performance.timeOrigin.\n[21:24:22.501] npm warn deprecated stable@0.1.8: Modern JS already guarantees Array#sort() is a stable sort, so this library is deprecated. See the compatibility table on MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#browser_compatibility\n[21:24:22.636] npm warn deprecated sourcemap-codec@1.4.8: Please use @jridgewell/sourcemap-codec instead\n[21:24:22.955] npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported\n[21:24:23.018] npm warn deprecated rollup-plugin-terser@7.0.2: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser\n[21:24:23.063] npm warn deprecated workbox-cacheable-response@6.6.0: workbox-background-sync@6.6.0\n[21:24:23.436] npm warn deprecated q@1.5.1: You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.\n[21:24:23.437] npm warn deprecated\n[21:24:23.437] npm warn deprecated (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)\n[21:24:23.485] npm warn deprecated workbox-google-analytics@6.6.0: It is not compatible with newer versions of GA starting with v4, as long as you are using GAv3 it should be ok, but the package is not longer being maintained\n[21:24:24.125] npm warn deprecated multer@1.4.5-lts.2: Multer 1.x is impacted by a number of vulnerabilities, which have been patched in 2.x. You should upgrade to the latest 2.x version.\n[21:24:25.041] npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\n[21:24:25.261] npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported\n[21:24:25.877] npm warn deprecated domexception@2.0.1: Use your platform's native DOMException instead\n[21:24:26.190] npm warn deprecated svgo@1.3.2: This SVGO version is no longer supported. Upgrade to v2.x.x.\n[21:24:26.647] npm warn deprecated abab@2.0.6: Use your platform's native atob() and btoa() methods instead\n[21:24:27.515] npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead\n[21:24:27.516] npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead\n[21:24:28.066] npm warn deprecated @babel/plugin-proposal-optional-chaining@7.21.0: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.\n[21:24:28.085] npm warn deprecated @babel/plugin-proposal-private-methods@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-methods instead.\n[21:24:28.088] npm warn deprecated @babel/plugin-proposal-numeric-separator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-numeric-separator instead.\n[21:24:28.088] npm warn deprecated @babel/plugin-proposal-nullish-coalescing-operator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.\n[21:24:28.088] npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.\n[21:24:29.848] npm warn deprecated source-map@0.8.0-beta.0: The work that was done in this beta branch won't be included in future versions\n[21:24:29.936] npm warn deprecated @babel/plugin-proposal-private-property-in-object@7.21.11: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-property-in-object instead.\n[21:24:32.417] npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.\n[21:24:36.893] \n[21:24:36.893] added 1588 packages in 20s\n[21:24:36.894] \n[21:24:36.894] 290 packages are looking for funding\n[21:24:36.894]   run `npm fund` for details\n[21:24:36.948] Running \"npm run build\"\n[21:24:38.239] \n[21:24:38.240] > maktebe@0.1.0 build\n[21:24:38.240] > react-scripts build\n[21:24:38.240] \n[21:24:39.196] Creating an optimized production build...\n[21:24:55.129] Compiled successfully.\n[21:24:55.130] \n[21:24:55.130] File sizes after gzip:\n[21:24:55.130] \n[21:24:55.144]   87.32 kB  build/static/js/main.bf01daef.js\n[21:24:55.145]   5.56 kB   build/static/css/main.0ba0ba65.css\n[21:24:55.145] \n[21:24:55.145] The project was built assuming it is hosted at /.\n[21:24:55.145] You can control this with the homepage field in your package.json.\n[21:24:55.146] \n[21:24:55.146] The build folder is ready to be deployed.\n[21:24:55.146] You may serve it with a static server:\n[21:24:55.146] \n[21:24:55.146]   npm install -g serve\n[21:24:55.146]   serve -s build\n[21:24:55.147] \n[21:24:55.147] Find out more about deployment here:\n[21:24:55.147] \n[21:24:55.147]   https://cra.link/deployment\n[21:24:55.147] \n[21:24:55.246] Build Completed in /vercel/output [40s]\n[21:24:55.341] Deploying outputs...\n[21:24:57.624] Deployment completed\n[21:24:58.475] Creating build cache...\n[21:25:21.891] Created build cache: 23.415s\n[21:25:21.892] Uploading build cache [81.12 MB]\n[21:25:22.976] Build cache uploaded: 1.084s",
+    "timestamp": "2025-08-08T18:25:59.474Z"
+  },
+  {
+    "sessionId": "8353a5ca-0940-48ff-9293-489929c8e366",
+    "messageId": 13,
+    "type": "user",
+    "message": "حدث خطأ أثناء تحميل الكتب. Header - isLoggedIn: false main.bf01daef.js:2:237917\nHeader - user: null main.bf01daef.js:2:237955\nHeader - user.profilePicture: undefined main.bf01daef.js:2:237987\nRegistration failed: \nObject { message: \"Request failed with status code 404\", name: \"AxiosError\", code: \"ERR_BAD_REQUEST\", config: {…}, request: XMLHttpRequest, response: {…}, status: 404, stack: \"\", … }\nmain.bf01daef.js:2:288421",
+    "timestamp": "2025-08-08T18:28:18.499Z"
+  }
+]

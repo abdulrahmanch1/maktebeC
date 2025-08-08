@@ -1,0 +1,4 @@
+[Report]
+Uri=file:///home/abdulrahman/Documents/maktebe/node_modules/eslint-webpack-plugin/node_modules/supports-color
+Message=Subject file:///home/abdulrahman/Documents/maktebe/node_modules/pretty-format/build/plugins is not is not a nfo:FileDataObject, cannot have property `tracker:extractorHash'
+Sparql=DELETE WHERE {\nGRAPH <http://tracker.api.gnome.org/ontology/v3/tracker#FileSystem> {\n  <urn:fileid:60b94530-0dbb-494d-9930-37c3087c7bc8:5966033> nie:mimeType ?nie_mimeType } };\nINSERT DATA {\nGRAPH <http://tracker.api.gnome.org/ontology/v3/tracker#FileSystem> {\n<urn:fileid:60b94530-0dbb-494d-9930-37c3087c7bc8:5966033> a nie:InformationElement , nfo:Folder ; \n  nie:mimeType "inode/directory" .\n}\n};\n

@@ -1,0 +1,4 @@
+[Report]
+Uri=file:///home/abdulrahman/Documents/maktebe/node_modules/string.prototype.includes/tests
+Message=Subject file:///home/abdulrahman/Documents/maktebe/node_modules/typed-array-byte-length is not is not a nfo:FileDataObject, cannot have property `tracker:extractorHash'
+Sparql=DELETE WHERE {\nGRAPH <http://tracker.api.gnome.org/ontology/v3/tracker#FileSystem> {\n  <urn:fileid:60b94530-0dbb-494d-9930-37c3087c7bc8:5977585> nie:mimeType ?nie_mimeType } };\nINSERT DATA {\nGRAPH <http://tracker.api.gnome.org/ontology/v3/tracker#FileSystem> {\n<urn:fileid:60b94530-0dbb-494d-9930-37c3087c7bc8:5977585> a nie:InformationElement , nfo:Folder ; \n  nie:mimeType "inode/directory" .\n}\n};\n
