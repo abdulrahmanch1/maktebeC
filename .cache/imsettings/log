@@ -1,0 +1,13 @@
+[        39.647124]: libnotify[3424]: DEBUG: SNAP app: (null)
+[        39.649214]: IMSettings-Daemon[3424]: INFO: Unloading imesttings module: gsettings
+[        39.650647]: IMSettings-Daemon[3424]: INFO: imsettings-daemon is shut down.
+[        15.092529]: IMSettings-Daemon[3155]: INFO: Starting imsettings-daemon...
+[        15.092880]: IMSettings-Daemon[3155]: INFO:   [HOME=/home/abdulrahman/.config/imsettings]
+[        15.092936]: IMSettings-Daemon[3155]: INFO:   [XINPUTRCDIR=/etc/X11/xinit/]
+[        15.092967]: IMSettings-Daemon[3155]: INFO:   [XINPUTDIR=/etc/X11/xinit/xinput.d/]
+
+[        15.092997]: IMSettings-Daemon[3155]: INFO:   [MODULEDIR=/usr/lib64/imsettings]
+
+[        15.093026]: IMSettings-Daemon[3155]: INFO:   [MODULES=gsettings]
+
+** GNOME isn't supported at all

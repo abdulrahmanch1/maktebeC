@@ -1,0 +1,4 @@
+[Report]
+Uri=file:///home/abdulrahman/Documents/maktebe/backend/node_modules/jest-docblock
+Message=Subject file:///home/abdulrahman/Documents/maktebe/backend/node_modules/bson/src/parser is not is not a nfo:FileDataObject, cannot have property `tracker:extractorHash'
+Sparql=DELETE WHERE {\nGRAPH <http://tracker.api.gnome.org/ontology/v3/tracker#FileSystem> {\n  <urn:fileid:60b94530-0dbb-494d-9930-37c3087c7bc8:5949532> nie:mimeType ?nie_mimeType } };\nINSERT DATA {\nGRAPH <http://tracker.api.gnome.org/ontology/v3/tracker#FileSystem> {\n<urn:fileid:60b94530-0dbb-494d-9930-37c3087c7bc8:5949532> a nie:InformationElement , nfo:Folder ; \n  nie:mimeType "inode/directory" .\n}\n};\n

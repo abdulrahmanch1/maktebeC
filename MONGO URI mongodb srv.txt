@@ -1,0 +1,13 @@
+MONGO_URI=mongodb+srv://abdochibon:abdo2009@cluster0.rmrc0xu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
+JWT_SECRET=abdulrahmanchibonAbdo200905348725624
+
+EMAIL_USER=daralqurra0@gmail.com
+
+EMAIL_PASS=tssv bzzg srxb cfxw
+
+CLOUDINARY_CLOUD_NAME=doxqvwot4
+
+CLOUDINARY_API_KEY=645625715783214
+
+CLOUDINARY_API_SECRET=oiKYAJ10vngA_JJkCSklkyKuBM8

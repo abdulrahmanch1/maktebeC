@@ -1,0 +1,19 @@
+0 verbose cli /usr/bin/node-22 /usr/bin/npm
+1 info using npm@10.9.2
+2 info using node@v22.17.0
+3 silly config load:file:/usr/lib/node_modules_22/npm/npmrc
+4 silly config load:file:/home/abdulrahman/maktebe/.npmrc
+5 silly config load:file:/home/abdulrahman/.npmrc
+6 silly config load:file:/etc/npmrc
+7 verbose title npm start
+8 verbose argv "start"
+9 verbose logfile logs-max:10 dir:/home/abdulrahman/.npm/_logs/2025-08-08T17_47_34_423Z-
+10 verbose logfile /home/abdulrahman/.npm/_logs/2025-08-08T17_47_34_423Z-debug-0.log
+11 silly logfile start cleaning logs, removing 1 files
+12 silly logfile done cleaning log files
+13 verbose cwd /home/abdulrahman/maktebe
+14 verbose os Linux 6.15.7-200.fc42.x86_64
+15 verbose node v22.17.0
+16 verbose npm  v10.9.2
+17 verbose exit 127
+18 verbose code 127

@@ -1,0 +1,16 @@
+2025-08-08 20:48:48.490 [info] Extension host with pid 250385 started
+2025-08-08 20:48:48.490 [info] Skipping acquiring lock for /home/abdulrahman/.config/Code/User/workspaceStorage/5fbcda4481029d1b3a934456b8f429a4.
+2025-08-08 20:48:48.707 [info] ExtensionService#_doActivateExtension vscode.github-authentication, startup: false, activationEvent: 'onAuthenticationRequest:github'
+2025-08-08 20:48:48.844 [info] ExtensionService#_doActivateExtension vscode.git-base, startup: true, activationEvent: '*'
+2025-08-08 20:48:48.859 [info] ExtensionService#_doActivateExtension vscode.npm, startup: true, activationEvent: 'workspaceContains:package.json'
+2025-08-08 20:48:48.910 [info] ExtensionService#_doActivateExtension vscode.github, startup: true, activationEvent: '*'
+2025-08-08 20:48:48.991 [info] Eager extensions activated
+2025-08-08 20:48:48.992 [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch, startup: false, activationEvent: 'onStartupFinished'
+2025-08-08 20:48:48.997 [info] ExtensionService#_doActivateExtension vscode.merge-conflict, startup: false, activationEvent: 'onStartupFinished'
+2025-08-08 20:48:52.572 [info] ExtensionService#_doActivateExtension vscode.git, startup: false, activationEvent: 'api', root cause: vscode.github
+2025-08-08 20:48:53.977 [info] ExtensionService#_doActivateExtension vscode.configuration-editing, startup: false, activationEvent: 'onLanguage:json'
+2025-08-08 20:48:53.988 [info] ExtensionService#_doActivateExtension vscode.extension-editing, startup: false, activationEvent: 'onLanguage:json'
+2025-08-08 20:48:54.005 [info] ExtensionService#_doActivateExtension vscode.json-language-features, startup: false, activationEvent: 'onLanguage:json'
+2025-08-08 20:48:54.071 [info] ExtensionService#_doActivateExtension vscode.emmet, startup: false, activationEvent: 'onLanguage'
+2025-08-08 21:15:18.556 [info] Extension host terminating: renderer closed the MessagePort
+2025-08-08 21:15:18.575 [info] Extension host with pid 250385 exiting with code 0
